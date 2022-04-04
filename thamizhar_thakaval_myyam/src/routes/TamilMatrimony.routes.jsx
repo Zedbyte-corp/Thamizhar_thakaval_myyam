@@ -8,12 +8,12 @@ function MatrimonyRoutes() {
     return (
         <Router>
             <Routes>
-                <Route path="/Matrimony/home" exact
+                {/* <Route path="/Matrimony/home" exact
                     element={<Home/>} />
                 <Route path="/Matrimony/register" exact
                     element={<Register/>} />
                 <Route path="/Matrimony/details" exact
-                    element={<Details/>} />
+                    element={<Details/>} /> */}
             </Routes>
         </Router>
     );

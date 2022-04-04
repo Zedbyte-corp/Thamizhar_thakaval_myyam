@@ -1,0 +1,23 @@
+@import url(https://fonts.google.com/specimen/Poppins#standard-styles);
+
+:root
+{
+    /* colors */
+    --primary-color : #fff;
+
+    /* fonts */
+    --primary-font-family : "Poppins", sans-serif;
+    --heading-font-size : 3vh;
+    --paragraph-font-size : 2vh;
+    --primary-font-color : "#000"
+}
+
+#bold
+{
+  font-weight: bold;
+}
+
+#error
+{
+  color: red;
+}

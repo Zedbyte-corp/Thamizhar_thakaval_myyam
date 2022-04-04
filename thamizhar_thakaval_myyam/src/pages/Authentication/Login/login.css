@@ -1,0 +1,138 @@
+.login_parent {
+  height: 100vh;
+  width: 100vw;
+  /* background: rgb(167, 94, 94); */
+}
+
+.login_header {
+  width: 100%;
+  height: 10vh;
+  /* background: rgb(50, 224, 70); */
+  display: flex;
+  align-items: center;
+  /* padding-left: 20px; */
+}
+
+h1 {
+  font: var(--primary-font-family);
+  font-size: 3rem;
+  font-weight: 900;
+  font-style: normal;
+}
+
+p {
+  font: var(--primary-font-family);
+  font-size: 1rem;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.login_maincontainer {
+  width: 100vw;
+  height: 90vh;
+  /* background: rgb(124, 24, 178); */
+  display: flex;
+}
+
+.login_main_left {
+  width: 45%;
+  height: 90vh;
+  /* background: rgb(237, 7, 68); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login_main_right {
+  width: 55%;
+  height: 90vh;
+  /* background: rgb(70, 14, 149); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login_switch_page_container {
+  height: 80vh;
+  width: 80%;
+  background: #000;
+  border-radius: 20px;
+  background: linear-gradient(
+    180deg,
+    rgba(242, 159, 5, 0.75) 0%,
+    rgba(3, 140, 127, 0.75) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.login_switch {
+  width: 90%;
+  height: 12%;
+  margin: 15px;
+  background: #fbfbfb;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 10px;
+  font: var(--primary-font-family);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.login_form_container {
+  height: 90%;
+  width: 90%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.login_form {
+  height: 90%;
+  width: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.field {
+  width: 80%;
+  height: 10%;
+  border: 1px solid #000000;
+  margin-top: 15px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.login_button {
+  height: 6%;
+  width: 15%;
+  margin-top: 15px;
+  background: linear-gradient(270deg, #14531a 0%, #ffbd00 100%);
+  border-radius: 10px;
+  color: #fff;
+  font: var(--primary-font-family);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.logo {
+  font: var(--primary-font-family);
+  font-size: 2rem;
+  font-weight: 900;
+  font-style: normal;
+  margin-left: 20px;
+}
