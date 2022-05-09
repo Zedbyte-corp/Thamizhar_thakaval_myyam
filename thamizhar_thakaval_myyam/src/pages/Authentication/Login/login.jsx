@@ -1,6 +1,7 @@
 import "./login.css";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
+import { getLoginApiResponse } from "../../../networkcall.service"
 
 
 function Login() {
@@ -8,7 +9,8 @@ function Login() {
 
   async function checkvalue(values) {
     console.log(values);
-    if(values.username === "123" && values.password === "123"){
+    let response = await getLoginApiResponse(values)
+    if(response.status === "success"){
         navigate('/Matrimony/home');
     }
     else{
@@ -16,11 +18,15 @@ function Login() {
     }
   }
 
+  const onClickRegister = () => {
+    navigate('/Matrimony/register');
+  }
+
   // initializing formik form
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
     useFormik({
       // validationSchema: LoginSchema,
-      initialValues: { username: "", password: "" },
+      initialValues: { phone: "", password: "" },
       onSubmit: (values) => checkvalue(values),
     });
 
@@ -61,12 +67,12 @@ function Login() {
               <input
                 className="field"
                 type="text"
-                name="username"
+                name="phone"
                 onChange={handleChange}
                 onBlur={handleBlur}
-                value={values.username}
+                value={values.phone}
               />
-              {errors.username && touched.username && errors.username}
+              {errors.phone && touched.phone && errors.phone}
               <input
                 className="field"
                 type="password"
@@ -79,7 +85,7 @@ function Login() {
               <button className="login_button" type="submit">
                 Login
               </button>
-              <p>If you are a new user, REGISTER HERE</p>
+              <p>If you are a new user, <span className="register_button" onClick={onClickRegister}>REGISTER HERE</span></p>
             </form>
           </div>
         </div>

@@ -1,0 +1,206 @@
+.matrimony_details_main_container {
+  height: 100vh;
+}
+
+.matrimony_detail_secondary_container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+.matrimony_detail_left {
+  height: auto;
+  width: 30%;
+  /* background: #000; */
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.matrimony_detail_right {
+  height: fit-content;
+  width: 70%;
+  /* background: rgb(180, 12, 12); */
+  display: flex;
+  justify-content: center;
+  padding-bottom: 15px;
+}
+
+.matrimony_detail_left_box {
+  width: 90%;
+  height: 70%;
+  background: #ffffff;
+  box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.matrimony_detail_left_box_upper {
+  width: 90%;
+  height: auto;
+  /* background: rgb(13, 157, 87); */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.matrimony_detail_left_box_middle {
+  width: 90%;
+  height: auto;
+  /* background: rgb(13, 59, 157); */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+}
+
+.matrimony_detail_left_box_lower {
+  width: 90%;
+  height: 20%;
+  /* background: rgb(157, 116, 13); */
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.matrimony_detail_card_image {
+  object-fit: cover;
+  margin-top: 10px;
+  height: 80%;
+  width: 50%;
+}
+
+.matrimony_details_card_title {
+  font-family: "poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #f29f05;
+}
+
+.matrimony_detail_card_button1 {
+  width: 10vw;
+  border: none;
+  padding: 5px;
+  background: #14531a;
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.matrimony_detail_card_button2 {
+  width: 10vw;
+  border: none;
+  padding: 5px;
+  background: #f29f05;
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.matrimony_detail_right_main {
+  height: fit-content;
+  width: 90%;
+  background: #ffffff;
+  box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  overflow: scroll;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.matrimony_detail_right_secondary_container {
+  /* height: auto; */
+  width: 95%;
+  /* height: 40%; */
+  background: #ffffff;
+  box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  display: flex;
+  margin-top: 15px;
+  align-items: center;
+  /* justify-content: space-evenly; */
+  flex-direction: column;
+  /* flex-wrap: wrap; */
+}
+
+.matrimony_details_container_warp {
+  width: 95%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.matrimony_details_warp {
+  margin: 20px;
+  width: 15%;
+}
+
+.matrimony_detail_title {
+  font-family: "poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  color: #f29f05;
+}
+
+.matrimony_detail_field_title {
+  font-family: "poppins";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  color: #a2a2a2;
+}
+
+.matrimony_detail_field_value {
+  font-family: "poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  color: #242424;
+}
+
+@media only screen and (max-device-width: 768px){
+  .matrimony_detail_secondary_container{
+    flex-direction: column;
+    align-items: center;
+  }
+  .matrimony_detail_left, .matrimony_detail_right{
+    width: 90%;
+  }
+  .matrimony_detail_left_box{
+    height:auto;
+  }
+  .matrimony_detail_card_button1, .matrimony_detail_card_button2{
+    width:auto;
+    padding: 5px 25px 5px 25px;
+  }
+  .matrimony_detail_left_box_lower{
+    flex-direction: row;
+    margin: 10px;
+  }
+  .matrimony_detail_field_value{
+    font-size: 12px;
+  }
+  .matrimony_details_warp{
+    width: auto;
+  }
+}

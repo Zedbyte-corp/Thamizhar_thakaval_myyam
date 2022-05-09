@@ -1,0 +1,22 @@
+.matrimony_header_main {
+  height: 8vh;
+  width: 100vw;
+  background: linear-gradient(270deg, #14531a 0%, #ffbd00 100%);
+  display: flex;
+  align-items: center;
+}
+
+.matrimony_header_logo {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 2vw;
+  padding-left: 10px;
+  color: #fffefe;
+}
+
+@media only screen and (max-device-width: 768px){
+  .matrimony_header_logo {
+    font-size: 4vw;
+  }
+}
