@@ -4,7 +4,8 @@ import wedding_bg from "../../../Assets/TamilMatrimony/register/wedding_bg.png";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { getRegisterApiResponse } from "../../../networkcall.service";
-import * as Yup from 'yup';
+import * as Yup from "yup";
+import { HashLink } from "react-router-hash-link";
 
 function Register() {
   const navigate = useNavigate();
@@ -25,14 +26,14 @@ function Register() {
 
   const SignupSchema = Yup.object().shape({
     name: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-      dob: Yup.string()
-      .min(2, 'Too Short!')
-      .max(50, 'Too Long!')
-      .required('Required'),
-      age: Yup.string().email('Invalid email').required('Required'),
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    dob: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    age: Yup.string().email("Invalid email").required("Required"),
   });
 
   // initializing formik form
@@ -82,7 +83,7 @@ function Register() {
         profile_pic: "",
         heroscope: "",
       },
-      validationSchema:{SignupSchema},
+      validationSchema: { SignupSchema },
       onSubmit: (values) => checkvalue(values),
     });
 
@@ -107,19 +108,29 @@ function Register() {
         <div className="matrimony_register_left">
           <div className="matrimony_register_anchor">
             <div className="matrimony_register_anchor_button">
-              Personal Details
+              <HashLink smooth to={"#personal-details"}>
+                Personal Details
+              </HashLink>
             </div>
             <div className="matrimony_register_anchor_button">
-              Contact Details
+              <HashLink smooth to={"#contact-details"}>
+                Contact Details
+              </HashLink>
             </div>
             <div className="matrimony_register_anchor_button">
-              Education & Career Details
+              <HashLink smooth to={"#education-details"}>
+                Education & Career Details
+              </HashLink>
             </div>
             <div className="matrimony_register_anchor_button">
-              Lifestyle & Appearance
+              <HashLink smooth to={"#appearance-details"}>
+                Lifestyle & Appearance
+              </HashLink>
             </div>
             <div className="matrimony_register_anchor_button">
-              Images and Horoscope
+              <HashLink smooth to={"#images-details"}>
+                Images and Horoscope
+              </HashLink>
             </div>
           </div>
         </div>
@@ -129,7 +140,10 @@ function Register() {
             onSubmit={handleSubmit}
           >
             <div className="matrimony_register_personal_details">
-              <div className="matrimony_register_form_title">
+              <div
+                className="matrimony_register_form_title"
+                id="personal-details"
+              >
                 Personal Details
               </div>
               <div className="matrimony_register_align_form">
@@ -249,7 +263,7 @@ function Register() {
                     value={values.smoke}
                   /> */}
                   <select
-                  className="register_field"
+                    className="register_field"
                     name="colorss"
                     value={values.color}
                     onChange={handleChange}
@@ -281,7 +295,7 @@ function Register() {
                     value={values.drink}
                   /> */}
                   <select
-                  className="register_field"
+                    className="register_field"
                     name="drink"
                     value={values.drink}
                     onChange={handleChange}
@@ -326,7 +340,7 @@ function Register() {
                     value={values.looking_for}
                   /> */}
                   <select
-                  className="register_field"
+                    className="register_field"
                     name="looking_for"
                     value={values.looking_for}
                     onChange={handleChange}
@@ -352,7 +366,10 @@ function Register() {
             </div>
 
             <div className="matrimony_register_personal_details">
-              <div className="matrimony_register_form_title">
+              <div
+                className="matrimony_register_form_title"
+                id="family-details"
+              >
                 Family Details
               </div>
               <div className="matrimony_register_align_form">
@@ -513,7 +530,10 @@ function Register() {
             </div>
 
             <div className="matrimony_register_personal_details">
-              <div className="matrimony_register_form_title">
+              <div
+                className="matrimony_register_form_title"
+                id="contact-details"
+              >
                 Contact Details
               </div>
               <div className="matrimony_register_align_form">
@@ -585,7 +605,10 @@ function Register() {
             </div>
 
             <div className="matrimony_register_personal_details">
-              <div className="matrimony_register_form_title">
+              <div
+                className="matrimony_register_form_title"
+                id="education-details"
+              >
                 Education and Career
               </div>
               <div className="matrimony_register_align_form">
@@ -709,7 +732,10 @@ function Register() {
             </div>
 
             <div className="matrimony_register_personal_details">
-              <div className="matrimony_register_form_title">
+              <div
+                className="matrimony_register_form_title"
+                id="appearance-details"
+              >
                 Lifestyle & Appearance
               </div>
               <div className="matrimony_register_align_form">
@@ -771,7 +797,10 @@ function Register() {
             </div>
 
             <div className="matrimony_register_personal_details">
-              <div className="matrimony_register_form_title">
+              <div
+                className="matrimony_register_form_title"
+                id="images-details"
+              >
                 Images & Horoscope
               </div>
               <div className="matrimony_register_align_form">

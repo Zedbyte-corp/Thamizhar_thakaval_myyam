@@ -1,26 +1,31 @@
 import "./login.css";
 import { useFormik } from "formik";
-import { useNavigate } from "react-router-dom";
-import { getLoginApiResponse } from "../../../networkcall.service"
+import React, { useState } from "react";
+import login_bg from "../../../Assets/Login/login.jpeg";
 
+import { useNavigate } from "react-router-dom";
+import { getLoginApiResponse } from "../../../networkcall.service";
 
 function Login() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   async function checkvalue(values) {
     console.log(values);
-    let response = await getLoginApiResponse(values)
-    if(response.status === "success"){
-        navigate('/Matrimony/home');
-    }
-    else{
-        alert("check the crendentials")
+    let response = await getLoginApiResponse(values);
+    if (response.status === "success") {
+      navigate("/Matrimony/home");
+    } else {
+      alert("check the crendentials");
     }
   }
 
   const onClickRegister = () => {
-    navigate('/Matrimony/register');
-  }
+    navigate("/Matrimony/register");
+  };
+  const [activeTab, setActiveTab] = useState(0);
+  const onClickChange = (val) => {
+    // setActiveTab(val);
+  };
 
   // initializing formik form
   const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
@@ -39,16 +44,49 @@ function Login() {
       <div className="login_maincontainer">
         <div className="login_main_left">
           <div className="login_switch_page_container">
-            {/* <img src={loginimg} alt="" /> */}
-            <div className="login_switch">Matrimony / திருமண தகவல்கள்</div>
-            <div className="login_switch">
-              Job and Buisiness Details / வேலை & வியாபார தகவல்
-            </div>
-            <div className="login_switch">
-              Tamil Friend Finder / தமிழ் நட்பு தேடுவோர்
-            </div>
-            <div className="login_switch">
-              Organic & Traditional Products / இயற்கை & பாரம்பரிய பொருட்கள்
+            <div className="login_switch_page_gradient">
+              <img src={login_bg} alt="" className="login_switch_page_bg" />
+              {/* <img src={loginimg} alt="" /> */}
+              <button
+                className={
+                  activeTab === 0
+                    ? "login_switch_active"
+                    : "login_switch_inactive"
+                }
+                onClick={onClickChange(0)}
+              >
+                Matrimony / திருமண தகவல்கள்
+              </button>
+              <div
+                className={
+                  activeTab === 1
+                    ? "login_switch_active"
+                    : "login_switch_inactive"
+                }
+                // onClick={onClickChange(1)}
+              >
+                Job and Buisiness Details / வேலை & வியாபார தகவல்
+              </div>
+              <div
+                className={
+                  activeTab === 2
+                    ? "login_switch_active"
+                    : "login_switch_inactive"
+                }
+                // onClick={onClickChange(2)}
+              >
+                Tamil Friend Finder / தமிழ் நட்பு தேடுவோர்
+              </div>
+              <div
+                className={
+                  activeTab === 3
+                    ? "login_switch_active"
+                    : "login_switch_inactive"
+                }
+                // onClick={onClickChange(3)}
+              >
+                Organic & Traditional Products / இயற்கை & பாரம்பரிய பொருட்கள்
+              </div>
             </div>
           </div>
         </div>
@@ -85,7 +123,12 @@ function Login() {
               <button className="login_button" type="submit">
                 Login
               </button>
-              <p>If you are a new user, <span className="register_button" onClick={onClickRegister}>REGISTER HERE</span></p>
+              <p>
+                If you are a new user,{" "}
+                <span className="register_button" onClick={onClickRegister}>
+                  REGISTER HERE
+                </span>
+              </p>
             </form>
           </div>
         </div>

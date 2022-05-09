@@ -192,22 +192,22 @@
   cursor: pointer;
 }
 
-.matrimony_register_page_terms{
+.matrimony_register_page_terms {
   font-size: 18px;
 }
 
-@media only screen and (max-device-width: 768px){
+@media only screen and (max-device-width: 768px) {
   .matrimony_register_quote {
     width: 100%;
     font-size: 10vw;
   }
-  .matrimony_register_left{
+  .matrimony_register_left {
     width: 0%;
   }
-  .matrimony_register_anchor{
+  .matrimony_register_anchor {
     display: none;
   }
-  .matrimony_register_right{
+  .matrimony_register_right {
     width: 100%;
   }
   .register_field {
@@ -219,7 +219,7 @@
   .matrimony_register_personal_details {
     width: 90%;
   }
-  .matrimony_register_page_terms{
+  .matrimony_register_page_terms {
     font-size: 12px;
     text-align: center;
   }

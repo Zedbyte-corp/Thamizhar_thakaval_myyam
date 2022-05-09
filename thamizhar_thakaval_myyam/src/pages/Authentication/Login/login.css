@@ -51,8 +51,20 @@ p {
   align-items: center;
   justify-content: center;
 }
-
 .login_switch_page_container {
+  height: 80vh;
+  width: 80%;
+}
+.login_switch_page_bg {
+  height: 80vh;
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+  border-radius: 20px;
+  opacity: 0.8;
+  z-index: 1;
+}
+.login_switch_page_gradient {
   height: 80vh;
   width: 80%;
   background: #000;
@@ -66,9 +78,31 @@ p {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  position: relative;
+  z-index: 2;
 }
 
-.login_switch {
+.login_switch_inactive {
+  width: 90%;
+  height: 12%;
+  margin: 15px;
+  background: #cccccc;
+  /* border: 1px solid #000000; */
+  /* box-sizing: border-box; */
+  border-radius: 10px;
+  font: var(--primary-font-family);
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  cursor: pointer;
+  z-index: 3;
+}
+.login_switch_active {
   width: 90%;
   height: 12%;
   margin: 15px;
@@ -86,6 +120,7 @@ p {
   justify-content: center;
   text-align: center;
   cursor: pointer;
+  z-index: 3;
 }
 
 .login_form_container {
@@ -150,41 +185,40 @@ p {
   cursor: pointer;
 }
 
-
-@media only screen and (max-device-width: 768px){
+@media only screen and (max-device-width: 768px) {
   .login_header {
     justify-content: center;
   }
-  .login_maincontainer{
+  .login_maincontainer {
     flex-direction: column;
     align-items: center;
   }
-  .login_main_left{
-    width:100%;
+  .login_main_left {
+    width: 100%;
     height: 60vh;
   }
-  .login_switch_page_container{
-    height:auto;
+  .login_switch_page_container {
+    height: auto;
     width: 100%;
-    padding:15px 0 15px 0;
+    padding: 15px 0 15px 0;
   }
-  .login_switch{
+  .login_switch {
     min-height: 18%;
     font-size: 12px;
   }
-  .login_main_right{
+  .login_main_right {
     width: 100%;
   }
   h1 {
     font-size: 1.4rem;
   }
-  .login_button{
-    width:auto;
+  .login_button {
+    width: auto;
   }
-  p{
+  p {
     font-size: 12px;
   }
-  .register_button{
+  .register_button {
     font-size: 14px;
   }
 }
