@@ -1,10 +1,11 @@
 import "./login.css";
 import { useFormik } from "formik";
-import React, { useState } from "react";
-import login_bg from "../../../Assets/Login/login.jpeg";
-
 import { useNavigate } from "react-router-dom";
-import { getLoginApiResponse } from "../../../networkcall.service";
+import { getLoginApiResponse } from "../../../networkcall.service"
+import { useState } from "react";
+import login_bg from "../../../Assets/Login/login.jpeg"
+// import { useNavigate } from "react-router-dom";
+// import { getLoginApiResponse } from "../../../networkcall.service";
 
 function Login() {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ function Login() {
       alert("check the crendentials");
     }
   }
+
+  // const [value, setValue] = useState(0)
 
   const onClickRegister = () => {
     navigate("/Matrimony/register");
