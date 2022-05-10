@@ -29,11 +29,144 @@ function Register() {
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
-    dob: Yup.string()
+    dob: Yup.date()
+      .default(() => new Date())
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
-    age: Yup.string().email("Invalid email").required("Required"),
+    age: Yup.number().positive().integer().required("Required"),
+    weight: Yup.number().positive().required("Required"),
+    height: Yup.number().positive().required("Required"),
+    caste: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    religion: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    food_habit: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    smoke: Yup.string()
+      .notOneOf(["Yes", "No"], "please select")
+      .required("Required"),
+    drink: Yup.string()
+      .notOneOf(["Yes", "Yo"], "please select")
+      .required("Required"),
+    looking_for: Yup.string()
+      .notOneOf(["Bride", "Groom"], "please select")
+      .required("Required"),
+    fathers_name: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    fathers_occupation: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    mothers_name: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    mothers_occupation: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    fathers_native_place: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    mothers_native_place: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    // number_of_sibiling: Yup.string().max(4, "Too Long!").required("Required"),
+    family_property: Yup.string()
+      .min(2, "Too Short!")
+      .max(100, "Too Long!")
+      .nullable()
+      .optional("Optional"),
+    other_info: Yup.string()
+      .min(2, "Too Short!")
+      .max(100, "Too Long!")
+      .nullable()
+      .optional("Optional"),
+    expectation: Yup.string()
+      .min(2, "Too Short!")
+      .max(100, "Too Long!")
+      .nullable()
+      .optional("Optional"),
+
+    phone_no: Yup.string()
+      .matches(
+        /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
+        "Phone number is not valid"
+      )
+      .required("Required"),
+    pin_code: Yup.number()
+      .positive()
+      .integer()
+      .test("len", "Must be exactly 6 characters", (val) => val.length === 6)
+      .required("Required"),
+    password: Yup.string()
+      .required("Please Enter your password")
+      .matches(
+        "^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$",
+        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
+      ),
+    city: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    address: Yup.string()
+      .min(2, "Too Short!")
+      .max(100, "Too Long!")
+      .required("Required"),
+    academic_qualification: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    last_studied_institution: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    company_name: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    location: Yup.string()
+      .min(2, "Too Short!")
+      .max(100, "Too Long!")
+      .required("Required"),
+    profession: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    monthly_net_income: Yup.number().positive().integer().required("Required"),
+    liabilities: Yup.number()
+      .positive()
+      .integer()
+      .nullable()
+      .optional("Optional"),
+    annual_gross_income: Yup.number().positive().integer().required("Required"),
+    physical_status: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    diet: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    body_type: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    complexion: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
   });
 
   // initializing formik form
@@ -83,7 +216,7 @@ function Register() {
         profile_pic: "",
         heroscope: "",
       },
-      validationSchema: { SignupSchema },
+      validationSchema: SignupSchema,
       onSubmit: (values) => checkvalue(values),
     });
 
@@ -148,20 +281,20 @@ function Register() {
               </div>
               <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Name</label>
+                  <label htmlFor="name">Name</label>
                   <input
                     className="register_field"
                     type="text"
                     name="name"
-                    id="Name"
+                    id="name"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.name}
                   />
-                  {errors.name && touched.name && errors.name}
+                  {touched.name && errors.name && errors.name}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">DOB</label>
+                  <label htmlFor="dob">DOB</label>
                   <input
                     className="register_field"
                     type="text"
@@ -174,7 +307,7 @@ function Register() {
                   {errors.dob && touched.dob && errors.dob}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Age</label>
+                  <label htmlFor="age">Age</label>
                   <input
                     className="register_field"
                     type="text"
@@ -187,7 +320,7 @@ function Register() {
                   {errors.age && touched.age && errors.age}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Weight in kgs</label>
+                  <label htmlFor="weight">Weight in kgs</label>
                   <input
                     className="register_field"
                     type="text"
@@ -200,7 +333,7 @@ function Register() {
                   {errors.weight && touched.weight && errors.weight}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Height in fts</label>
+                  <label htmlFor="height">Height in fts</label>
                   <input
                     className="register_field"
                     type="text"
@@ -213,7 +346,7 @@ function Register() {
                   {errors.height && touched.height && errors.height}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Caste</label>
+                  <label htmlFor="caste">Caste</label>
                   <input
                     className="register_field"
                     type="text"
@@ -226,7 +359,7 @@ function Register() {
                   {errors.caste && touched.caste && errors.caste}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Religion</label>
+                  <label htmlFor="religion">Religion</label>
                   <input
                     className="register_field"
                     type="text"
@@ -239,7 +372,7 @@ function Register() {
                   {errors.religion && touched.religion && errors.religion}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Food Habit</label>
+                  <label htmlFor="food_habit">Food Habit</label>
                   <input
                     className="register_field"
                     type="text"
@@ -252,7 +385,7 @@ function Register() {
                   {errors.food_habit && touched.food_habit && errors.food_habit}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Smoke</label>
+                  <label htmlFor="smoke">Smoke</label>
                   {/* <input
                     className="register_field"
                     type="text"
@@ -264,7 +397,7 @@ function Register() {
                   /> */}
                   <select
                     className="register_field"
-                    name="colorss"
+                    name="smoke"
                     value={values.color}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -284,7 +417,7 @@ function Register() {
                   {errors.smoke && touched.smoke && errors.smoke}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Drink</label>
+                  <label htmlFor="drink">Drink</label>
                   {/* <input
                     className="register_field"
                     type="text"
@@ -316,7 +449,7 @@ function Register() {
                   {errors.drink && touched.drink && errors.drink}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Hobbies</label>
+                  <label htmlFor="hobbies">Hobbies</label>
                   <input
                     className="register_field"
                     type="text"
@@ -329,7 +462,7 @@ function Register() {
                   {errors.hobbies && touched.hobbies && errors.hobbies}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Looking For</label>
+                  <label htmlFor="looking_for">Looking For</label>
                   {/* <input
                     className="register_field"
                     type="text"
@@ -374,7 +507,7 @@ function Register() {
               </div>
               <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Father’s Name</label>
+                  <label htmlFor="fathers_name">Father’s Name</label>
                   <input
                     className="register_field"
                     type="text"
@@ -389,7 +522,7 @@ function Register() {
                     errors.fathers_name}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">
+                  <label htmlFor="fathers_occupation">
                     Father’s Occupation (with Designation)
                   </label>
                   <input
@@ -406,7 +539,7 @@ function Register() {
                     errors.fathers_occupation}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Mother’s Name</label>
+                  <label htmlFor="mothers_name">Mother’s Name</label>
                   <input
                     className="register_field"
                     type="text"
@@ -421,7 +554,7 @@ function Register() {
                     errors.mothers_name}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">
+                  <label htmlFor="mothers_occupation">
                     Mother’s Occupation (with Designation)
                   </label>
                   <input
@@ -438,7 +571,9 @@ function Register() {
                     errors.mothers_occupation}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Father's Native Place</label>
+                  <label htmlFor="fathers_native_place">
+                    Father's Native Place
+                  </label>
                   <input
                     className="register_field"
                     type="text"
@@ -453,7 +588,9 @@ function Register() {
                     errors.fathers_native_place}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Mother's Native Place</label>
+                  <label htmlFor="mothers_native_place">
+                    Mother's Native Place
+                  </label>
                   <input
                     className="register_field"
                     type="text"
@@ -468,7 +605,9 @@ function Register() {
                     errors.mothers_native_place}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Number of Sibilings</label>
+                  <label htmlFor="number_of_sibiling">
+                    Number of Sibilings
+                  </label>
                   <input
                     className="register_field"
                     type="text"
@@ -483,7 +622,7 @@ function Register() {
                     errors.number_of_sibiling}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Properties">
+                  <label htmlFor="family_property">
                     Do you have any other Family Properties
                   </label>
                   <textarea
@@ -499,7 +638,7 @@ function Register() {
                     errors.family_property}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Other Information (if any)</label>
+                  <label htmlFor="other_info">Other Information (if any)</label>
                   <textarea
                     className="register_field_area"
                     name="other_info"
@@ -511,7 +650,7 @@ function Register() {
                   {errors.other_info && touched.other_info && errors.other_info}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">
+                  <label htmlFor="expectation">
                     What is you expectation from other side?
                   </label>
                   <textarea
@@ -538,7 +677,7 @@ function Register() {
               </div>
               <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Phone No</label>
+                  <label htmlFor="phone_no">Phone No</label>
                   <input
                     className="register_field"
                     type="text"
@@ -551,7 +690,7 @@ function Register() {
                   {errors.phone_no && touched.phone_no && errors.phone_no}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Pin Code</label>
+                  <label htmlFor="pin_code">Pin Code</label>
                   <input
                     className="register_field"
                     type="text"
@@ -564,7 +703,7 @@ function Register() {
                   {errors.pin_code && touched.pin_code && errors.pin_code}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Password</label>
+                  <label htmlFor="password">Password</label>
                   <input
                     className="register_field"
                     type="text"
@@ -577,7 +716,7 @@ function Register() {
                   {errors.password && touched.password && errors.password}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">City</label>
+                  <label htmlFor="city">City</label>
                   <input
                     className="register_field"
                     type="text"
@@ -590,7 +729,7 @@ function Register() {
                   {errors.city && touched.city && errors.city}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Address</label>
+                  <label htmlFor="address">Address</label>
                   <textarea
                     className="register_field_area"
                     name="address"
@@ -613,7 +752,9 @@ function Register() {
               </div>
               <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Acedemic Qualification</label>
+                  <label htmlFor="academic_qualification">
+                    Acedemic Qualification
+                  </label>
                   <input
                     className="register_field"
                     type="text"
@@ -628,7 +769,9 @@ function Register() {
                     errors.academic_qualification}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Last Studied Institution</label>
+                  <label htmlFor="last_studied_institution">
+                    Last Studied Institution
+                  </label>
                   <input
                     className="register_field"
                     type="text"
@@ -643,7 +786,7 @@ function Register() {
                     errors.last_studied_institution}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Company Name</label>
+                  <label htmlFor="company_name">Company Name</label>
                   <input
                     className="register_field"
                     type="text"
@@ -658,7 +801,7 @@ function Register() {
                     errors.company_name}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Location</label>
+                  <label htmlFor="location">Location</label>
                   <input
                     className="register_field"
                     type="text"
@@ -671,7 +814,7 @@ function Register() {
                   {errors.location && touched.location && errors.location}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Profession</label>
+                  <label htmlFor="profession">Profession</label>
                   <input
                     className="register_field"
                     type="text"
@@ -684,7 +827,7 @@ function Register() {
                   {errors.profession && touched.profession && errors.profession}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Monthly Net Income</label>
+                  <label htmlFor="monthly_net_income">Monthly Net Income</label>
                   <input
                     className="register_field"
                     type="text"
@@ -699,7 +842,7 @@ function Register() {
                     errors.monthly_net_income}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Liabilities (optional)</label>
+                  <label htmlFor="liabilities">Liabilities (optional)</label>
                   <input
                     className="register_field"
                     type="text"
@@ -714,7 +857,9 @@ function Register() {
                     errors.liabilities}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Annual Gross Income</label>
+                  <label htmlFor="annual_gross_income">
+                    Annual Gross Income
+                  </label>
                   <input
                     className="register_field"
                     type="text"
@@ -740,7 +885,7 @@ function Register() {
               </div>
               <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Physical Status</label>
+                  <label htmlFor="physical_status">Physical Status</label>
                   <input
                     className="register_field"
                     type="text"
@@ -755,7 +900,7 @@ function Register() {
                     errors.physical_status}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Diet</label>
+                  <label htmlFor="diet">Diet</label>
                   <input
                     className="register_field"
                     type="text"
@@ -768,7 +913,7 @@ function Register() {
                   {errors.diet && touched.diet && errors.diet}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Body Type</label>
+                  <label htmlFor="body_type">Body Type</label>
                   <input
                     className="register_field"
                     type="text"
@@ -781,7 +926,7 @@ function Register() {
                   {errors.body_type && touched.body_type && errors.body_type}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="Name">Complexion</label>
+                  <label htmlFor="complexion">Complexion</label>
                   <input
                     className="register_field"
                     type="text"
