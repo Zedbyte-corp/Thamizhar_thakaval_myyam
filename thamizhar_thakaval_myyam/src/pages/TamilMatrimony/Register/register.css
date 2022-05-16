@@ -193,7 +193,27 @@
 }
 
 .matrimony_register_page_terms {
-  font-size: 18px;
+  font-size: 12px;
+  text-align: center;
+}
+
+.matrimony_register_span{
+  color: #F29F05;
+}
+
+.error{
+  color: red;
+}
+
+.hashlink{
+  color: black;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 27px;
+  text-decoration: none;
+  color: inherit;
 }
 
 @media only screen and (max-device-width: 768px) {

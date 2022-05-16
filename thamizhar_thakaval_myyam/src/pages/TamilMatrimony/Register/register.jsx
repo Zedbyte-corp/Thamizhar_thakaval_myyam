@@ -20,7 +20,7 @@ function Register() {
     if (response.status === "success") {
       navigate("/Matrimony/home");
     } else {
-      alert("check the crendentials");
+      alert("Please Fill all the required fields");
     }
   }
 
@@ -113,7 +113,7 @@ function Register() {
     password: Yup.string()
       .required("Please Enter your password")
       .matches(
-        "^(?=.*[A-Za-z])(?=.*d)(?=.*[@$!%*#?&])[A-Za-zd@$!%*#?&]{8,}$",
+        "",
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
       ),
     city: Yup.string()
@@ -170,7 +170,7 @@ function Register() {
   });
 
   // initializing formik form
-  const { handleChange, handleSubmit, handleBlur, values, errors, touched } =
+  const { handleChange, handleSubmit, handleBlur, setFieldValue, values, errors, touched } =
     useFormik({
       // validationSchema: LoginSchema,
       initialValues: {
@@ -213,8 +213,8 @@ function Register() {
         diet: "",
         body_type: "",
         complexion: "",
-        profile_pic: "",
-        heroscope: "",
+        profile: "",
+        horoscope: "",
       },
       validationSchema: SignupSchema,
       onSubmit: (values) => checkvalue(values),
@@ -241,27 +241,27 @@ function Register() {
         <div className="matrimony_register_left">
           <div className="matrimony_register_anchor">
             <div className="matrimony_register_anchor_button">
-              <HashLink smooth to={"#personal-details"}>
+              <HashLink smooth to={"#personal-details"} className="hashlink">
                 Personal Details
               </HashLink>
             </div>
             <div className="matrimony_register_anchor_button">
-              <HashLink smooth to={"#contact-details"}>
+              <HashLink smooth to={"#contact-details"} className="hashlink">
                 Contact Details
               </HashLink>
             </div>
             <div className="matrimony_register_anchor_button">
-              <HashLink smooth to={"#education-details"}>
+              <HashLink smooth to={"#education-details"} className="hashlink">
                 Education & Career Details
               </HashLink>
             </div>
             <div className="matrimony_register_anchor_button">
-              <HashLink smooth to={"#appearance-details"}>
+              <HashLink smooth to={"#appearance-details"} className="hashlink">
                 Lifestyle & Appearance
               </HashLink>
             </div>
             <div className="matrimony_register_anchor_button">
-              <HashLink smooth to={"#images-details"}>
+              <HashLink smooth to={"#images-details"} className="hashlink">
                 Images and Horoscope
               </HashLink>
             </div>
@@ -291,7 +291,7 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.name}
                   />
-                  {touched.name && errors.name && errors.name}
+                  {touched.name && errors.name}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="dob">DOB</label>
@@ -811,7 +811,7 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.location}
                   />
-                  {errors.location && touched.location && errors.location}
+                  {errors.location && touched.location ? <div>{errors.location}</div> : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="profession">Profession</label>
@@ -949,12 +949,36 @@ function Register() {
                 Images & Horoscope
               </div>
               <div className="matrimony_register_align_form">
-                <button className="matrimony_register_button" type="submit">
+              <label htmlFor="Name">Profile</label>
+                  <input
+                    className="matrimony_register_button"
+                    type="file"
+                    name="profile"
+                    id="profile"
+                    onChange={(event) => setFieldValue("profile", event.currentTarget.files[0])}
+                    onBlur={handleBlur}
+                    // value={values.profile}
+                  />
+                  {errors.profile && touched.profile && errors.profile}
+                {/* <button className="matrimony_register_button" type="submit">
                   Upload Profile
-                </button>
-                <button className="matrimony_register_button" type="submit">
+                </button> */}
+                <div className="matrimony_register_align_form">
+              <label htmlFor="Name">horoscope</label>
+                  <input
+                    className="matrimony_register_button"
+                    type="file"
+                    name="horoscope"
+                    id="horoscope"
+                    onChange={(event) => setFieldValue("horoscope", event.currentTarget.files[0])}
+                    onBlur={handleBlur}
+                    // value={values.profile}
+                  />
+                  {errors.horoscope && touched.horoscope && errors.horoscope}
+                  </div>
+                {/* <button className="matrimony_register_button" type="submit">
                   Upload horoscope
-                </button>
+                </button> */}
               </div>
             </div>
 
@@ -967,8 +991,8 @@ function Register() {
             </button>
 
             <div className="matrimony_register_page_terms">
-              By clicking register, you are accepting the Terms and Conditions
-              of THAMIZHAR THAGAVAL MAYYAM
+              By clicking register, you are accepting the <span className="matrimony_register_span">Terms and Conditions </span>
+              of <span className="matrimony_register_span">THAMIZHAR THAGAVAL MAYYAM</span>
             </div>
           </form>
         </div>

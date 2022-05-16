@@ -38,10 +38,14 @@ const getAllUsersApiResponse = async (values) => {
         //   Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        height: "",
-        weight: "",
-        religion:'',
-        caste:""
+        min_height: "5",
+        max_height: "6",
+        min_weight: "50",
+        max_weight:"70",
+        religion:"",
+        caste:"",
+        martial_status:"",
+        language:""
       }),
     };
     let response = await fetch(url, requestOptions);
