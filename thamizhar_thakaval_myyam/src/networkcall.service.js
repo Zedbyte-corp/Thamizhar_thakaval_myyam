@@ -1,4 +1,4 @@
-const baseurl = "http://0.0.0.0:5000/user";
+const baseurl = "http://127.0.0.1:5000/user";
 
 // login API CALL
 const getLoginApiResponse = async (values) => {
@@ -45,28 +45,28 @@ const getAllUsersApiResponse = async (values) => {
         religion: convertReligion(values.religion),
         caste: values.caste,
         martial_status: values.martial_status,
-        language: values.language
+        language: values.language,
       }),
     };
 
-    function convertReligion (religion) {
+    function convertReligion(religion) {
       switch (religion) {
         case "":
-          return ""
+          return "";
         case "1":
-          return "hindu"
+          return "hindu";
         case "2":
-          return "Islam"
+          return "Islam";
         case "3":
-          return "Sikhism"
+          return "Sikhism";
         case "4":
-          return "Christianity"
+          return "Christianity";
         case "5":
-          return "Buddhism"
+          return "Buddhism";
         case "6":
-          return "Jainism"
+          return "Jainism";
         case "7":
-          return "Zoroastrianism"
+          return "Zoroastrianism";
         default:
           break;
       }
@@ -136,7 +136,7 @@ const getRegisterApiResponse = async (values) => {
         body_type: values.body_type,
         complexion: values.complexion,
         profile_pic: values.profile_pic,
-        heroscope: values.heroscope
+        heroscope: values.heroscope,
       }),
     };
     let response = await fetch(url, requestOptions);
@@ -148,7 +148,6 @@ const getRegisterApiResponse = async (values) => {
     alert(error);
   }
 };
-
 
 // user details API
 const getUserDetailsApiResponse = async (values) => {
@@ -162,7 +161,7 @@ const getUserDetailsApiResponse = async (values) => {
         //   Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        userId : "nivas"
+        userId: "nivas",
       }),
     };
     let response = await fetch(url, requestOptions);
@@ -179,5 +178,5 @@ module.exports = {
   getLoginApiResponse,
   getAllUsersApiResponse,
   getRegisterApiResponse,
-  getUserDetailsApiResponse
-}
+  getUserDetailsApiResponse,
+};

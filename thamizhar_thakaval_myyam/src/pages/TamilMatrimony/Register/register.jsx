@@ -31,6 +31,8 @@ function Register() {
       .required("Required"),
     dob: Yup.date()
       .default(() => new Date())
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
       .required("Required"),
     age: Yup.number().positive().integer().required("Required"),
     weight: Yup.number().positive().required("Required"),
@@ -103,11 +105,11 @@ function Register() {
         "Phone number is not valid"
       )
       .required("Required"),
-    // pin_code: Yup.number()
-    //   .positive()
-    //   .integer()
-    //   .test("len", "Must be exactly 6 characters", (val) => val.length === 6)
-    //   .required("Required"),
+    pin_code: Yup.number()
+      .positive()
+      .integer()
+      .test("len", "Must be exactly 6 characters", (val) => val.length === 6)
+      .required("Required"),
     password: Yup.string()
       .required("Please Enter your password")
       .matches(
@@ -165,60 +167,69 @@ function Register() {
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
+    hobbies: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
   });
 
   // initializing formik form
-  const { handleChange, handleSubmit, handleBlur, setFieldValue, values, errors, touched } =
-    useFormik({
-      // validationSchema: LoginSchema,
-      initialValues: {
-        name: "",
-        dob: "",
-        age: "",
-        gender: "",
-        weight: "",
-        height: "",
-        caste: "",
-        pet:"",
-        religion: "",
-        food_habit: "",
-        smoke: "",
-        drink: "",
-        hobbies: "",
-        looking_for: "",
-        fathers_name: "",
-        fathers_occupation: "",
-        mothers_name: "",
-        mothers_occupation: "",
-        fathers_native_place: "",
-        mothers_native_place: "",
-        number_of_sibiling: "",
-        family_property: "",
-        other_info: "",
-        expectation: "",
-        phone_no: "",
-        pin_code: "",
-        password: "",
-        city: "",
-        address: "",
-        academic_qualification: "",
-        last_studied_institution: "",
-        company_name: "",
-        location: "",
-        profession: "",
-        monthly_net_income: "",
-        liabilities: "",
-        annual_gross_income: "",
-        physical_status: "",
-        diet: "",
-        body_type: "",
-        complexion: "",
-        profile: "",
-        horoscope: "",
-      },
-      validationSchema: SignupSchema,
-      onSubmit: (values) => checkvalue(values),
-    });
+  const {
+    handleChange,
+    handleSubmit,
+    handleBlur,
+    setFieldValue,
+    values,
+    errors,
+    touched,
+  } = useFormik({
+    // validationSchema: LoginSchema,
+    initialValues: {
+      name: "",
+      dob: "",
+      age: "",
+      weight: "",
+      height: "",
+      caste: "",
+      religion: "",
+      food_habit: "",
+      smoke: "",
+      drink: "",
+      hobbies: "",
+      looking_for: "",
+      fathers_name: "",
+      fathers_occupation: "",
+      mothers_name: "",
+      mothers_occupation: "",
+      fathers_native_place: "",
+      mothers_native_place: "",
+      number_of_sibiling: "",
+      family_property: "",
+      other_info: "",
+      expectation: "",
+      phone_no: "",
+      pin_code: "",
+      password: "",
+      city: "",
+      address: "",
+      academic_qualification: "",
+      last_studied_institution: "",
+      company_name: "",
+      location: "",
+      profession: "",
+      monthly_net_income: "",
+      liabilities: "",
+      annual_gross_income: "",
+      physical_status: "",
+      diet: "",
+      body_type: "",
+      complexion: "",
+      profile: "",
+      horoscope: "",
+    },
+    validationSchema: SignupSchema,
+    onSubmit: (values) => checkvalue(values),
+  });
 
   // design started here
   return (
@@ -291,20 +302,20 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.name}
                   />
-                  {(touched.name && errors.name) ? <div>{errors.dob}</div> : null}
+                  {touched.name && errors.name}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="dob">DOB</label>
                   <input
                     className="register_field"
-                    type="date"
+                    type="text"
                     name="dob"
                     id="dob"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.dob}
                   />
-                  {errors.dob && touched.dob ? <div>errors.dob</div> : null}
+                  {errors.dob && touched.dob && errors.dob}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="age">Age</label>
@@ -320,30 +331,7 @@ function Register() {
                   {errors.age && touched.age && errors.age}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="gender">Gender</label>
-                  <select
-                    className="register_field"
-                    name="gender"
-                    value={values.gender}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // style={{ display: "block" }}
-                  >
-                    <option value="" label="please select">
-                      please select{" "}
-                    </option>
-                    <option value="1" label="Male">
-                      {" "}
-                      Male
-                    </option>
-                    <option value="2" label="Female">
-                      Female
-                    </option>
-                  </select>
-                  {errors.gender && touched.gender && errors.gender}
-                </div>
-                <div className="matrimony_register_label_input">
-                  <label htmlFor="weight">Weight in kg</label>
+                  <label htmlFor="weight">Weight in kgs</label>
                   <input
                     className="register_field"
                     type="text"
@@ -356,7 +344,7 @@ function Register() {
                   {errors.weight && touched.weight && errors.weight}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="height">Height in cm</label>
+                  <label htmlFor="height">Height in fts</label>
                   <input
                     className="register_field"
                     type="text"
@@ -367,19 +355,6 @@ function Register() {
                     value={values.height}
                   />
                   {errors.height && touched.height && errors.height}
-                </div>
-                <div className="matrimony_register_label_input">
-                  <label htmlFor="religion">Religion</label>
-                  <input
-                    className="register_field"
-                    type="text"
-                    name="religion"
-                    id="religion"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.religion}
-                  />
-                  {errors.religion && touched.religion && errors.religion}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="caste">Caste</label>
@@ -393,6 +368,19 @@ function Register() {
                     value={values.caste}
                   />
                   {errors.caste && touched.caste && errors.caste}
+                </div>
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="religion">Religion</label>
+                  <input
+                    className="register_field"
+                    type="text"
+                    name="religion"
+                    id="religion"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.religion}
+                  />
+                  {errors.religion && touched.religion && errors.religion}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="food_habit">Food Habit</label>
@@ -517,29 +505,6 @@ function Register() {
                   {errors.looking_for &&
                     touched.looking_for &&
                     errors.looking_for}
-                </div>
-                <div className="matrimony_register_label_input">
-                  <label htmlFor="gender">Pet Lover</label>
-                  <select
-                    className="register_field"
-                    name="pet"
-                    value={values.pet}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // style={{ display: "block" }}
-                  >
-                    <option value="" label="please select">
-                      please select{" "}
-                    </option>
-                    <option value="1" label="Yes">
-                      {" "}
-                      Yes
-                    </option>
-                    <option value="2" label="No">
-                      No
-                    </option>
-                  </select>
-                  {errors.pet && touched.pet && errors.pet}
                 </div>
               </div>
             </div>
@@ -857,7 +822,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.location}
                   />
-                  {errors.location && touched.location ? <div>{errors.location}</div> : null}
+                  {errors.location && touched.location ? (
+                    <div>{errors.location}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="profession">Profession</label>
@@ -995,33 +962,37 @@ function Register() {
                 Images & Horoscope
               </div>
               <div className="matrimony_register_align_form">
-              <label htmlFor="Name">Profile</label>
-                  <input
-                    className="matrimony_register_button"
-                    type="file"
-                    name="profile"
-                    id="profile"
-                    onChange={(event) => setFieldValue("profile", event.currentTarget.files[0])}
-                    onBlur={handleBlur}
-                    // value={values.profile}
-                  />
-                  {errors.profile && touched.profile && errors.profile}
+                <label htmlFor="Name">Profile</label>
+                <input
+                  className="matrimony_register_button"
+                  type="file"
+                  name="profile"
+                  id="profile"
+                  onChange={(event) =>
+                    setFieldValue("profile", event.currentTarget.files[0])
+                  }
+                  onBlur={handleBlur}
+                  // value={values.profile}
+                />
+                {errors.profile && touched.profile && errors.profile}
                 {/* <button className="matrimony_register_button" type="submit">
                   Upload Profile
                 </button> */}
                 <div className="matrimony_register_align_form">
-              <label htmlFor="Name">horoscope</label>
+                  <label htmlFor="Name">horoscope</label>
                   <input
                     className="matrimony_register_button"
                     type="file"
                     name="horoscope"
                     id="horoscope"
-                    onChange={(event) => setFieldValue("horoscope", event.currentTarget.files[0])}
+                    onChange={(event) =>
+                      setFieldValue("horoscope", event.currentTarget.files[0])
+                    }
                     onBlur={handleBlur}
                     // value={values.profile}
                   />
                   {errors.horoscope && touched.horoscope && errors.horoscope}
-                  </div>
+                </div>
                 {/* <button className="matrimony_register_button" type="submit">
                   Upload horoscope
                 </button> */}
@@ -1037,8 +1008,14 @@ function Register() {
             </button>
 
             <div className="matrimony_register_page_terms">
-              By clicking register, you are accepting the <span className="matrimony_register_span">Terms and Conditions </span>
-              of <span className="matrimony_register_span">THAMIZHAR THAGAVAL MAYYAM</span>
+              By clicking register, you are accepting the{" "}
+              <span className="matrimony_register_span">
+                Terms and Conditions{" "}
+              </span>
+              of{" "}
+              <span className="matrimony_register_span">
+                THAMIZHAR THAGAVAL MAYYAM
+              </span>
             </div>
           </form>
         </div>

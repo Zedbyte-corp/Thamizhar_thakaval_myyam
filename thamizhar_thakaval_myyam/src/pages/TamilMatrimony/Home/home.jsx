@@ -11,11 +11,24 @@ function Home() {
   const [list, setList] = useState([]);
 
   async function checkvalue(values) {
-    console.log("filter values", values);
-    const response = await getAllUsersApiResponse(values);
+    var a = {
+      min_age: values.min_age.toString(),
+      max_age: values.max_age.toString(),
+      min_height: values.height.split("-")[0],
+      max_height: values.height.split("-")[1],
+      min_weight: values.weight.split("-")[0],
+      max_weight: values.weight.split("-")[1],
+      religion: values.religion,
+      caste: values.caste,
+      martial_status: values.martial_status,
+      language: values.language,
+    };
+    console.log("filter values", a);
+    const response = await getAllUsersApiResponse(a);
     if (response.status === "success") {
       // setList(response.result);
       console.log("document api after filter =>", response.result);
+      setList(response.result);
     }
     // else {
     //   alert("check the crendentials");
@@ -26,11 +39,15 @@ function Home() {
     console.log("document use effect");
     let mounted = true;
     getAllUsersApiResponse({
+      min_age: "",
+      max_age: "",
       min_height: "",
       max_height: "",
       min_weight: "",
       max_weight: "",
       religion: "",
+      height: "",
+      weight: "",
       caste: "",
       martial_status: "",
       language: "",
@@ -47,6 +64,8 @@ function Home() {
   const { handleChange, handleSubmit, handleBlur, values } = useFormik({
     // validationSchema: LoginSchema,
     initialValues: {
+      min_age: "",
+      max_age: "",
       min_height: "",
       max_height: "",
       min_weight: "",
@@ -112,13 +131,17 @@ function Home() {
                 <input type="range" name="price-max" id="price-max" value="800" min="0" max="1000"/>
                 </div>
               </div> */}
-              <MultiRangeSlider
-                min={0}
-                max={1000}
-                onChange={({ min, max }) =>
-                  console.log(`min = ${min}, max = ${max}`)
-                }
-              />
+              <div className="matrimony_register_label_input">
+                <label htmlFor="Age">AGE</label>
+                <MultiRangeSlider
+                  min={18}
+                  max={100}
+                  onChange={({ min, max }) => {
+                    values.min_age = min;
+                    values.max_age = max;
+                  }}
+                />
+              </div>
               <div className="matrimony_register_label_input">
                 <label htmlFor="Height">Height</label>
                 {/* <input
@@ -130,6 +153,7 @@ function Home() {
                 <select
                   className="register_field"
                   name="height"
+                  id="Height"
                   value={values.height}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -138,27 +162,27 @@ function Home() {
                   <option value="" label="please select">
                     please select{" "}
                   </option>
-                  <option value="1" label="less than 4 ft">
+                  <option value="0-4" label="less than 4 ft">
                     {" "}
                     less than 4 Ft
                   </option>
-                  <option value="2" label="4 ft - 5 ft">
+                  <option value="4-5" label="4 ft - 5 ft">
                     4 ft - 5 ft
                   </option>
-                  <option value="2" label="5 ft - 6ft">
+                  <option value="5-6" label="5 ft - 6ft">
                     5 ft - 6 ft
                   </option>
-                  <option value="2" label="6 ft - 7 ft">
+                  <option value="6-7" label="6 ft - 7 ft">
                     6 ft - 7 ft
                   </option>
-                  <option value="2" label="greater than 7 ft">
+                  <option value="7-10" label="greater than 7 ft">
                     greater than 7 ft
                   </option>
                 </select>
               </div>
 
               <div className="matrimony_register_label_input">
-                <label htmlFor="Height">Weight</label>
+                <label htmlFor="Weight">Weight</label>
                 {/* <input
                   className="register_field"
                   type="text"
@@ -168,6 +192,7 @@ function Home() {
                 <select
                   className="register_field"
                   name="weight"
+                  id="Weight"
                   value={values.weight}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -176,27 +201,27 @@ function Home() {
                   <option value="" label="please select">
                     please select{" "}
                   </option>
-                  <option value="1" label="less than 40 kgs">
+                  <option value="0-40" label="less than 40 kgs">
                     {" "}
                     less than 40 kgs
                   </option>
-                  <option value="2" label="40 kgs - 60 kgs">
+                  <option value="40-60" label="40 kgs - 60 kgs">
                     40 kgs - 60 kgs
                   </option>
-                  <option value="3" label="60 kgs - 80 kgs">
+                  <option value="60-80" label="60 kgs - 80 kgs">
                     60 kgs - 80 kgs
                   </option>
-                  <option value="4" label="80 kgs - 100 kgs">
+                  <option value="80-100" label="80 kgs - 100 kgs">
                     80 kgs - 100 kgs
                   </option>
-                  <option value="5" label="greater than 100 kgs">
+                  <option value="100-200" label="greater than 100 kgs">
                     greater than 100 kgs
                   </option>
                 </select>
               </div>
 
               <div className="matrimony_register_label_input">
-                <label htmlFor="Height">Religion</label>
+                <label htmlFor="Religion">Religion</label>
                 {/* <input
                   className="register_field"
                   type="text"
@@ -206,6 +231,7 @@ function Home() {
                 <select
                   className="register_field"
                   name="religion"
+                  id="Religion"
                   value={values.religion}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -240,12 +266,12 @@ function Home() {
               </div>
 
               <div className="matrimony_register_label_input">
-                <label htmlFor="Height">Caste</label>
+                <label htmlFor="Caste">Caste</label>
                 <input
                   className="register_field"
                   type="text"
                   name="caste"
-                  id="caste"
+                  id="Caste"
                   onChange={handleChange}
                   onBlur={handleBlur}
                   value={values.caste}
@@ -253,7 +279,7 @@ function Home() {
               </div>
 
               <div className="matrimony_register_label_input">
-                <label htmlFor="Height">Martial Status</label>
+                <label htmlFor="MaritialStatus">Martial Status</label>
                 {/* <input
                   className="register_field"
                   type="text"
@@ -263,6 +289,7 @@ function Home() {
                 <select
                   className="register_field"
                   name="martial_status"
+                  id="MartialStatus"
                   value={values.martial_status}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -282,12 +309,12 @@ function Home() {
               </div>
 
               <div className="matrimony_register_label_input">
-                <label htmlFor="Height">Language</label>
+                <label htmlFor="Language">Language</label>
                 <input
                   className="register_field"
                   type="text"
                   name="language"
-                  id="language"
+                  id="Language"
                   value={values.language}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -315,7 +342,7 @@ function Home() {
                     </option>
                     <option value="1" label="less than 4 ft">
                       {" "}
-                      
+
                     </option>
                     <option value="2" label="4 ft - 5 ft">
                       4 ft - 5 ft
