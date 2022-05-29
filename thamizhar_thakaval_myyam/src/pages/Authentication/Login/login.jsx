@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { getLoginApiResponse } from "../../../networkcall.service"
 import { useState } from "react";
 import login_bg from "../../../Assets/Login/login.jpeg"
+import logo from "../../../Assets/Login/logo.png"
 // import { useNavigate } from "react-router-dom";
 // import { getLoginApiResponse } from "../../../networkcall.service";
 
@@ -42,7 +43,9 @@ function Login() {
   return (
     <div className="login_parent">
       <div className="login_header">
-        <div className="logo">LOGO</div>
+        <div className="logo">
+          <img className="logo_image" src={logo} alt="" />
+        </div>
       </div>
       <div className="login_maincontainer">
         <div className="login_main_left">
@@ -107,6 +110,7 @@ function Login() {
               <h1>LOGIN</h1>
               <input
                 className="field"
+                placeholder="Enter PhoneNumber"
                 type="text"
                 name="phone"
                 onChange={handleChange}
@@ -116,6 +120,7 @@ function Login() {
               {errors.phone && touched.phone && errors.phone}
               <input
                 className="field"
+                placeholder="Enter Password"
                 type="password"
                 name="password"
                 onChange={handleChange}
@@ -123,6 +128,15 @@ function Login() {
                 value={values.password}
               />
               {errors.password && touched.password && errors.password}
+
+              <div className="login_forget_pssword">
+                <span className="login_span">
+                  Are you an agent
+                </span>
+                <span className="login_span">
+                  Forgot Password
+                </span>
+              </div>
               <button className="login_button" type="submit">
                 Login
               </button>

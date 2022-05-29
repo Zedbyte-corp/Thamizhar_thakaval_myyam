@@ -38,16 +38,39 @@ const getAllUsersApiResponse = async (values) => {
         //   Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        min_height: "5",
-        max_height: "6",
-        min_weight: "50",
-        max_weight:"70",
-        religion:"",
-        caste:"",
-        martial_status:"",
-        language:""
+        min_height: values.min_height,
+        max_height: values.max_height,
+        min_weight: values.min_weight,
+        max_weight: values.max_weight,
+        religion: convertReligion(values.religion),
+        caste: values.caste,
+        martial_status: values.martial_status,
+        language: values.language
       }),
     };
+
+    function convertReligion (religion) {
+      switch (religion) {
+        case "":
+          return ""
+        case "1":
+          return "hindu"
+        case "2":
+          return "Islam"
+        case "3":
+          return "Sikhism"
+        case "4":
+          return "Christianity"
+        case "5":
+          return "Buddhism"
+        case "6":
+          return "Jainism"
+        case "7":
+          return "Zoroastrianism"
+        default:
+          break;
+      }
+    }
     let response = await fetch(url, requestOptions);
     console.log("url=>", url);
     let responseJson = await response.json();
@@ -74,6 +97,8 @@ const getRegisterApiResponse = async (values) => {
         name: values.name,
         dob: values.dob,
         age: values.age,
+        gender: values.gender,
+        pet: values.pet,
         weight: values.weight,
         height: values.height,
         caste: values.caste,

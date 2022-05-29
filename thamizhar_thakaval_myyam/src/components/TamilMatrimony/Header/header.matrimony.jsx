@@ -9,7 +9,6 @@ function HeaderMatrimony() {
     <div className='matrimony_header_main'>
       <div className='matrimony_header_logo'>LOGO</div>
       <div>
-
       </div>
     </div>
   );

@@ -31,8 +31,6 @@ function Register() {
       .required("Required"),
     dob: Yup.date()
       .default(() => new Date())
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
       .required("Required"),
     age: Yup.number().positive().integer().required("Required"),
     weight: Yup.number().positive().required("Required"),
@@ -105,11 +103,11 @@ function Register() {
         "Phone number is not valid"
       )
       .required("Required"),
-    pin_code: Yup.number()
-      .positive()
-      .integer()
-      .test("len", "Must be exactly 6 characters", (val) => val.length === 6)
-      .required("Required"),
+    // pin_code: Yup.number()
+    //   .positive()
+    //   .integer()
+    //   .test("len", "Must be exactly 6 characters", (val) => val.length === 6)
+    //   .required("Required"),
     password: Yup.string()
       .required("Please Enter your password")
       .matches(
@@ -177,9 +175,11 @@ function Register() {
         name: "",
         dob: "",
         age: "",
+        gender: "",
         weight: "",
         height: "",
         caste: "",
+        pet:"",
         religion: "",
         food_habit: "",
         smoke: "",
@@ -291,20 +291,20 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.name}
                   />
-                  {touched.name && errors.name}
+                  {(touched.name && errors.name) ? <div>{errors.dob}</div> : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="dob">DOB</label>
                   <input
                     className="register_field"
-                    type="text"
+                    type="date"
                     name="dob"
                     id="dob"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.dob}
                   />
-                  {errors.dob && touched.dob && errors.dob}
+                  {errors.dob && touched.dob ? <div>errors.dob</div> : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="age">Age</label>
@@ -320,7 +320,30 @@ function Register() {
                   {errors.age && touched.age && errors.age}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="weight">Weight in kgs</label>
+                  <label htmlFor="gender">Gender</label>
+                  <select
+                    className="register_field"
+                    name="gender"
+                    value={values.gender}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    // style={{ display: "block" }}
+                  >
+                    <option value="" label="please select">
+                      please select{" "}
+                    </option>
+                    <option value="1" label="Male">
+                      {" "}
+                      Male
+                    </option>
+                    <option value="2" label="Female">
+                      Female
+                    </option>
+                  </select>
+                  {errors.gender && touched.gender && errors.gender}
+                </div>
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="weight">Weight in kg</label>
                   <input
                     className="register_field"
                     type="text"
@@ -333,7 +356,7 @@ function Register() {
                   {errors.weight && touched.weight && errors.weight}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="height">Height in fts</label>
+                  <label htmlFor="height">Height in cm</label>
                   <input
                     className="register_field"
                     type="text"
@@ -344,19 +367,6 @@ function Register() {
                     value={values.height}
                   />
                   {errors.height && touched.height && errors.height}
-                </div>
-                <div className="matrimony_register_label_input">
-                  <label htmlFor="caste">Caste</label>
-                  <input
-                    className="register_field"
-                    type="text"
-                    name="caste"
-                    id="caste"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.caste}
-                  />
-                  {errors.caste && touched.caste && errors.caste}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="religion">Religion</label>
@@ -370,6 +380,19 @@ function Register() {
                     value={values.religion}
                   />
                   {errors.religion && touched.religion && errors.religion}
+                </div>
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="caste">Caste</label>
+                  <input
+                    className="register_field"
+                    type="text"
+                    name="caste"
+                    id="caste"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.caste}
+                  />
+                  {errors.caste && touched.caste && errors.caste}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="food_habit">Food Habit</label>
@@ -494,6 +517,29 @@ function Register() {
                   {errors.looking_for &&
                     touched.looking_for &&
                     errors.looking_for}
+                </div>
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="gender">Pet Lover</label>
+                  <select
+                    className="register_field"
+                    name="pet"
+                    value={values.pet}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    // style={{ display: "block" }}
+                  >
+                    <option value="" label="please select">
+                      please select{" "}
+                    </option>
+                    <option value="1" label="Yes">
+                      {" "}
+                      Yes
+                    </option>
+                    <option value="2" label="No">
+                      No
+                    </option>
+                  </select>
+                  {errors.pet && touched.pet && errors.pet}
                 </div>
               </div>
             </div>

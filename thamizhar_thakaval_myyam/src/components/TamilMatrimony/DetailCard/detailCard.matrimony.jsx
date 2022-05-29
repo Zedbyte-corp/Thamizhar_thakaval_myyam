@@ -3,9 +3,9 @@ import bride from '../../../Assets/TamilMatrimony/home/bride.jpeg'
 import { useNavigate } from "react-router-dom";
 
 
-function DetailCardMatrimony({name, age, height, religion, caste}) {
+function DetailCardMatrimony({name, age, height, religion, caste, profile_pic, gender}) {
   const navigate = useNavigate();
-
+  console.log(profile_pic, "<- profile_pic");
   const onclickView = () => {
     navigate('/Matrimony/details');
   }
@@ -14,10 +14,10 @@ function DetailCardMatrimony({name, age, height, religion, caste}) {
     <div className='matrimony_detail_card'>
       <div className="matrimony_detail_card_up">
           <div className="matrimony_detail_card_up_left">
-              <img className="matrimony_card_image" src={bride} alt="" />
+              <img className="matrimony_card_image" src={profile_pic} alt="" />
           </div>
           <div className="matrimony_detail_card_up_right">
-              <h1 className='martimony_card_title'>BRIDE</h1>
+              <h1 className='martimony_card_title'>{gender}</h1>
               <div className="martimony_card_heading">Name</div>
               <div className="matrimony_card_value">{name}</div>
               <div className="martimony_card_heading">Age</div>

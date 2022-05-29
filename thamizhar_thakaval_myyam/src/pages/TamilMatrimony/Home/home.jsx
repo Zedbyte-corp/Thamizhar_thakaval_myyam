@@ -2,57 +2,88 @@ import "./home.css";
 import HeaderMatrimony from "../../../components/TamilMatrimony/Header/header.matrimony";
 import DetailCardMatrimony from "../../../components/TamilMatrimony/DetailCard/detailCard.matrimony";
 import filter_icon from "../../../Assets/TamilMatrimony/home/bi_filter.png";
-import { getAllUsersApiResponse } from "../../../networkcall.service"
+import { getAllUsersApiResponse } from "../../../networkcall.service";
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
+import MultiRangeSlider from "../../../components/TamilMatrimony/MultiRangeSlider/multiRangeSlider";
 
 function Home() {
-
   const [list, setList] = useState([]);
 
   async function checkvalue(values) {
-    console.log("filter values",values);
-    // let response = await getLoginApiResponse(values);
-    // if (response.status === "success") {
-    //   navigate("/Matrimony/home");
-    // } else {
+    console.log("filter values", values);
+    const response = await getAllUsersApiResponse(values);
+    if (response.status === "success") {
+      // setList(response.result);
+      console.log("document api after filter =>", response.result);
+    }
+    // else {
     //   alert("check the crendentials");
     // }
   }
-  
+
   useEffect(() => {
     console.log("document use effect");
     let mounted = true;
-    getAllUsersApiResponse().then(
-      (documentInfo) => {
-        if (mounted) {
-          setList(documentInfo.result);
-          console.log("document api =>", documentInfo);
-        }
+    getAllUsersApiResponse({
+      min_height: "",
+      max_height: "",
+      min_weight: "",
+      max_weight: "",
+      religion: "",
+      caste: "",
+      martial_status: "",
+      language: "",
+    }).then((documentInfo) => {
+      if (mounted) {
+        setList(documentInfo.result);
+        console.log("document api =>", documentInfo);
       }
-    );
+    });
     return () => (mounted = false);
   }, []);
 
   // initializing formik form
-  const { handleChange, handleSubmit, handleBlur, values } =
-    useFormik({
-      // validationSchema: LoginSchema,
-      initialValues: { height: "", weight: "", religion: "" , caste :"", martial_status:"", language:""},
-      onSubmit: (values) => checkvalue(values),
-    });
-
+  const { handleChange, handleSubmit, handleBlur, values } = useFormik({
+    // validationSchema: LoginSchema,
+    initialValues: {
+      min_height: "",
+      max_height: "",
+      min_weight: "",
+      max_weight: "",
+      height: "",
+      weight: "",
+      religion: "",
+      caste: "",
+      martial_status: "",
+      language: "",
+    },
+    onSubmit: (values) => checkvalue(values),
+  });
 
   var userarray = list.map((usersInfo, i) => (
     <DetailCardMatrimony
-    key = {i}
-    name = {usersInfo.name} 
-    age = {usersInfo.age} 
-    height= {usersInfo.height} 
-    religion = {usersInfo.religion}
-    caste = {usersInfo.caste}
+      key={i}
+      name={usersInfo.name}
+      age={usersInfo.age}
+      height={usersInfo.height}
+      religion={usersInfo.religion}
+      caste={usersInfo.caste}
+      profile_pic={usersInfo.profile_pic}
+      gender={convert_gender(usersInfo.gender)}
     ></DetailCardMatrimony>
-    ));
+  ));
+
+  function convert_gender(num) {
+    switch (num) {
+      case "1":
+        return "Groom";
+      case "2":
+        return "Bride";
+      default:
+        return "day not found";
+    }
+  }
 
   // design started here
   return (
@@ -62,17 +93,32 @@ function Home() {
         <div className="matrimony_home_left_container">
           <div className="matrimony_filter">
             <div className="matrimony_filter_title">
-              <img className="matrimony_filter_image" src={filter_icon} alt="" />
+              <img
+                className="matrimony_filter_image"
+                src={filter_icon}
+                alt=""
+              />
               <div>FILTERS</div>
             </div>
-            <form action="" onSubmit={handleSubmit} className="matrimony_home_filter_from_container">
-            {/* <div className="matrimony_register_label_input">
+            <form
+              action=""
+              onSubmit={handleSubmit}
+              className="matrimony_home_filter_from_container"
+            >
+              {/* <div className="matrimony_register_label_input">
                 <label htmlFor="Height">Age</label>
                 <div data-role="doubleslider">
                 <input type="range" name="price-min" id="price-min" value="200" min="0" max="1000"/>
                 <input type="range" name="price-max" id="price-max" value="800" min="0" max="1000"/>
                 </div>
               </div> */}
+              <MultiRangeSlider
+                min={0}
+                max={1000}
+                onChange={({ min, max }) =>
+                  console.log(`min = ${min}, max = ${max}`)
+                }
+              />
               <div className="matrimony_register_label_input">
                 <label htmlFor="Height">Height</label>
                 {/* <input
@@ -82,33 +128,33 @@ function Home() {
                   id="Height"
                 /> */}
                 <select
-                    className="register_field"
-                    name="height"
-                    value={values.height}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // style={{ display: "block" }}
-                  >
-                    <option value="" label="please select">
-                      please select{" "}
-                    </option>
-                    <option value="1" label="less than 4 ft">
-                      {" "}
-                      less than 4 Ft
-                    </option>
-                    <option value="2" label="4 ft - 5 ft">
-                      4 ft - 5 ft
-                    </option>
-                    <option value="2" label="5 ft - 6ft">
-                      5 ft - 6 ft
-                    </option>
-                    <option value="2" label="6 ft - 7 ft">
-                      6 ft - 7 ft
-                    </option>
-                    <option value="2" label="greater than 7 ft">
-                      greater than 7 ft
-                    </option>
-                  </select>
+                  className="register_field"
+                  name="height"
+                  value={values.height}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  // style={{ display: "block" }}
+                >
+                  <option value="" label="please select">
+                    please select{" "}
+                  </option>
+                  <option value="1" label="less than 4 ft">
+                    {" "}
+                    less than 4 Ft
+                  </option>
+                  <option value="2" label="4 ft - 5 ft">
+                    4 ft - 5 ft
+                  </option>
+                  <option value="2" label="5 ft - 6ft">
+                    5 ft - 6 ft
+                  </option>
+                  <option value="2" label="6 ft - 7 ft">
+                    6 ft - 7 ft
+                  </option>
+                  <option value="2" label="greater than 7 ft">
+                    greater than 7 ft
+                  </option>
+                </select>
               </div>
 
               <div className="matrimony_register_label_input">
@@ -120,33 +166,33 @@ function Home() {
                   id="Weight"
                 /> */}
                 <select
-                    className="register_field"
-                    name="weight"
-                    value={values.weight}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // style={{ display: "block" }}
-                  >
-                    <option value="" label="please select">
-                      please select{" "}
-                    </option>
-                    <option value="1" label="less than 40 kgs">
-                      {" "}
-                      less than 40 kgs
-                    </option>
-                    <option value="2" label="40 kgs - 60 kgs">
-                      40 kgs - 60 kgs
-                    </option>
-                    <option value="3" label="60 kgs - 80 kgs">
-                      60 kgs - 80 kgs
-                    </option>
-                    <option value="4" label="80 kgs - 100 kgs">
-                      80 kgs - 100 kgs
-                    </option>
-                    <option value="5" label="greater than 100 kgs">
-                      greater than 100 kgs
-                    </option>
-                  </select>
+                  className="register_field"
+                  name="weight"
+                  value={values.weight}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  // style={{ display: "block" }}
+                >
+                  <option value="" label="please select">
+                    please select{" "}
+                  </option>
+                  <option value="1" label="less than 40 kgs">
+                    {" "}
+                    less than 40 kgs
+                  </option>
+                  <option value="2" label="40 kgs - 60 kgs">
+                    40 kgs - 60 kgs
+                  </option>
+                  <option value="3" label="60 kgs - 80 kgs">
+                    60 kgs - 80 kgs
+                  </option>
+                  <option value="4" label="80 kgs - 100 kgs">
+                    80 kgs - 100 kgs
+                  </option>
+                  <option value="5" label="greater than 100 kgs">
+                    greater than 100 kgs
+                  </option>
+                </select>
               </div>
 
               <div className="matrimony_register_label_input">
@@ -158,39 +204,39 @@ function Home() {
                   id="Religion"
                 /> */}
                 <select
-                    className="register_field"
-                    name="religion"
-                    value={values.religion}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // style={{ display: "block" }}
-                  >
-                    <option value="" label="please select">
-                      please select{" "}
-                    </option>
-                    <option value="1" label="Hinduism">
-                      {" "}
-                      Hinduism
-                    </option>
-                    <option value="2" label="Islam">
-                      Islam
-                    </option>
-                    <option value="3" label="Sikhism">
-                      Sikhism
-                    </option>
-                    <option value="4" label="Christianity">
-                      Christianity
-                    </option>
-                    <option value="5" label="Buddhism">
-                      Buddhism
-                    </option>
-                    <option value="6" label="Jainism">
-                      Jainism
-                    </option>
-                    <option value="7" label="Zoroastrianism">
-                      Zoroastrianism
-                    </option>
-                  </select>
+                  className="register_field"
+                  name="religion"
+                  value={values.religion}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  // style={{ display: "block" }}
+                >
+                  <option value="" label="please select">
+                    please select{" "}
+                  </option>
+                  <option value="1" label="Hinduism">
+                    {" "}
+                    Hinduism
+                  </option>
+                  <option value="2" label="Islam">
+                    Islam
+                  </option>
+                  <option value="3" label="Sikhism">
+                    Sikhism
+                  </option>
+                  <option value="4" label="Christianity">
+                    Christianity
+                  </option>
+                  <option value="5" label="Buddhism">
+                    Buddhism
+                  </option>
+                  <option value="6" label="Jainism">
+                    Jainism
+                  </option>
+                  <option value="7" label="Zoroastrianism">
+                    Zoroastrianism
+                  </option>
+                </select>
               </div>
 
               <div className="matrimony_register_label_input">
@@ -215,24 +261,24 @@ function Home() {
                   id="Martial Status"
                 /> */}
                 <select
-                    className="register_field"
-                    name="martial_status"
-                    value={values.martial_status}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // style={{ display: "block" }}
-                  >
-                    <option value="" label="please select">
-                      please select{" "}
-                    </option>
-                    <option value="1" label="Not Married">
-                      {" "}
-                      Not Married
-                    </option>
-                    <option value="2" label="Divorced">
-                      Divorced
-                    </option>
-                  </select>
+                  className="register_field"
+                  name="martial_status"
+                  value={values.martial_status}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  // style={{ display: "block" }}
+                >
+                  <option value="" label="please select">
+                    please select{" "}
+                  </option>
+                  <option value="1" label="Not Married">
+                    {" "}
+                    Not Married
+                  </option>
+                  <option value="2" label="Divorced">
+                    Divorced
+                  </option>
+                </select>
               </div>
 
               <div className="matrimony_register_label_input">
@@ -289,14 +335,11 @@ function Home() {
               <button className="matrimony_register_button" type="submit">
                 Search
               </button>
-
             </form>
           </div>
         </div>
         <div className="matrimony_home_right_container">
-          <div className="matrimony_list_container">
-            {userarray}
-          </div>
+          <div className="matrimony_list_container">{userarray}</div>
         </div>
       </div>
     </section>
