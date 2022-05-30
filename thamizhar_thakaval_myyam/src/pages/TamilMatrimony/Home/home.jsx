@@ -39,8 +39,8 @@ function Home() {
     console.log("document use effect");
     let mounted = true;
     getAllUsersApiResponse({
-      min_age: "",
-      max_age: "",
+      min_age: "18",
+      max_age: "100",
       min_height: "",
       max_height: "",
       min_weight: "",
@@ -64,8 +64,8 @@ function Home() {
   const { handleChange, handleSubmit, handleBlur, values } = useFormik({
     // validationSchema: LoginSchema,
     initialValues: {
-      min_age: "",
-      max_age: "",
+      min_age: "18",
+      max_age: "100",
       min_height: "",
       max_height: "",
       min_weight: "",

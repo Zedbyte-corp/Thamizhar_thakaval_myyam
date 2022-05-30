@@ -38,6 +38,8 @@ const getAllUsersApiResponse = async (values) => {
         //   Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
+        max_age: values.max_age,
+        min_age: values.min_age,
         min_height: values.min_height,
         max_height: values.max_height,
         min_weight: values.min_weight,
@@ -48,6 +50,19 @@ const getAllUsersApiResponse = async (values) => {
         language: values.language,
       }),
     };
+
+    console.log("yupp", {
+      max_age: values.max_age,
+      min_age: values.min_age,
+      min_height: values.min_height,
+      max_height: values.max_height ?? "",
+      min_weight: values.min_weight,
+      max_weight: values.max_weight ?? "",
+      religion: convertReligion(values.religion),
+      caste: values.caste,
+      martial_status: values.martial_status,
+      language: values.language,
+    });
 
     function convertReligion(religion) {
       switch (religion) {
