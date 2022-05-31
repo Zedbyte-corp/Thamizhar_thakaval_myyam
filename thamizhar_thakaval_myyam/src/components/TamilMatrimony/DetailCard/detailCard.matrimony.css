@@ -1,5 +1,5 @@
 .matrimony_detail_card {
-  height: 47%;
+  height: fit-content;
   width: 40%;
   background: #ffffff;
   box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
@@ -9,6 +9,7 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: 15px;
 }
 
 .matrimony_detail_card_up {
@@ -40,6 +41,7 @@
 .matrimony_detail_card_up_right {
   height: 95%;
   width: 50%;
+  margin-left: 10px;
   /* background: rgb(12, 128, 76); */
 }
 

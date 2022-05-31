@@ -2,13 +2,20 @@ import "./home.css";
 import HeaderMatrimony from "../../../components/TamilMatrimony/Header/header.matrimony";
 import DetailCardMatrimony from "../../../components/TamilMatrimony/DetailCard/detailCard.matrimony";
 import filter_icon from "../../../Assets/TamilMatrimony/home/bi_filter.png";
+import close_icon from "../../../Assets/TamilMatrimony/home/close.png";
 import { getAllUsersApiResponse } from "../../../networkcall.service";
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import MultiRangeSlider from "../../../components/TamilMatrimony/MultiRangeSlider/multiRangeSlider";
+import ViewPopup from "../../../components/TamilMatrimony/popups/view.popup";
+
+// import { useSelector } from "react-redux";
 
 function Home() {
+  // const { setViewPopup } = useSelector((state) => state.userReducer);
+
   const [list, setList] = useState([]);
+  const [viewPopup, setViewPopup] = useState(false);
 
   async function checkvalue(values) {
     var a = {
@@ -29,6 +36,10 @@ function Home() {
       // setList(response.result);
       console.log("document api after filter =>", response.result);
       setList(response.result);
+      document.getElementById("filter").style.width = "0%";
+      document.getElementById("list_users").style.width = "100%";
+      document.getElementById("float_button").style.display = "block"
+
     }
     // else {
     //   alert("check the crendentials");
@@ -71,14 +82,30 @@ function Home() {
       min_weight: "",
       max_weight: "",
       height: "",
-      weight: "",
       religion: "",
+      weight: "",
       caste: "",
       martial_status: "",
       language: "",
     },
     onSubmit: (values) => checkvalue(values),
   });
+
+  function openmobilefilter(){
+    // console.log("filter clicked");
+    // setViewPopup(true);
+    document.getElementById("filter").style.width = "100%";
+    document.getElementById("list_users").style.width = "0%";
+    document.getElementById("float_button").style.display = "none"
+  };
+
+  function closemobilefilter(){
+    // console.log("filter clicked");
+    // setViewPopup(true);
+    document.getElementById("filter").style.width = "0%";
+    document.getElementById("list_users").style.width = "100%";
+    // document.getElementById("float_button").style.display = "block"
+  };
 
   var userarray = list.map((usersInfo, i) => (
     <DetailCardMatrimony
@@ -109,7 +136,7 @@ function Home() {
     <section>
       <HeaderMatrimony />
       <div className="matrimony_home_maincontainer">
-        <div className="matrimony_home_left_container">
+        <div className="matrimony_home_left_container" id="filter">
           <div className="matrimony_filter">
             <div className="matrimony_filter_title">
               <img
@@ -124,13 +151,7 @@ function Home() {
               onSubmit={handleSubmit}
               className="matrimony_home_filter_from_container"
             >
-              {/* <div className="matrimony_register_label_input">
-                <label htmlFor="Height">Age</label>
-                <div data-role="doubleslider">
-                <input type="range" name="price-min" id="price-min" value="200" min="0" max="1000"/>
-                <input type="range" name="price-max" id="price-max" value="800" min="0" max="1000"/>
-                </div>
-              </div> */}
+             
               <div className="matrimony_register_label_input">
                 <label htmlFor="Age">AGE</label>
                 <MultiRangeSlider
@@ -144,12 +165,7 @@ function Home() {
               </div>
               <div className="matrimony_register_label_input">
                 <label htmlFor="Height">Height</label>
-                {/* <input
-                  className="register_field"
-                  type="text"
-                  name="Height"
-                  id="Height"
-                /> */}
+                
                 <select
                   className="register_field"
                   name="height"
@@ -157,7 +173,7 @@ function Home() {
                   value={values.height}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  // style={{ display: "block" }}
+                  
                 >
                   <option value="" label="please select">
                     please select{" "}
@@ -183,12 +199,6 @@ function Home() {
 
               <div className="matrimony_register_label_input">
                 <label htmlFor="Weight">Weight</label>
-                {/* <input
-                  className="register_field"
-                  type="text"
-                  name="Weight"
-                  id="Weight"
-                /> */}
                 <select
                   className="register_field"
                   name="weight"
@@ -196,7 +206,6 @@ function Home() {
                   value={values.weight}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  // style={{ display: "block" }}
                 >
                   <option value="" label="please select">
                     please select{" "}
@@ -222,12 +231,6 @@ function Home() {
 
               <div className="matrimony_register_label_input">
                 <label htmlFor="Religion">Religion</label>
-                {/* <input
-                  className="register_field"
-                  type="text"
-                  name="Religion"
-                  id="Religion"
-                /> */}
                 <select
                   className="register_field"
                   name="religion"
@@ -235,7 +238,6 @@ function Home() {
                   value={values.religion}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  // style={{ display: "block" }}
                 >
                   <option value="" label="please select">
                     please select{" "}
@@ -280,12 +282,6 @@ function Home() {
 
               <div className="matrimony_register_label_input">
                 <label htmlFor="MaritialStatus">Martial Status</label>
-                {/* <input
-                  className="register_field"
-                  type="text"
-                  name="Martial Status"
-                  id="Martial Status"
-                /> */}
                 <select
                   className="register_field"
                   name="martial_status"
@@ -293,7 +289,6 @@ function Home() {
                   value={values.martial_status}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  // style={{ display: "block" }}
                 >
                   <option value="" label="please select">
                     please select{" "}
@@ -320,55 +315,27 @@ function Home() {
                   onBlur={handleBlur}
                 />
               </div>
-
-              {/* <div className="matrimony_register_label_input">
-                <label htmlFor="Height">Education</label>
-                <input
-                  className="register_field"
-                  type="text"
-                  name="Education"
-                  id="Education"
-                />
-                <select
-                    className="register_field"
-                    name="education"
-                    value={values.education}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // style={{ display: "block" }}
-                  >
-                    <option value="" label="please select">
-                      please select{" "}
-                    </option>
-                    <option value="1" label="less than 4 ft">
-                      {" "}
-
-                    </option>
-                    <option value="2" label="4 ft - 5 ft">
-                      4 ft - 5 ft
-                    </option>
-                    <option value="2" label="5 ft - 6ft">
-                      5 ft - 6 ft
-                    </option>
-                    <option value="2" label="6 ft - 7 ft">
-                      6 ft - 7 ft
-                    </option>
-                    <option value="2" label="greater than 7 ft">
-                      greater than 7 ft
-                    </option>
-                  </select>
-              </div> */}
-
               <button className="matrimony_register_button" type="submit">
                 Search
               </button>
             </form>
           </div>
         </div>
-        <div className="matrimony_home_right_container">
+
+        <div className="matrimony_home_right_container" id="list_users">
           <div className="matrimony_list_container">{userarray}</div>
+          {/* <ViewPopup /> */}
         </div>
       </div>
+
+      <div className="matrimony_float_button" id="float_button" onClick={openmobilefilter}>
+        <img className="matrimony_filter_image" src={filter_icon} alt="" />
+      </div>
+
+      {/* <div className="matrimony_float_button" onClick={closemobilefilter}>
+        <img className="matrimony_filter_image" src={close_icon} alt="" />
+      </div> */}
+
     </section>
   );
 }

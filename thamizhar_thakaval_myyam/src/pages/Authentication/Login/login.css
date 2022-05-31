@@ -36,17 +36,25 @@ p {
 
 .login_main_left {
   width: 45%;
-  height: 90vh;
+  height: 85vh;
   /* background: rgb(237, 7, 68); */
   display: flex;
   align-items: center;
   justify-content: center;
-  border-right: 2px solid #CCCCCC
+  /* border-right: 1.5px solid #CCCCCC; */
+  line-height: 40px;
+}
+
+hr {
+  margin-top: 40px;
+  height: 85%;
+  width: .5px;
+  background: #cccccc;
 }
 
 .login_main_right {
   width: 55%;
-  height: 90vh;
+  height: 85vh;
   /* background: rgb(70, 14, 149); */
   display: flex;
   align-items: center;
@@ -97,7 +105,7 @@ p {
   font: var(--primary-font-family);
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 27px;
   display: flex;
   align-items: center;
@@ -105,6 +113,7 @@ p {
   text-align: center;
   cursor: pointer;
   z-index: 3;
+  padding: 5px;
 }
 
 .login_switch_active {
@@ -118,7 +127,7 @@ p {
   font: var(--primary-font-family);
   font-style: normal;
   font-weight: 400;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 27px;
   display: flex;
   align-items: center;
@@ -126,6 +135,7 @@ p {
   text-align: center;
   cursor: pointer;
   z-index: 3;
+  padding: 5px;
 }
 
 .login_form_container {
@@ -158,8 +168,8 @@ p {
 }
 
 .login_button {
-  height: 6%;
-  width: 15%;
+  /* height: 6%;
+  width: 15%; */
   margin-top: 15px;
   background: linear-gradient(270deg, #14531a 0%, #ffbd00 100%);
   border-radius: 10px;
@@ -169,19 +179,20 @@ p {
   font-weight: 700;
   font-size: 15px;
   border: 0;
+  padding: 10px 20px 10px 20px;
 }
 
-.logo_image{
+.logo_image {
   /* height: 40px; */
   width: 6vw;
   margin: 15px;
 }
 
-.login_forget_pssword{
+.login_forget_pssword {
   margin: 10px;
 }
 
-.login_span{
+.login_span {
   margin: 30px;
 }
 
@@ -243,7 +254,7 @@ p {
   .register_button {
     font-size: 14px;
   }
-  .login_switch_page_gradient{
+  .login_switch_page_gradient {
     height: 60vh;
     width: 100%;
   }
@@ -251,7 +262,7 @@ p {
     height: 60vh;
     width: 100%;
   }
-  .logo_image{
+  .logo_image {
     /* height: 40px; */
     width: 15vw;
     margin: 15px;
@@ -259,14 +270,13 @@ p {
   .login_form {
     width: auto;
   }
-  .login_forget_pssword{
+  .login_forget_pssword {
     font-size: 12px;
   }
-  .login_switch_active{
+  .login_switch_active {
     font-size: 12px;
   }
-  .login_switch_inactive{
+  .login_switch_inactive {
     font-size: 12px;
   }
-  
 }

@@ -150,9 +150,9 @@ const getRegisterApiResponse = async (values) => {
 };
 
 // user details API
-const getUserDetailsApiResponse = async (values) => {
+const getUserDetailsApiResponse = async (user_id) => {
   try {
-    console.log("inside document api", values);
+    console.log("inside document api", user_id);
     let url = `${baseurl}/details`;
     const requestOptions = {
       method: "POST",
@@ -161,7 +161,7 @@ const getUserDetailsApiResponse = async (values) => {
         //   Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        userId: "nivas",
+        userId: user_id,
       }),
     };
     let response = await fetch(url, requestOptions);

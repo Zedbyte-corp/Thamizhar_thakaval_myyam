@@ -1,9 +1,14 @@
 .matrimony_header_main {
-  height: 8vh;
+  height: 12vh;
   width: 100vw;
-  background: linear-gradient(270deg, #14531a 0%, #ffbd00 100%);
+  /* background: linear-gradient(270deg, #14531a 0%, #ffbd00 100%); */
+  background: white;
+  /* border-radius: 50px; */
+  /* background: #e0e0e0; */
+  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
   display: flex;
   align-items: center;
+  /* justify-content: center; */
 }
 
 .matrimony_header_logo {
@@ -15,7 +20,12 @@
   color: #fffefe;
 }
 
-@media only screen and (max-device-width: 768px){
+.logo_image_matrimony {
+  width: 4vw;
+  margin: 15px;
+}
+
+@media only screen and (max-device-width: 768px) {
   .matrimony_header_logo {
     font-size: 4vw;
   }

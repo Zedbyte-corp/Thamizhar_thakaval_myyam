@@ -60,6 +60,30 @@ section {
     margin: 15px;
 }
 
+.matrimony_float_button{
+  position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:rgb(243, 250, 248);
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+  display: none;
+}
+
+.matrimony_mobileFilter{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  left: 20%;
+}
+
 @media only screen and (max-device-width: 768px){
   .matrimony_home_maincontainer{
     justify-content: center;
@@ -70,6 +94,9 @@ section {
   .matrimony_home_right_container{
     width: 90%;
     align-items: center;
+  }
+  .matrimony_float_button{
+    display: block;
   }
 
   

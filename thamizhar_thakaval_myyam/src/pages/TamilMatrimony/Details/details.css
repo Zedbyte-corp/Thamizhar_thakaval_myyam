@@ -27,7 +27,7 @@
 
 .matrimony_detail_left_box {
   width: 90%;
-  height: 70%;
+  height: fit-content;
   background: #ffffff;
   box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -36,11 +36,12 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  padding: 15px;
 }
 
 .matrimony_detail_left_box_upper {
   width: 90%;
-  height: auto;
+  /* height: 70%; */
   /* background: rgb(13, 157, 87); */
   display: flex;
   align-items: center;
@@ -69,9 +70,9 @@
 }
 
 .matrimony_detail_card_image {
-  object-fit: cover;
+  object-fit: fill;
   margin-top: 10px;
-  height: 80%;
+  max-height: fit-content;
   width: 50%;
 }
 

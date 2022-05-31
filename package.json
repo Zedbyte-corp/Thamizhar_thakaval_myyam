@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "react-redux": "^8.0.2",
     "yup": "^0.32.11"
   }
 }

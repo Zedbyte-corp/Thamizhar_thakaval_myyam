@@ -5,19 +5,23 @@ import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { getUserDetailsApiResponse } from "../../../networkcall.service"
 
+// import { useSelector } from "react-redux";
+
+
 function Details() {
   const navigate = useNavigate();
+  // const { user_id } = useSelector((state) => state.userReducer);
 
   const [list, setList] = useState([]);
   
   useEffect(() => {
     console.log("document use effect");
     let mounted = true;
-    getUserDetailsApiResponse().then(
+    getUserDetailsApiResponse(sessionStorage.getItem("user_id")).then(
       (documentInfo) => {
         if (mounted) {
           setList(documentInfo.result[0]);
-          console.log("document api =>", documentInfo.result[0].name);
+          console.log("document api =>", documentInfo.result[0].profile_pic);
         }
       }
     );
@@ -36,7 +40,7 @@ function Details() {
         <div className="matrimony_detail_left">
           <div className="matrimony_detail_left_box">
             <div className="matrimony_detail_left_box_upper">
-              <img className="matrimony_detail_card_image" src={bride} alt="" />
+              <img className="matrimony_detail_card_image" src={list.profile_pic} alt="" />
               <div className="matrimony_details_card_title">{list.name}</div>
             </div>
             <div className="matrimony_detail_left_box_middle">

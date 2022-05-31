@@ -5,16 +5,23 @@ import { getLoginApiResponse } from "../../../networkcall.service"
 import { useState } from "react";
 import login_bg from "../../../Assets/Login/login.jpeg"
 import logo from "../../../Assets/Login/logo.png"
+// import { useDispatch } from "react-redux";
+// import { setUserId } from "../../../store/actions";
 // import { useNavigate } from "react-router-dom";
 // import { getLoginApiResponse } from "../../../networkcall.service";
 
 function Login() {
+
+  // const dispatch = useDispatch();
+
   const navigate = useNavigate();
 
   async function checkvalue(values) {
     console.log(values);
     let response = await getLoginApiResponse(values);
     if (response.status === "success") {
+      console.log("user_id =>",response.result);
+      sessionStorage.setItem("user_id", response.result);
       navigate("/Matrimony/home");
     } else {
       alert("check the crendentials");
@@ -96,14 +103,8 @@ function Login() {
             </div>
           </div>
         </div>
-        {/* <svg height="210" width="500">
-          <line
-            x1="0"
-            y1="0"
-            y2="200"
-            style="stroke:rgb(0,0,0);stroke-width:5"
-          />
-        </svg> */}
+        {/* <hr style="height: 49px;width: 2px;background: grey;"/> */}
+      <hr />
         <div className="login_main_right">
           <div className="login_form_container">
             <form className="login_form" onSubmit={handleSubmit}>
@@ -131,6 +132,7 @@ function Login() {
 
               <div className="login_forget_pssword">
                 <span className="login_span">
+                  <input type="checkbox" />
                   Are you an agent
                 </span>
                 <span className="login_span">
