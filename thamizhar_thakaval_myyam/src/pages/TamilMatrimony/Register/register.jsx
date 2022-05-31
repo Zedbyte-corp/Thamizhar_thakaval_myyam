@@ -6,16 +6,27 @@ import { useFormik } from "formik";
 import { getRegisterApiResponse } from "../../../networkcall.service";
 import * as Yup from "yup";
 import { HashLink } from "react-router-hash-link";
+import { useState } from "react";
 
 function Register() {
   const navigate = useNavigate();
-
-  // const onclickView = () => {
-  //   navigate("/Matrimony/home");
-  // };
+  let [num, setNum] = useState(0);
+  let minSibCount = 0;
+  let maxSibCount = 3;
+  let incNum = () => {
+    if (num < maxSibCount) {
+      setNum(num + 1);
+    }
+  };
+  let decNum = () => {
+    if (num > minSibCount) {
+      setNum(num - 1);
+    }
+  };
 
   async function checkvalue(values) {
-    console.log(values);
+    values.number_of_sibiling = num.toString();
+    console.log("checkValue", values);
     let response = await getRegisterApiResponse(values);
     if (response.status === "success") {
       navigate("/Matrimony/home");
@@ -171,6 +182,40 @@ function Register() {
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
+
+    first_sibiling_name: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    first_sibiling_occupation: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    first_sibiling_maritial_status: Yup.string()
+      .notOneOf(["Married", "Single", "Divorced"], "please select")
+      .required("Required"),
+    second_sibiling_name: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    second_sibiling_occupation: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    second_sibiling_maritial_status: Yup.string()
+      .notOneOf(["Married", "Single", "Divorced"], "please select")
+      .required("Required"),
+    third_sibiling_name: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    third_sibiling_occupation: Yup.string()
+      .min(2, "Too Short!")
+      .max(50, "Too Long!")
+      .required("Required"),
+    third_sibiling_maritial_status: Yup.string()
+      .notOneOf(["Married", "Single", "Divorced"], "please select")
+      .required("Required"),
   });
 
   // initializing formik form
@@ -203,7 +248,16 @@ function Register() {
       mothers_occupation: "",
       fathers_native_place: "",
       mothers_native_place: "",
-      number_of_sibiling: "",
+      number_of_sibiling: "0",
+      first_sibiling_name: "",
+      first_sibiling_occupation: "",
+      first_sibiling_maritial_status: "",
+      second_sibiling_name: "",
+      second_sibiling_occupation: "",
+      second_sibiling_maritial_status: "",
+      third_sibiling_name: "",
+      third_sibiling_occupation: "",
+      third_sibiling_maritial_status: "",
       family_property: "",
       other_info: "",
       expectation: "",
@@ -619,7 +673,11 @@ function Register() {
                   <label htmlFor="number_of_sibiling">
                     Number of Sibilings
                   </label>
-                  <input
+                  <button type="button" onClick={decNum}>
+                    -
+                  </button>
+                  <div className="register_field">{num}</div>
+                  {/* <input
                     className="register_field"
                     type="text"
                     name="number_of_sibiling"
@@ -627,11 +685,404 @@ function Register() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.number_of_sibiling}
-                  />
+                  /> */}
+                  <button type="button" onClick={incNum}>
+                    +
+                  </button>
                   {errors.number_of_sibiling &&
                     touched.number_of_sibiling &&
                     errors.number_of_sibiling}
                 </div>
+                {num === 0 ? (
+                  <div></div>
+                ) : num === 1 ? (
+                  <div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="first_sibiling_name">Name</label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="first_sibiling_name"
+                        id="first_sibiling_name"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.first_sibiling_name}
+                      />
+                      {errors.first_sibiling_name &&
+                        touched.first_sibiling_name &&
+                        errors.first_sibiling_name}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="first_sibiling_maritial_status">
+                        Marritial Status
+                      </label>
+                      <select
+                        className="register_field"
+                        name="first_sibiling_maritial_status"
+                        value={values.first_sibiling_maritial_status}
+                        id="first_sibiling_maritial_status"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        // style={{ display: "block" }}
+                      >
+                        <option value="" label="please select">
+                          please select{" "}
+                        </option>
+                        <option value="1" label="Married">
+                          {" "}
+                          Married
+                        </option>
+                        <option value="2" label="Single">
+                          Single
+                        </option>
+                        <option value="3" label="Divorced">
+                          Divorced
+                        </option>
+                      </select>
+                      {errors.first_sibiling_maritial_status &&
+                        touched.first_sibiling_maritial_status &&
+                        errors.first_sibiling_maritial_status}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="first_sibiling_occupation">
+                        Occupation
+                      </label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="first_sibiling_occupation"
+                        id="first_sibiling_occupation"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.first_sibiling_occupation}
+                      />
+                      {errors.first_sibiling_occupation &&
+                        touched.first_sibiling_occupation &&
+                        errors.first_sibiling_occupation}
+                    </div>
+                  </div>
+                ) : num === 2 ? (
+                  <div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="first_sibiling_name">Name</label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="first_sibiling_name"
+                        id="first_sibiling_name"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.first_sibiling_name}
+                      />
+                      {errors.first_sibiling_name &&
+                        touched.first_sibiling_name &&
+                        errors.first_sibiling_name}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="first_sibiling_maritial_status">
+                        Marritial Status
+                      </label>
+                      <select
+                        className="register_field"
+                        name="first_sibiling_maritial_status"
+                        value={values.first_sibiling_maritial_status}
+                        id="first_sibiling_maritial_status"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        // style={{ display: "block" }}
+                      >
+                        <option value="" label="please select">
+                          please select{" "}
+                        </option>
+                        <option value="1" label="Married">
+                          {" "}
+                          Married
+                        </option>
+                        <option value="2" label="Single">
+                          Single
+                        </option>
+                        <option value="3" label="Divorced">
+                          Divorced
+                        </option>
+                      </select>
+                      {errors.first_sibiling_maritial_status &&
+                        touched.first_sibiling_maritial_status &&
+                        errors.first_sibiling_maritial_status}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="first_sibiling_occupation">
+                        Occupation
+                      </label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="first_sibiling_occupation"
+                        id="first_sibiling_occupation"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.first_sibiling_occupation}
+                      />
+                      {errors.first_sibiling_occupation &&
+                        touched.first_sibiling_occupation &&
+                        errors.first_sibiling_occupation}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="second_sibiling_name">Name</label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="second_sibiling_name"
+                        id="second_sibiling_name"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.second_sibiling_name}
+                      />
+                      {errors.second_sibiling_name &&
+                        touched.second_sibiling_name &&
+                        errors.second_sibiling_name}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="second_sibiling_maritial_status">
+                        Marritial Status
+                      </label>
+                      <select
+                        className="register_field"
+                        name="second_sibiling_maritial_status"
+                        value={values.second_sibiling_maritial_status}
+                        id="second_sibiling_maritial_status"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        // style={{ display: "block" }}
+                      >
+                        <option value="" label="please select">
+                          please select{" "}
+                        </option>
+                        <option value="1" label="Married">
+                          {" "}
+                          Married
+                        </option>
+                        <option value="2" label="Single">
+                          Single
+                        </option>
+                        <option value="3" label="Divorced">
+                          Divorced
+                        </option>
+                      </select>
+                      {errors.second_sibiling_maritial_status &&
+                        touched.second_sibiling_maritial_status &&
+                        errors.second_sibiling_maritial_status}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="second_sibiling_occupation">
+                        Occupation
+                      </label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="second_sibiling_occupation"
+                        id="second_sibiling_occupation"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.second_sibiling_occupation}
+                      />
+                      {errors.second_sibiling_occupation &&
+                        touched.second_sibiling_occupation &&
+                        errors.second_sibiling_occupation}
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="first_sibiling_name">Name</label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="first_sibiling_name"
+                        id="first_sibiling_name"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.first_sibiling_name}
+                      />
+                      {errors.first_sibiling_name &&
+                        touched.first_sibiling_name &&
+                        errors.first_sibiling_name}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="first_sibiling_maritial_status">
+                        Marritial Status
+                      </label>
+                      <select
+                        className="register_field"
+                        name="first_sibiling_maritial_status"
+                        value={values.first_sibiling_maritial_status}
+                        id="first_sibiling_maritial_status"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        // style={{ display: "block" }}
+                      >
+                        <option value="" label="please select">
+                          please select{" "}
+                        </option>
+                        <option value="1" label="Married">
+                          {" "}
+                          Married
+                        </option>
+                        <option value="2" label="Single">
+                          Single
+                        </option>
+                        <option value="3" label="Divorced">
+                          Divorced
+                        </option>
+                      </select>
+                      {errors.first_sibiling_maritial_status &&
+                        touched.first_sibiling_maritial_status &&
+                        errors.first_sibiling_maritial_status}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="first_sibiling_occupation">
+                        Occupation
+                      </label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="first_sibiling_occupation"
+                        id="first_sibiling_occupation"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.first_sibiling_occupation}
+                      />
+                      {errors.first_sibiling_occupation &&
+                        touched.first_sibiling_occupation &&
+                        errors.first_sibiling_occupation}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="second_sibiling_name">Name</label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="second_sibiling_name"
+                        id="second_sibiling_name"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.second_sibiling_name}
+                      />
+                      {errors.second_sibiling_name &&
+                        touched.second_sibiling_name &&
+                        errors.second_sibiling_name}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="second_sibiling_maritial_status">
+                        Marritial Status
+                      </label>
+                      <select
+                        className="register_field"
+                        name="second_sibiling_maritial_status"
+                        value={values.second_sibiling_maritial_status}
+                        id="second_sibiling_maritial_status"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        // style={{ display: "block" }}
+                      >
+                        <option value="" label="please select">
+                          please select{" "}
+                        </option>
+                        <option value="1" label="Married">
+                          {" "}
+                          Married
+                        </option>
+                        <option value="2" label="Single">
+                          Single
+                        </option>
+                        <option value="3" label="Divorced">
+                          Divorced
+                        </option>
+                      </select>
+                      {errors.second_sibiling_maritial_status &&
+                        touched.second_sibiling_maritial_status &&
+                        errors.second_sibiling_maritial_status}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="second_sibiling_occupation">
+                        Occupation
+                      </label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="second_sibiling_occupation"
+                        id="second_sibiling_occupation"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.second_sibiling_occupation}
+                      />
+                      {errors.second_sibiling_occupation &&
+                        touched.second_sibiling_occupation &&
+                        errors.second_sibiling_occupation}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="third_sibiling_name">Name</label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="third_sibiling_name"
+                        id="third_sibiling_name"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.third_sibiling_name}
+                      />
+                      {errors.third_sibiling_name &&
+                        touched.third_sibiling_name &&
+                        errors.third_sibiling_name}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="third_sibiling_maritial_status">
+                        Marritial Status
+                      </label>
+                      <select
+                        className="register_field"
+                        name="third_sibiling_maritial_status"
+                        value={values.third_sibiling_maritial_status}
+                        id="third_sibiling_maritial_status"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        // style={{ display: "block" }}
+                      >
+                        <option value="" label="please select">
+                          please select{" "}
+                        </option>
+                        <option value="1" label="Married">
+                          {" "}
+                          Married
+                        </option>
+                        <option value="2" label="Single">
+                          Single
+                        </option>
+                        <option value="3" label="Divorced">
+                          Divorced
+                        </option>
+                      </select>
+                      {errors.third_sibiling_maritial_status &&
+                        touched.third_sibiling_maritial_status &&
+                        errors.third_sibiling_maritial_status}
+                    </div>
+                    <div className="matrimony_register_label_input">
+                      <label htmlFor="third_sibiling_occupation">
+                        Occupation
+                      </label>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="third_sibiling_occupation"
+                        id="third_sibiling_occupation"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.third_sibiling_occupation}
+                      />
+                      {errors.third_sibiling_occupation &&
+                        touched.third_sibiling_occupation &&
+                        errors.third_sibiling_occupation}
+                    </div>
+                  </div>
+                )}
                 <div className="matrimony_register_label_input">
                   <label htmlFor="family_property">
                     Do you have any other Family Properties
@@ -999,11 +1450,7 @@ function Register() {
               </div>
             </div>
 
-            <button
-              className="matrimony_register_button"
-              // onClick={onclickView}
-              type="submit"
-            >
+            <button className="matrimony_register_button" type="submit">
               Register
             </button>
 

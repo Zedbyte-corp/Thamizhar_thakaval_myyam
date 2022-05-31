@@ -43,21 +43,20 @@ section {
   align-items: center;
   justify-content: center;
 }
-.matrimony_home_filter_from_container{
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-   
+.matrimony_home_filter_from_container {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
-.matrimony_filter_title{
-    display: flex;
-    align-items: center;
+.matrimony_filter_title {
+  display: flex;
+  align-items: center;
 }
-.matrimony_filter_image{
-    height: 35px;
-    margin: 15px;
+.matrimony_filter_image {
+  height: 35px;
+  margin: 15px;
 }
 
 .matrimony_float_button{
@@ -88,10 +87,10 @@ section {
   .matrimony_home_maincontainer{
     justify-content: center;
   }
-  .matrimony_home_left_container{
+  .matrimony_home_left_container {
     width: 0;
   }
-  .matrimony_home_right_container{
+  .matrimony_home_right_container {
     width: 90%;
     align-items: center;
   }

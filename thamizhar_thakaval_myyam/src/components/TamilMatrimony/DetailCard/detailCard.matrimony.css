@@ -22,7 +22,7 @@
 }
 
 .matrimony_detail_card_down {
-  height: 20%;
+  height: 15%;
   width: 80%;
   /* background: rgb(207, 18, 18); */
   display: flex;
@@ -65,75 +65,78 @@
 }
 
 .matrimony_card_button_2 {
-    height: fit-content;
-    width: 10vw;
-    padding: 7px;
-    background: #F29F05;
-    border-radius: 10px;
-    font-family: "Poppins";
-    font-style: normal;
-    font-weight: 700;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #eaeaea;
-    border: none;
-    cursor: pointer;
-  }
+  height: fit-content;
+  width: 10vw;
+  padding: 7px;
+  background: #f29f05;
+  border-radius: 10px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #eaeaea;
+  border: none;
+  cursor: pointer;
+}
 
-  .martimony_card_title{
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 24px;
-    display: flex;
-    text-align: center;
-    color: #F29F05;
-    margin: 0;
-  }
+.martimony_card_title {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  display: flex;
+  text-align: center;
+  color: #f29f05;
+  margin: 0;
+  padding-bottom: 15px;
+}
 
-  .martimony_card_heading{
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 300;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #000000;
-  }
+.martimony_card_heading {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 300;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  padding-bottom: 5px;
+}
 
-  .matrimony_card_value{
-    font-family: 'Poppins';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    text-align: center;
-    color: #000000;
-    
-  }
+.matrimony_card_value {
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #000000;
+  padding-bottom: 10px;
+}
 
-  .matrimony_card_image{
-      object-fit: cover;
-      height: 100%;
-      width: 100%;
-      border-radius: 10px;
-  }
+.matrimony_card_image {
+  object-fit: cover;
+  height: 27vh;
+  width: 90%;
+  border-radius: 10px;
+}
 
-  @media only screen and (max-device-width: 768px){
-    .matrimony_detail_card{
-      width: 90%;
-    }
-    .matrimony_card_button_1, .matrimony_card_button_2{
-      width:auto;
-      padding: 5px 25px 5px 25px;
-    }
-    .matrimony_detail_card_up{
-      height: auto;
-      align-items: none;
-    }
+@media only screen and (max-device-width: 768px) {
+  .matrimony_detail_card {
+    width: 90%;
   }
+  .matrimony_card_button_1,
+  .matrimony_card_button_2 {
+    width: auto;
+    padding: 5px 25px 5px 25px;
+  }
+  .matrimony_detail_card_up {
+    height: auto;
+    align-items: none;
+  }
+}
