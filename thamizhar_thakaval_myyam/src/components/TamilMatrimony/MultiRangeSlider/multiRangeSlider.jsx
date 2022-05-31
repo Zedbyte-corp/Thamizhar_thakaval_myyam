@@ -1,25 +1,18 @@
-import "./multiRangeSlider.css";
-import PropTypes from "prop-types";
-import { useState } from "react";
-import { useRef } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import classnames from "classnames";
-import { useCallback, useEffect } from "react";
+import PropTypes from "prop-types";
+import "./multiRangeSlider.css";
 
 const MultiRangeSlider = ({ min, max, onChange }) => {
-  // Creating the state variables
   const [minVal, setMinVal] = useState(min);
   const [maxVal, setMaxVal] = useState(max);
-
-  // Creating the refs
   const minValRef = useRef(null);
   const maxValRef = useRef(null);
   const range = useRef(null);
 
   // Convert to percentage
   const getPercent = useCallback(
-    (value) => {
-      Math.round(((value - min) / (max - min)) * 100);
-    },
+    (value) => Math.round(((value - min) / (max - min)) * 100),
     [min, max]
   );
 
@@ -27,7 +20,7 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
   useEffect(() => {
     if (maxValRef.current) {
       const minPercent = getPercent(minVal);
-      const maxPercent = getPercent(+maxValRef.current.value);
+      const maxPercent = getPercent(+maxValRef.current.value); // Preceding with '+' converts the value from type string to type number
 
       if (range.current) {
         range.current.style.left = `${minPercent}%`;
@@ -53,17 +46,8 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
     onChange({ min: minVal, max: maxVal });
   }, [minVal, maxVal, onChange]);
 
-  
-
-  // Set the type of each prop
-  MultiRangeSlider.propTypes = {
-    min: PropTypes.number.isRequired,
-    max: PropTypes.number.isRequired,
-    onChange: PropTypes.func.isRequired,
-  };
-
   return (
-    <>
+    <div className="container">
       <input
         type="range"
         min={min}
@@ -92,14 +76,21 @@ const MultiRangeSlider = ({ min, max, onChange }) => {
         }}
         className="thumb thumb--zindex-4"
       />
+
       <div className="slider">
         <div className="slider__track" />
         <div ref={range} className="slider__range" />
         <div className="slider__left-value">{minVal}</div>
         <div className="slider__right-value">{maxVal}</div>
       </div>
-    </>
+    </div>
   );
+};
+
+MultiRangeSlider.propTypes = {
+  min: PropTypes.number.isRequired,
+  max: PropTypes.number.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default MultiRangeSlider;
