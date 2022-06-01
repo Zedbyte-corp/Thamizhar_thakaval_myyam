@@ -5,15 +5,19 @@ import { Store } from "../../../store/store";
 // import { useDispatch } from "react-redux";
 import { setViewPopup } from "../../../store/actions";
 
-function DetailCardMatrimony({name, age, height, religion, caste, profile_pic, gender}) {
+function DetailCardMatrimony({user_id, name, age, height, religion, caste, profile_pic, gender}) {
 
   const navigate = useNavigate();
-  console.log(profile_pic, "<- profile_pic");
+  console.log(user_id, "<- user_id from card details");
   // const dispatch = useDispatch();
 
   const onclickView = () => {
     Store.dispatch(setViewPopup(true))
-    navigate('/Matrimony/details');
+    navigate('/Matrimony/details', { state: { id: user_id } });
+  }
+
+  const onclickverify = () => {
+    alert("payment mode under construction")
   }
 
   // design started here
@@ -38,7 +42,7 @@ function DetailCardMatrimony({name, age, height, religion, caste, profile_pic, g
         </div>
       </div>
       <div className="matrimony_detail_card_down">
-        <button className="matrimony_card_button_1">VERIFY</button>
+        <button className="matrimony_card_button_1" onClick={onclickverify}>VERIFY</button>
         <button className="matrimony_card_button_2" onClick={onclickView}>
           VIEW
         </button>

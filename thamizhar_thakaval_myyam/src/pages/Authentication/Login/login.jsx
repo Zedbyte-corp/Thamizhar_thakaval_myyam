@@ -5,10 +5,7 @@ import { getLoginApiResponse } from "../../../networkcall.service"
 import { useState } from "react";
 import login_bg from "../../../Assets/Login/login.jpeg"
 import logo from "../../../Assets/Login/logo.png"
-// import { useDispatch } from "react-redux";
-// import { setUserId } from "../../../store/actions";
-// import { useNavigate } from "react-router-dom";
-// import { getLoginApiResponse } from "../../../networkcall.service";
+
 
 function Login() {
 

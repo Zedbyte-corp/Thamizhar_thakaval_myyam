@@ -4,6 +4,9 @@ import ForgetPassword from '../pages/Authentication/ForgetPassword/forgetPasswor
 import Home from '../pages/TamilMatrimony/Home/home';
 import Register from '../pages/TamilMatrimony/Register/register';
 import Details from '../pages/TamilMatrimony/Details/details';
+import EditDetails from '../pages/TamilMatrimony/EditDetails/edit_details';
+import About from "../pages/TamilMatrimony/About/about"
+import Terms from "../pages/TamilMatrimony/Terms/terms"
 
 function LoginRoutes() {
     return (
@@ -19,6 +22,12 @@ function LoginRoutes() {
                     element={<Register/>} />
                 <Route path="/Matrimony/details" exact
                     element={<Details/>} />
+                <Route path="/Matrimony/edit_details" exact
+                    element={<EditDetails/>} />
+                <Route path="/Matrimony/about" exact
+                    element={<About/>} />
+                <Route path="/Matrimony/terms" exact
+                    element={<Terms/>} />
             </Routes>
         </Router>
     );

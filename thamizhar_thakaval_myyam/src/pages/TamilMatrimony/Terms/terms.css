@@ -1,0 +1,267 @@
+.register_main {
+  height: 200vh;
+}
+
+.matrimony_register_image {
+  height: 25%;
+  width: 100vw;
+  /* background: #000; */
+  /* position: relative; */
+  /* z-index: 0; */
+}
+
+.matrimony_register_wedding_bg {
+  height: 50%;
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+  z-index: 1;
+}
+
+.matrimony_register_gradient {
+  height: 50%;
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.69) 42.67%,
+    rgba(81, 81, 81, 0) 100%
+  );
+  display: flex;
+}
+
+.matrimony_register_quote {
+  width: 50%;
+  font-family: "poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 5vw;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background: #000; */
+  padding-left: 15px;
+}
+
+.matrimony_register_main_container {
+  height: 200vh;
+  width: 100%;
+  /* background: rgb(216, 233, 25); */
+  display: flex;
+}
+
+.matrimony_register_left {
+  height: 100%;
+  width: 25%;
+  /* background: rgb(124, 6, 6); */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 20px;
+  /* position: fixed; */
+}
+
+.matrimony_register_right {
+  height: 100%;
+  width: 75%;
+  /* background: rgb(12, 171, 36); */
+  display: flex;
+  justify-content: center;
+}
+
+.matrimony_register_anchor {
+  height: fit-content;
+  padding: 15px 0 25px 0;
+  width: 95%;
+  background: #ffffff;
+  box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.matrimony_register_anchor_button {
+  height: 6vh;
+  width: 90%;
+  background: #fbfbfb;
+  border: 1px solid #000000;
+  box-sizing: border-box;
+  border-radius: 10px;
+  margin-top: 20px;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #000000;
+  cursor: pointer;
+}
+
+.matrimony_register_form_main_container {
+  height: fit-content;
+  width: 90%;
+  background: #ffffff;
+  box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 15px 0 25px 0;
+  padding-bottom: 20px;
+}
+
+.matrimony_register_personal_details {
+  width: 90%;
+  background: #ffffff;
+  box-shadow: 4px 4px 25px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin: 15px 0 25px 0;
+}
+
+.matrimony_register_align_form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.matrimony_register_form_title {
+  font-family: "poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 30px;
+  /* width: 90%; */
+  /* text-align: left; */
+  color: #f29f05;
+  margin: 15px 0 25px 0;
+}
+
+.register_field {
+  height: 4vh;
+  width: 20vw;
+  background: #eaeaea;
+  border-radius: 5px;
+  margin: 10px 15px 15px 0;
+  border: 0;
+}
+
+.register_field_area {
+  height: 8vh;
+  width: 40vw;
+  background: #eaeaea;
+  border-radius: 5px;
+  margin: 10px 15px 15px 0;
+  border: 0;
+  resize: none;
+}
+
+.matrimony_register_label_input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.matrimony_register_button {
+  height: 6%;
+  width: fit-content;
+  padding: 5px;
+  margin: 15px;
+  background: linear-gradient(270deg, #14531a 0%, #ffbd00 100%);
+  border-radius: 10px;
+  color: #fff;
+  font: var(--primary-font-family);
+  font-style: normal;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  border: 0;
+}
+
+.matrimony_register_page_terms {
+  font-size: 12px;
+  text-align: center;
+}
+
+.matrimony_register_span {
+  color: #f29f05;
+}
+
+.error {
+  color: red;
+}
+
+.hashlink {
+  color: black;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 27px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.about_matrimony_main_container{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.about_matrimony_title{
+  color: black;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 27px;
+  text-decoration: none;
+  color: inherit;
+  padding-top: 15px;
+}
+
+@media only screen and (max-device-width: 768px) {
+  .matrimony_register_quote {
+    width: 100%;
+    font-size: 10vw;
+  }
+  .matrimony_register_left {
+    width: 0%;
+  }
+  .matrimony_register_anchor {
+    display: none;
+  }
+  .matrimony_register_right {
+    width: 100%;
+  }
+  .register_field {
+    width: 70vw;
+  }
+  .register_field_area {
+    width: 70vw;
+  }
+  .matrimony_register_personal_details {
+    width: 90%;
+  }
+  .matrimony_register_page_terms {
+    font-size: 12px;
+    text-align: center;
+  }
+}

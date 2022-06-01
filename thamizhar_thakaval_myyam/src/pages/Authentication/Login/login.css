@@ -180,6 +180,7 @@ hr {
   font-size: 15px;
   border: 0;
   padding: 10px 20px 10px 20px;
+  cursor: pointer;
 }
 
 .logo_image {
@@ -247,6 +248,7 @@ hr {
     width: auto;
     height: auto;
     padding: 15px;
+    cursor: pointer;
   }
   p {
     font-size: 12px;

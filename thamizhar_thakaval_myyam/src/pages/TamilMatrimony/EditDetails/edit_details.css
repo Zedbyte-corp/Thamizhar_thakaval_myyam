@@ -107,10 +107,6 @@
   cursor: pointer;
 }
 
-.matrimony_detail_right_main::-webkit-scrollbar {
-  display: none;
-}
-
 .matrimony_detail_right_main {
   height: fit-content;
   width: 90%;
@@ -125,8 +121,6 @@
   overflow: scroll;
   padding-top: 20px;
   padding-bottom: 20px;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
 }
 
 .matrimony_detail_right_secondary_container {
@@ -184,6 +178,8 @@
   align-items: center;
   color: #242424;
 }
+
+
 
 @media only screen and (max-device-width: 768px){
   .matrimony_detail_secondary_container{

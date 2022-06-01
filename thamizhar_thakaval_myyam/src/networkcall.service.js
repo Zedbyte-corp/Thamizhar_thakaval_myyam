@@ -1,4 +1,4 @@
-const baseurl = "http://127.0.0.1:5000/user";
+const baseurl = "http://3.111.40.230:5000/user";
 
 // login API CALL
 const getLoginApiResponse = async (values) => {
@@ -38,6 +38,7 @@ const getAllUsersApiResponse = async (values) => {
         //   Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
+        // userId: sessionStorage.getItem("user_id"),
         max_age: values.max_age,
         min_age: values.min_age,
         min_height: values.min_height,
@@ -108,7 +109,7 @@ const getRegisterApiResponse = async (values) => {
         //   Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        userId: 1,
+        userId: sessionStorage.getItem("user_id"),
         name: values.name,
         dob: values.dob,
         age: values.age,
@@ -193,5 +194,5 @@ module.exports = {
   getLoginApiResponse,
   getAllUsersApiResponse,
   getRegisterApiResponse,
-  getUserDetailsApiResponse,
+  getUserDetailsApiResponse
 };

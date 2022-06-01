@@ -2,12 +2,14 @@ import "./home.css";
 import HeaderMatrimony from "../../../components/TamilMatrimony/Header/header.matrimony";
 import DetailCardMatrimony from "../../../components/TamilMatrimony/DetailCard/detailCard.matrimony";
 import filter_icon from "../../../Assets/TamilMatrimony/home/bi_filter.png";
-import close_icon from "../../../Assets/TamilMatrimony/home/close.png";
+import empty from "../../../Assets/TamilMatrimony/home/empty_page.png";
+
+// import close_icon from "../../../Assets/TamilMatrimony/home/close.png";
 import { getAllUsersApiResponse } from "../../../networkcall.service";
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import MultiRangeSlider from "../../../components/TamilMatrimony/MultiRangeSlider/multiRangeSlider";
-import ViewPopup from "../../../components/TamilMatrimony/popups/view.popup";
+// import ViewPopup from "../../../components/TamilMatrimony/popups/view.popup";
 
 // import { useSelector } from "react-redux";
 
@@ -15,7 +17,8 @@ function Home() {
   // const { setViewPopup } = useSelector((state) => state.userReducer);
 
   const [list, setList] = useState([]);
-  const [viewPopup, setViewPopup] = useState(false);
+  const [isempty, setIsempty] = useState(true);
+  // const [viewPopup, setViewPopup] = useState(false);
 
   async function checkvalue(values) {
     var a = {
@@ -34,22 +37,22 @@ function Home() {
     const response = await getAllUsersApiResponse(a);
     if (response.status === "success") {
       // setList(response.result);
+      setIsempty(false);
       console.log("document api after filter =>", response.result);
       setList(response.result);
-      document.getElementById("filter").style.width = "0%";
-      document.getElementById("list_users").style.width = "100%";
-      document.getElementById("float_button").style.display = "block"
-
+      // document.getElementById("filter").style.width = "0%";
+      // document.getElementById("list_users").style.width = "100%";
+      // document.getElementById("float_button").style.display = "block"
+    } else {
+      setIsempty(true);
     }
-    // else {
-    //   alert("check the crendentials");
-    // }
   }
 
   useEffect(() => {
     console.log("document use effect");
     let mounted = true;
     getAllUsersApiResponse({
+      // userId: sessionStorage.getItem("user_id"),
       min_age: "18",
       max_age: "100",
       min_height: "",
@@ -65,6 +68,11 @@ function Home() {
     }).then((documentInfo) => {
       if (mounted) {
         setList(documentInfo.result);
+        if (documentInfo.status === "failure") {
+          setIsempty(true);
+        } else {
+          setIsempty(false);
+        }
         console.log("document api =>", documentInfo);
       }
     });
@@ -75,6 +83,7 @@ function Home() {
   const { handleChange, handleSubmit, handleBlur, values } = useFormik({
     // validationSchema: LoginSchema,
     initialValues: {
+      // userId: sessionStorage.getItem("user_id"),
       min_age: "18",
       max_age: "100",
       min_height: "",
@@ -82,8 +91,8 @@ function Home() {
       min_weight: "",
       max_weight: "",
       height: "",
-      religion: "",
       weight: "",
+      religion: "",
       caste: "",
       martial_status: "",
       language: "",
@@ -91,25 +100,26 @@ function Home() {
     onSubmit: (values) => checkvalue(values),
   });
 
-  function openmobilefilter(){
+  function openmobilefilter() {
     // console.log("filter clicked");
     // setViewPopup(true);
     document.getElementById("filter").style.width = "100%";
     document.getElementById("list_users").style.width = "0%";
-    document.getElementById("float_button").style.display = "none"
-  };
+    document.getElementById("float_button").style.display = "none";
+  }
 
-  function closemobilefilter(){
-    // console.log("filter clicked");
-    // setViewPopup(true);
-    document.getElementById("filter").style.width = "0%";
-    document.getElementById("list_users").style.width = "100%";
-    // document.getElementById("float_button").style.display = "block"
-  };
+  // function closemobilefilter(){
+  //   // console.log("filter clicked");
+  //   // setViewPopup(true);
+  //   document.getElementById("filter").style.width = "0%";
+  //   document.getElementById("list_users").style.width = "100%";
+  //   // document.getElementById("float_button").style.display = "block"
+  // };
 
   var userarray = list.map((usersInfo, i) => (
     <DetailCardMatrimony
       key={i}
+      user_id={usersInfo.userId}
       name={usersInfo.name}
       age={usersInfo.age}
       height={usersInfo.height}
@@ -151,7 +161,6 @@ function Home() {
               onSubmit={handleSubmit}
               className="matrimony_home_filter_from_container"
             >
-             
               <div className="matrimony_register_label_input">
                 <label htmlFor="Age">AGE</label>
                 <MultiRangeSlider
@@ -165,7 +174,7 @@ function Home() {
               </div>
               <div className="matrimony_register_label_input">
                 <label htmlFor="Height">Height</label>
-                
+
                 <select
                   className="register_field"
                   name="height"
@@ -173,7 +182,6 @@ function Home() {
                   value={values.height}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  
                 >
                   <option value="" label="please select">
                     please select{" "}
@@ -315,7 +323,7 @@ function Home() {
                   onBlur={handleBlur}
                 />
               </div>
-              <button className="matrimony_register_button" type="submit">
+              <button className="matrimony_search_button" type="submit">
                 Search
               </button>
             </form>
@@ -323,19 +331,31 @@ function Home() {
         </div>
 
         <div className="matrimony_home_right_container" id="list_users">
-          <div className="matrimony_list_container">{userarray}</div>
+          {/* <div className="matrimony_home_isEmpty">
+          </div> */}
+          {isempty ? (
+            <div className="matrimony_list_container" id="isEmpty">
+              <img className="image_isempty" src={empty} alt="" />
+              <div className="empty_page_text">Sorry, No users Found</div>
+            </div>
+          ) : (
+            <div className="matrimony_list_container">{userarray}</div>
+          )}
           {/* <ViewPopup /> */}
         </div>
       </div>
 
-      <div className="matrimony_float_button" id="float_button" onClick={openmobilefilter}>
+      <div
+        className="matrimony_float_button"
+        id="float_button"
+        onClick={openmobilefilter}
+      >
         <img className="matrimony_filter_image" src={filter_icon} alt="" />
       </div>
 
       {/* <div className="matrimony_float_button" onClick={closemobilefilter}>
         <img className="matrimony_filter_image" src={close_icon} alt="" />
       </div> */}
-
     </section>
   );
 }
