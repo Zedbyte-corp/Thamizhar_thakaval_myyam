@@ -1,7 +1,7 @@
 const baseurl = "http://3.111.40.230:5000/user";
 
 // login API CALL
-const getLoginApiResponse = async (values) => {
+export const getLoginApiResponse = async (values) => {
   try {
     console.log("inside document api", values);
     let url = `${baseurl}/login`;
@@ -27,7 +27,7 @@ const getLoginApiResponse = async (values) => {
 };
 
 // list users API CALL
-const getAllUsersApiResponse = async (values) => {
+export const getAllUsersApiResponse = async (values) => {
   try {
     console.log("inside document api", values);
     let url = `${baseurl}/listusers`;
@@ -98,7 +98,7 @@ const getAllUsersApiResponse = async (values) => {
 };
 
 // register api call
-const getRegisterApiResponse = async (values) => {
+export const getRegisterApiResponse = async (values) => {
   try {
     console.log("inside document api", values);
     let url = `${baseurl}/create`;
@@ -166,7 +166,7 @@ const getRegisterApiResponse = async (values) => {
 };
 
 // user details API
-const getUserDetailsApiResponse = async (user_id) => {
+export const getUserDetailsApiResponse = async (user_id) => {
   try {
     console.log("inside document api", user_id);
     let url = `${baseurl}/details`;
@@ -188,11 +188,4 @@ const getUserDetailsApiResponse = async (user_id) => {
   } catch (error) {
     alert(error);
   }
-};
-
-module.exports = {
-  getLoginApiResponse,
-  getAllUsersApiResponse,
-  getRegisterApiResponse,
-  getUserDetailsApiResponse
 };
