@@ -104,7 +104,7 @@ function Login() {
       <hr />
         <div className="login_main_right">
           <div className="login_form_container">
-            <form className="login_form" onSubmit={handleSubmit}>
+            <form className="login_form" onSubmit={handleSubmit} >
               <h1>LOGIN</h1>
               <input
                 className="field"
@@ -114,6 +114,7 @@ function Login() {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.phone}
+                autocomplete="off"
               />
               {errors.phone && touched.phone && errors.phone}
               <input
@@ -124,6 +125,7 @@ function Login() {
                 onChange={handleChange}
                 onBlur={handleBlur}
                 value={values.password}
+                autocomplete="off"
               />
               {errors.password && touched.password && errors.password}
 

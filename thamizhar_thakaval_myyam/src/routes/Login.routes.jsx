@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from '../pages/Authentication/Login/login';
 import ForgetPassword from '../pages/Authentication/ForgetPassword/forgetPassword';
 import Home from '../pages/TamilMatrimony/Home/home';
@@ -10,7 +10,7 @@ import Terms from "../pages/TamilMatrimony/Terms/terms"
 
 function LoginRoutes() {
     return (
-        <Router>
+        <BrowserRouter>
             <Routes>
                 <Route path="/" exact
                     element={<Login/>} />
@@ -29,7 +29,7 @@ function LoginRoutes() {
                 <Route path="/Matrimony/terms" exact
                     element={<Terms/>} />
             </Routes>
-        </Router>
+        </BrowserRouter>
     );
 }
 
