@@ -1,5 +1,5 @@
-.register_main {
-  height: 200vh;
+.register_main_about {
+  height: 100vh;
 }
 
 .matrimony_register_image {
@@ -218,11 +218,12 @@
 }
 
 .about_matrimony_main_container{
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
   display: flex;
-  /* align-items: center; */
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 
 .about_matrimony_title{
@@ -235,6 +236,19 @@
   text-decoration: none;
   color: inherit;
   padding-top: 15px;
+}
+
+.about_matrimony_content{
+  color: black;
+  font-family: "Poppins";
+  font-style: normal;
+  font-size: 18px;
+  text-decoration: none;
+  color: inherit;
+  padding-top: 15px;
+  text-align: justify;
+  width: 80%;
+
 }
 
 @media only screen and (max-device-width: 768px) {

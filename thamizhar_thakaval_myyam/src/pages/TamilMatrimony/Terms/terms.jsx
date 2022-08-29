@@ -1,6 +1,6 @@
 import "./terms.css";
 import HeaderMatrimony from "../../../components/TamilMatrimony/Header/header.matrimony";
-import wedding_bg from "../../../Assets/TamilMatrimony/register/wedding_bg.png";
+// import wedding_bg from "../../../Assets/TamilMatrimony/register/wedding_bg.png";
 import { useNavigate } from "react-router-dom";
 
 
@@ -25,8 +25,8 @@ function Terms() {
         />
       </div> */}
 
-      <div className="about_matrimony_main_container">
-        <div className="about_matrimony_title">
+      <div className="terms_matrimony_main_container">
+        <div className="terms_matrimony_title">
           Terms And Conditions
         </div>
       </div>

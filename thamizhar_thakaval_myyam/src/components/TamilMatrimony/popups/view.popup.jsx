@@ -17,11 +17,14 @@ const dispatch = useDispatch();
     console.log("cancel clicked !!!!");
     dispatch(setViewPopup(false))
     // setViewPopup(false)
-    // const cancel = document.getElementById("view_popup").style.display="none";
+    document.getElementById("view_popup").style.display="none";
     // console.log(cancel);
   }
-
-  function onPaymentpopup() {}
+  
+  function onPaymentpopup() {
+    document.getElementById("view_popup").style.display="none";
+    // navigate('/Matrimony/details', { state: { id: user_id } });
+  }
 
   // design started here
   return (
@@ -29,14 +32,14 @@ const dispatch = useDispatch();
       {setViewPopup ? (
         <div className="view_popup_main" id="view_popup">
           <div className="">
-            To view detailed data please do subscribe our plan.
+            To view detailed report please do subscribe our plan.
           </div>
-          <div className="">
+          <div className="popup_buttons_container">
             <button className="view_popup_button" onClick={onCancelPopup}>
-              Cancel
+              Discrete neighbor verification
             </button>
             <button className="view_popup_button" onClick={onPaymentpopup}>
-              Payment
+              Employement verification
             </button>
           </div>
         </div>

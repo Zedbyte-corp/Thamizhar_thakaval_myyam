@@ -1,14 +1,12 @@
 import "./login.css";
 import { useFormik } from "formik";
 import { useNavigate } from "react-router-dom";
-import { getLoginApiResponse } from "../../../networkcall.service"
+import { getLoginApiResponse } from "../../../networkcall.service";
 import { useState } from "react";
-import login_bg from "../../../Assets/Login/login.jpeg"
-import logo from "../../../Assets/Login/logo.png"
-
+import login_bg from "../../../Assets/Login/login_page.svg";
+import logo from "../../../Assets/Login/ttmlogo.png";
 
 function Login() {
-
   // const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -17,7 +15,7 @@ function Login() {
     console.log(values);
     let response = await getLoginApiResponse(values);
     if (response.status === "success") {
-      console.log("user_id =>",response.result);
+      console.log("user_id =>", response.result);
       sessionStorage.setItem("user_id", response.result);
       navigate("/Matrimony/home");
     } else {
@@ -101,11 +99,18 @@ function Login() {
           </div>
         </div>
         {/* <hr style="height: 49px;width: 2px;background: grey;"/> */}
-      <hr />
+        <hr />
         <div className="login_main_right">
           <div className="login_form_container">
             <form className="login_form" onSubmit={handleSubmit} >
               <h1>LOGIN</h1>
+              {/* <div className="about_matrimony_content">
+                கல்தோன்றி மண்தோன்றா காலத்தே வாளொடு முன்தோன்றிய மூத்தகுடி
+                தமிழ்ச்சமூகம்... இத்தகைய தொன்மமும் உயரிய பண்பாடுகளும்
+                விழுமியங்களும் கொண்ட உலகெங்கும் பரவி வாழும் தமிழ் மக்களுக்கான
+                திருமணம், தொழில், வேலைவாய்ப்பு, வியாபாரம், நட்பு ஆகிய
+                தேடல்களுக்கான ஒரே தளம் இது...
+              </div> */}
               <input
                 className="field"
                 placeholder="Enter PhoneNumber"
@@ -134,9 +139,7 @@ function Login() {
                   <input type="checkbox" />
                   Are you an agent
                 </span>
-                <span className="login_span">
-                  Forgot Password
-                </span>
+                <span className="login_span">Forgot Password</span>
               </div>
               <button className="login_button" type="submit">
                 Login

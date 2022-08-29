@@ -9,8 +9,12 @@ import { HashLink } from "react-router-hash-link";
 import { useState } from "react";
 
 function Register() {
+  // let [othersFlag, setOthersFlag] = useState(false);
   const navigate = useNavigate();
   let [num, setNum] = useState(0);
+  let [profile, setProfile] = useState();
+  let [heroscope, setHeroscope] = useState();
+  let [photos, setPhotos] = useState();
   let minSibCount = 0;
   let maxSibCount = 3;
   let incNum = () => {
@@ -25,13 +29,17 @@ function Register() {
   };
 
   async function checkvalue(values) {
-    values.number_of_sibiling = num.toString();
-    console.log("checkValue", values);
-    let response = await getRegisterApiResponse(values);
-    if (response.status === "success") {
-      navigate("/Matrimony/home");
+    if (values.password === values.confirm_password) {
+      values.number_of_sibiling = num.toString();
+      console.log("checkValue", values);
+      let response = await getRegisterApiResponse(values);
+      if (response.status === "success") {
+        navigate("/Matrimony/home");
+      } else {
+        alert("Please Fill all the required fields");
+      }
     } else {
-      alert("Please Fill all the required fields");
+      alert("password and confirm password are not same");
     }
   }
 
@@ -218,6 +226,12 @@ function Register() {
       .required("Required"),
   });
 
+  // function getDietValue() {
+  //   if (values.diet === 'Other') {
+  //     setOthersFlag(true);
+  //   }
+  // }
+
   // initializing formik form
   const {
     handleChange,
@@ -234,6 +248,7 @@ function Register() {
       dob: "",
       age: "",
       weight: "",
+      email: "",
       height: "",
       caste: "",
       religion: "",
@@ -264,6 +279,7 @@ function Register() {
       phone_no: "",
       pin_code: "",
       password: "",
+      confirm_password: "",
       city: "",
       address: "",
       academic_qualification: "",
@@ -274,7 +290,7 @@ function Register() {
       monthly_net_income: "",
       liabilities: "",
       annual_gross_income: "",
-      physical_status: "",
+      physical_status: "Normal",
       diet: "",
       body_type: "",
       complexion: "",
@@ -284,6 +300,8 @@ function Register() {
     validationSchema: SignupSchema,
     onSubmit: (values) => checkvalue(values),
   });
+
+  console.log(values);
 
   // design started here
   return (
@@ -449,49 +467,30 @@ function Register() {
                   />
                   {errors.food_habit && touched.food_habit && errors.food_habit}
                 </div>
-                <div className="matrimony_register_label_input">
+                {/* <div className="matrimony_register_label_input">
                   <label htmlFor="smoke">Smoke</label>
-                  {/* <input
-                    className="register_field"
-                    type="text"
-                    name="smoke"
-                    id="smoke"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.smoke}
-                  /> */}
                   <select
                     className="register_field"
                     name="smoke"
-                    value={values.color}
+                    value={values.smoke}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    // style={{ display: "block" }}
                   >
                     <option value="" label="please select">
                       please select{" "}
                     </option>
-                    <option value="1" label="No">
+                    <option value="No" label="No">
                       {" "}
                       No
                     </option>
-                    <option value="2" label="Yes">
+                    <option value="Yes" label="Yes">
                       Yes
                     </option>
                   </select>
                   {errors.smoke && touched.smoke && errors.smoke}
-                </div>
-                <div className="matrimony_register_label_input">
+                </div> */}
+                {/* <div className="matrimony_register_label_input">
                   <label htmlFor="drink">Drink</label>
-                  {/* <input
-                    className="register_field"
-                    type="text"
-                    name="drink"
-                    id="drink"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.drink}
-                  /> */}
                   <select
                     className="register_field"
                     name="drink"
@@ -512,7 +511,7 @@ function Register() {
                     </option>
                   </select>
                   {errors.drink && touched.drink && errors.drink}
-                </div>
+                </div> */}
                 <div className="matrimony_register_label_input">
                   <label htmlFor="hobbies">Hobbies</label>
                   <input
@@ -545,14 +544,14 @@ function Register() {
                     onBlur={handleBlur}
                     // style={{ display: "block" }}
                   >
-                    <option value="" label="please select">
+                    {/* <option value="" label="please select">
                       please select{" "}
-                    </option>
-                    <option value="1" label="Bride">
+                    </option> */}
+                    <option value="Bride" label="Bride">
                       {" "}
                       Bride
                     </option>
-                    <option value="2" label="Groom">
+                    <option value="Groom" label="Groom">
                       Groom
                     </option>
                   </select>
@@ -588,7 +587,7 @@ function Register() {
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="fathers_occupation">
-                    Father’s Occupation (with Designation)
+                    Father’s Occupation
                   </label>
                   <input
                     className="register_field"
@@ -620,7 +619,7 @@ function Register() {
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="mothers_occupation">
-                    Mother’s Occupation (with Designation)
+                    Mother’s Occupation
                   </label>
                   <input
                     className="register_field"
@@ -1165,15 +1164,15 @@ function Register() {
                   {errors.pin_code && touched.pin_code && errors.pin_code}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="email">Email</label>
                   <input
                     className="register_field"
                     type="text"
-                    name="password"
-                    id="password"
+                    name="email"
+                    id="email"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.password}
+                    value={values.email}
                   />
                   {errors.password && touched.password && errors.password}
                 </div>
@@ -1278,7 +1277,7 @@ function Register() {
                   ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="profession">Profession</label>
+                  <label htmlFor="profession">Designation</label>
                   <input
                     className="register_field"
                     type="text"
@@ -1350,7 +1349,7 @@ function Register() {
               <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
                   <label htmlFor="physical_status">Physical Status</label>
-                  <input
+                  {/* <input
                     className="register_field"
                     type="text"
                     name="physical_status"
@@ -1358,14 +1357,93 @@ function Register() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.physical_status}
-                  />
+                  /> */}
+                  <select
+                    className="register_field"
+                    // type="text"
+                    name="physical_status"
+                    id="physical_status"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.physical_status}
+                  >
+                    <option value="Normal" label="Normal">
+                      Normal{" "}
+                    </option>
+                    <option value="Visual Impairment" label="Visual Impairment">
+                      {" "}
+                      Visual Impairment
+                    </option>
+                    <option
+                      value="Hearing Impairment"
+                      label="Hearing Impairment"
+                    >
+                      Hearing Impairment
+                    </option>
+                    <option
+                      value="Gustatory Impairment"
+                      label="Gustatory Impairment"
+                    >
+                      Gustatory Impairment
+                    </option>
+                    <option
+                      value="Somatosensory Impairment"
+                      label="Somatosensory Impairment"
+                    >
+                      Somatosensory Impairment
+                    </option>
+                    <option value="Balance Disorders" label="Balance Disorders">
+                      Balance Disorders
+                    </option>
+                    <option
+                      value="Intellectual Disability"
+                      label="Intellectual Disability"
+                    >
+                      Intellectual Disability
+                    </option>
+                    <option value="Mental Health" label="Mental Health">
+                      Mental Health
+                    </option>
+                    <option
+                      value="Emotional Disabilities"
+                      label="Emotional Disabilities"
+                    >
+                      Emotional Disabilities
+                    </option>
+                    <option
+                      value="Developmental Disability"
+                      label="Developmental Disability"
+                    >
+                      Developmental Disability
+                    </option>
+                    <option
+                      value="Invisible Disabilities"
+                      label="Invisible Disabilities"
+                    >
+                      Invisible Disabilities
+                    </option>
+                  </select>
+                  {values.physical_status !== "Normal" ? (
+                    <input
+                      className="register_field"
+                      type="text"
+                      name="physical_status"
+                      id="physical_status"
+                      placeholder="please enter the disorder"
+                      // onChange={handleChange}
+                      onBlur={handleBlur}
+                      // value={values.physical_status}
+                    />
+                  ) : (
+                    <div></div>
+                  )}
                   {errors.physical_status &&
                     touched.physical_status &&
                     errors.physical_status}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="diet">Diet</label>
-                  <input
+                  {/* <input
                     className="register_field"
                     type="text"
                     name="diet"
@@ -1373,34 +1451,237 @@ function Register() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.diet}
-                  />
+                  /> */}
+                  <select
+                    className="register_field"
+                    // type="text"
+                    name="diet"
+                    id="diet"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.diet}
+                  >
+                    <option value="" label="please select">
+                      please select{" "}
+                    </option>
+                    <option value="Atkins diet" label="Atkins diet">
+                      {" "}
+                      Atkins diet
+                    </option>
+                    <option value="The Zone diet" label="The Zone diet">
+                      The Zone diet
+                    </option>
+                    <option value="Ketogenic diet" label="Ketogenic diet">
+                      Ketogenic diet
+                    </option>
+                    <option value="Vegetarian diet" label="Vegetarian diet">
+                      Vegetarian diet
+                    </option>
+                    <option value="Vegan diet" label="Vegan diet">
+                      Vegan diet
+                    </option>
+                    <option
+                      value="Weight Watchers diet"
+                      label="Weight Watchers diet"
+                    >
+                      Weight Watchers diet
+                    </option>
+                    <option value="South Beach diet" label="South Beach diet">
+                      South Beach diet
+                    </option>
+                    <option value="Raw food diet" label="Raw food diet">
+                      Raw food diet
+                    </option>
+                    <option
+                      value="Mediterranean diet"
+                      label="Mediterranean diet"
+                    >
+                      Mediterranean diet
+                    </option>
+                    <option value="Other" label="Other">
+                      Other
+                    </option>
+                  </select>
+                  {values.diet === "Other" ? (
+                    <input
+                      className="register_field"
+                      type="text"
+                      name="diet"
+                      id="diet"
+                      // onChange={handleChange}
+                      onBlur={handleBlur}
+                      placeholder="please enter your diet type"
+                      // value={values.diet}
+                    />
+                  ) : (
+                    <div></div>
+                  )}
                   {errors.diet && touched.diet && errors.diet}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="body_type">Body Type</label>
-                  <input
-                    className="register_field"
-                    type="text"
-                    name="body_type"
-                    id="body_type"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.body_type}
-                  />
+                  {values.looking_for === "Bride" ? (
+                    <select
+                      className="register_field"
+                      // type="text"
+                      name="body_type"
+                      id="body_type"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.body_type}
+                    >
+                      <option value="" label="please select">
+                        please select{" "}
+                      </option>
+                      <option value="Ectomorph" label="Ectomorph">
+                        {" "}
+                        Ectomorph
+                      </option>
+                      <option value="Endomorph" label="Endomorph">
+                        Endomorph
+                      </option>
+                      <option value="Mesomorph" label="Mesomorph">
+                        Mesomorph
+                      </option>
+                    </select>
+                  ) : (
+                    <select
+                      className="register_field"
+                      // type="text"
+                      name="body_type"
+                      id="body_type"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.body_type}
+                    >
+                      <option value="" label="please select">
+                        please select{" "}
+                      </option>
+                      <option value="Triangle" label="Triangle">
+                        {" "}
+                        Triangle
+                      </option>
+                      <option
+                        value="Inverted triangle"
+                        label="Inverted triangle"
+                      >
+                        Inverted triangle
+                      </option>
+                      <option value="Rectangle" label="Rectangle">
+                        Rectangle
+                      </option>
+                      <option value="Hourglass" label="Hourglass">
+                        Hourglass
+                      </option>
+                      <option value="Oval" label="Oval">
+                        Oval
+                      </option>
+                    </select>
+                  )}
                   {errors.body_type && touched.body_type && errors.body_type}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="complexion">Complexion</label>
-                  <input
+                  <select
                     className="register_field"
-                    type="text"
+                    // type="text"
                     name="complexion"
                     id="complexion"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.complexion}
-                  />
+                    // style={{ display: "block" }}
+                  >
+                    <option value="" label="please select">
+                      please select{" "}
+                    </option>
+                    <option value="Very Fair" label="Very Fair">
+                      {" "}
+                      Very Fair
+                    </option>
+                    <option value="Fair" label="Fair">
+                      Fair
+                    </option>
+                    <option value="Medium" label="Medium">
+                      Medium
+                    </option>
+                    <option value="Olive" label="Olive">
+                      Olive
+                    </option>
+                    <option value="Brown" label="Brown">
+                      Brown
+                    </option>
+                    <option value="Black" label="Black">
+                      Black
+                    </option>
+                  </select>
                   {errors.complexion && touched.complexion && errors.complexion}
+                </div>
+              </div>
+            </div>
+
+            <div className="matrimony_register_personal_details">
+              <div
+                className="matrimony_register_form_title"
+                id="contact-details"
+              >
+                Verify Phone Number
+              </div>
+              <div className="matrimony_register_align_form">
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="phonenumber">phone number</label>
+                  <input
+                    className="register_field"
+                    type="text"
+                    name="phonenumber"
+                    id="phonenumber"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                  />
+                  {errors.password && touched.password && errors.password}
+                </div>
+
+                <button className="matrimony_register_button" type="submit">
+                  Get OTP
+                </button>
+              </div>
+            </div>
+
+            <div className="matrimony_register_personal_details">
+              <div
+                className="matrimony_register_form_title"
+                id="contact-details"
+              >
+                Set Password
+              </div>
+              <div className="matrimony_register_align_form">
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    className="register_field"
+                    type="text"
+                    name="password"
+                    id="password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                  />
+                  {errors.password && touched.password && errors.password}
+                </div>
+
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="confirm_password">Confirm Password</label>
+                  <input
+                    className="register_field"
+                    type="password"
+                    name="confirm_password"
+                    id="confirm_password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.confirm_password}
+                  />
+                  {errors.password && touched.password && errors.password}
                 </div>
               </div>
             </div>
@@ -1412,37 +1693,104 @@ function Register() {
               >
                 Images & Horoscope
               </div>
-              <div className="matrimony_register_align_form">
-                <label htmlFor="Name">Profile</label>
-                <input
-                  className="matrimony_register_button"
-                  type="file"
-                  name="profile"
-                  id="profile"
-                  onChange={(event) =>
-                    setFieldValue("profile", event.currentTarget.files[0])
-                  }
-                  onBlur={handleBlur}
-                  // value={values.profile}
-                />
-                {errors.profile && touched.profile && errors.profile}
-                {/* <button className="matrimony_register_button" type="submit">
+
+              <div className="matrimony_register_upload_button_container">
+                <div className="matrimony_register_align_form">
+                  <div className="matrimony_register_label_input_upload_button">
+                    {profile !== undefined ? (
+                      <img className="preview" src={profile} alt="" />
+                    ) : (
+                      <div></div>
+                    )}
+                    <label
+                      className="matrimony_register_button"
+                      htmlFor="profile"
+                    >
+                      Upload Profile
+                    </label>
+                    <input
+                      className="matrimony_register_button_upload"
+                      type="file"
+                      name="profile"
+                      id="profile"
+                      onChange={(event) => {
+                        setFieldValue("profile", event.currentTarget.files[0]);
+                        setProfile(
+                          URL.createObjectURL(event.currentTarget.files[0])
+                        );
+                      }}
+                      onBlur={handleBlur}
+                      // value={values.profile}
+                    />
+                    {errors.profile && touched.profile && errors.profile}
+                  </div>
+                  {/* <button className="matrimony_register_button" type="submit">
                   Upload Profile
                 </button> */}
-                <div className="matrimony_register_align_form">
-                  <label htmlFor="Name">horoscope</label>
-                  <input
-                    className="matrimony_register_button"
-                    type="file"
-                    name="horoscope"
-                    id="horoscope"
-                    onChange={(event) =>
-                      setFieldValue("horoscope", event.currentTarget.files[0])
-                    }
-                    onBlur={handleBlur}
-                    // value={values.profile}
-                  />
-                  {errors.horoscope && touched.horoscope && errors.horoscope}
+                  <div className="matrimony_register_align_form">
+                    <div className="matrimony_register_label_input_upload_button">
+                      {photos !== undefined ? (
+                        <div>{photos} photos selected</div>
+                      ) : (
+                        <div></div>
+                      )}
+                      <label
+                        className="matrimony_register_button"
+                        htmlFor="photos"
+                      >
+                        Add Photos
+                      </label>
+                      <input
+                        className="matrimony_register_button_upload"
+                        type="file"
+                        name="photos"
+                        id="photos"
+                        onChange={(event) => {
+                          setFieldValue("profile", event.currentTarget.files);
+                          setPhotos(event.currentTarget.files.length);
+                        }}
+                        onBlur={handleBlur}
+                        // value={values.profile}
+                        multiple
+                      />
+                      {errors.profile && touched.profile && errors.profile}
+                    </div>
+                  </div>
+                  <div className="matrimony_register_align_form">
+                    <div className="matrimony_register_label_input_upload_button">
+                      {heroscope !== undefined ? (
+                        <img className="preview" src={heroscope} alt="" />
+                      ) : (
+                        <div></div>
+                      )}
+                      <label
+                        className="matrimony_register_button"
+                        htmlFor="horoscope"
+                      >
+                        upload horoscope
+                      </label>
+                      <input
+                        className="matrimony_register_button_upload"
+                        type="file"
+                        name="horoscope"
+                        id="horoscope"
+                        onChange={(event) => {
+                          setFieldValue(
+                            "horoscope",
+                            event.currentTarget.files[0]
+                          );
+                          setHeroscope(
+                            URL.createObjectURL(event.currentTarget.files[0])
+                          );
+                        }}
+                        onBlur={handleBlur}
+                        // value={values.profile}
+                      />
+                      {errors.horoscope &&
+                        touched.horoscope &&
+                        errors.horoscope}
+                    </div>
+                  </div>
                 </div>
                 {/* <button className="matrimony_register_button" type="submit">
                   Upload horoscope

@@ -217,7 +217,7 @@
   color: inherit;
 }
 
-.about_matrimony_main_container{
+.terms_matrimony_main_container{
   height: 100vh;
   width: 100vw;
   display: flex;
@@ -225,7 +225,7 @@
   justify-content: center;
 }
 
-.about_matrimony_title{
+.terms_matrimony_title{
   color: black;
   font-family: "Poppins";
   font-style: normal;

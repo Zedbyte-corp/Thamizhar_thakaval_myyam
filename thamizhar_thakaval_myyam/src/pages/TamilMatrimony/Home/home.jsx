@@ -8,8 +8,10 @@ import empty from "../../../Assets/TamilMatrimony/home/empty_page.png";
 import { getAllUsersApiResponse } from "../../../networkcall.service";
 import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
-import MultiRangeSlider from "../../../components/TamilMatrimony/MultiRangeSlider/multiRangeSlider";
-// import ViewPopup from "../../../components/TamilMatrimony/popups/view.popup";
+// import MultiRangeSlider from "../../../components/TamilMatrimony/MultiRangeSlider/multiRangeSlider";
+import ViewPopup from "../../../components/TamilMatrimony/popups/view.popup";
+import Slider from "@mui/material/Slider";
+import Box from '@mui/material/Box';
 
 // import { useSelector } from "react-redux";
 
@@ -18,7 +20,20 @@ function Home() {
 
   const [list, setList] = useState([]);
   const [isempty, setIsempty] = useState(true);
+  const [age, setAge] = useState([0, 100]);
+  const [height, setHeight] = useState([0, 7]);
   // const [viewPopup, setViewPopup] = useState(false);
+
+
+  const handleChangeAgeSlider = (event, newValue) => {
+    setAge(newValue);
+    console.log("age",newValue);
+  };
+
+  const handleChangeHeightSlider = (event, newValue) => {
+    setHeight(newValue);
+    console.log("height",newValue);
+  };
 
   async function checkvalue(values) {
     var a = {
@@ -162,7 +177,7 @@ function Home() {
               className="matrimony_home_filter_from_container"
             >
               <div className="matrimony_register_label_input">
-                <label htmlFor="Age">AGE</label>
+                {/* <label htmlFor="Age">AGE</label>
                 <MultiRangeSlider
                   min={18}
                   max={100}
@@ -170,10 +185,32 @@ function Home() {
                     values.min_age = min;
                     values.max_age = max;
                   }}
-                />
+                /> */}
+                <Box sx={{ width: 250 }}>
+                  AGE
+                <Slider
+                  getAriaLabel={() => "Age Range"}
+                  value={age}
+                  onChange={handleChangeAgeSlider}
+                  valueLabelDisplay="auto"
+                  disableSwap
+                  // getAriaValueText={valuetext}
+                  />
+                  </Box>
               </div>
               <div className="matrimony_register_label_input">
-                <label htmlFor="Height">Height</label>
+              <Box sx={{ width: 250 }}>
+                  HEIGHT
+                <Slider
+                  getAriaLabel={() => "Height Range"}
+                  value={height}
+                  onChange={handleChangeHeightSlider}
+                  valueLabelDisplay="auto"
+                  disableSwap
+                  // getAriaValueText={valuetext}
+                  />
+                  </Box>
+                {/* <label htmlFor="Height">Height</label>
 
                 <select
                   className="register_field"
@@ -202,7 +239,7 @@ function Home() {
                   <option value="7-10" label="greater than 7 ft">
                     greater than 7 ft
                   </option>
-                </select>
+                </select> */}
               </div>
 
               <div className="matrimony_register_label_input">
@@ -341,7 +378,7 @@ function Home() {
           ) : (
             <div className="matrimony_list_container">{userarray}</div>
           )}
-          {/* <ViewPopup /> */}
+          <ViewPopup />
         </div>
       </div>
 

@@ -12,12 +12,13 @@ function DetailCardMatrimony({user_id, name, age, height, religion, caste, profi
   // const dispatch = useDispatch();
 
   const onclickView = () => {
-    Store.dispatch(setViewPopup(true))
+    // Store.dispatch(setViewPopup(true))
     navigate('/Matrimony/details', { state: { id: user_id } });
   }
-
+  
   const onclickverify = () => {
-    alert("payment mode under construction")
+    document.getElementById("view_popup").style.display="flex";
+    // alert("payment mode under construction")
   }
 
   // design started here

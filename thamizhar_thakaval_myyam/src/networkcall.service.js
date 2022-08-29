@@ -1,3 +1,4 @@
+// const baseurl = "http://127.0.0.1:5000/user";
 const baseurl = "http://3.111.40.230:5000/user";
 
 // login API CALL
@@ -72,7 +73,7 @@ export const getAllUsersApiResponse = async (values) => {
         case "1":
           return "hindu";
         case "2":
-          return "Islam";
+          return "Muslim";
         case "3":
           return "Sikhism";
         case "4":
@@ -189,3 +190,11 @@ export const getUserDetailsApiResponse = async (user_id) => {
     alert(error);
   }
 };
+
+// module.exports = {
+//   getLoginApiResponse,
+//   getAllUsersApiResponse,
+//   getRegisterApiResponse,
+//   getUserDetailsApiResponse
+// };
+

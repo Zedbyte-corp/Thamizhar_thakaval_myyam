@@ -6,6 +6,7 @@ import Register from '../pages/TamilMatrimony/Register/register';
 import Details from '../pages/TamilMatrimony/Details/details';
 import EditDetails from '../pages/TamilMatrimony/EditDetails/edit_details';
 import About from "../pages/TamilMatrimony/About/about"
+import Mission from "../pages/TamilMatrimony/MissionVision/mission"
 import Terms from "../pages/TamilMatrimony/Terms/terms"
 
 function LoginRoutes() {
@@ -26,6 +27,8 @@ function LoginRoutes() {
                     element={<EditDetails/>} />
                 <Route path="/Matrimony/about" exact
                     element={<About/>} />
+                <Route path="/Matrimony/vision_and_mission" exact
+                    element={<Mission/>} />
                 <Route path="/Matrimony/terms" exact
                     element={<Terms/>} />
             </Routes>

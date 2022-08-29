@@ -1,6 +1,6 @@
 import "./details.css";
 import HeaderMatrimony from "../../../components/TamilMatrimony/Header/header.matrimony";
-import bride from "../../../Assets/TamilMatrimony/home/bride.jpeg";
+// import bride from "../../../Assets/TamilMatrimony/home/bride.jpeg";
 import { useNavigate, useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { getUserDetailsApiResponse } from "../../../networkcall.service";
@@ -304,7 +304,7 @@ function Details() {
                 </div>
 
                 <div className="matrimony_details_warp">
-                  <div className="matrimony_detail_field_title">Profession</div>
+                  <div className="matrimony_detail_field_title">Designation</div>
                   <div className="matrimony_detail_field_value">
                     {list.profession}
                   </div>
