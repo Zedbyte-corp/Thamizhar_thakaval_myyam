@@ -3,10 +3,14 @@ import HeaderMatrimony from "../../../components/TamilMatrimony/Header/header.ma
 import wedding_bg from "../../../Assets/TamilMatrimony/register/wedding_bg.png";
 import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-import { getRegisterApiResponse } from "../../../networkcall.service";
+import {
+  getRegisterApiResponse,
+  sendOTPApiResponse,
+} from "../../../networkcall.service";
 import * as Yup from "yup";
 import { HashLink } from "react-router-hash-link";
 import { useState } from "react";
+import { verifyOTPApiResponse } from "./../../../networkcall.service";
 
 function Register() {
   // let [othersFlag, setOthersFlag] = useState(false);
@@ -15,6 +19,9 @@ function Register() {
   let [profile, setProfile] = useState();
   let [heroscope, setHeroscope] = useState();
   let [photos, setPhotos] = useState();
+  let [requestedOTP, setRequestedOTP] = useState(false);
+  let [verifiedOTP, setVerifiedOTP] = useState(false);
+
   let minSibCount = 0;
   let maxSibCount = 3;
   let incNum = () => {
@@ -123,6 +130,11 @@ function Register() {
         /^(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)?$/,
         "Phone number is not valid"
       )
+      .required("Required"),
+    otp: Yup.number()
+      .positive()
+      .integer()
+      .test("len", "Must be exactly 6 characters", (val) => val.length === 6)
       .required("Required"),
     pin_code: Yup.number()
       .positive()
@@ -277,6 +289,7 @@ function Register() {
       other_info: "",
       expectation: "",
       phone_no: "",
+      otp: "",
       pin_code: "",
       password: "",
       confirm_password: "",
@@ -1629,22 +1642,70 @@ function Register() {
               </div>
               <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="phonenumber">phone number</label>
+                  <label htmlFor="phone_no">Phone No</label>
                   <input
                     className="register_field"
                     type="text"
-                    name="phonenumber"
-                    id="phonenumber"
+                    name="phone_no"
+                    id="phone_no"
                     onChange={handleChange}
+                    onInput={() => {
+                      if (requestedOTP === true || verifiedOTP === true) {
+                        setRequestedOTP(false);
+                        setVerifiedOTP(false);
+                      } else {
+                        return null;
+                      }
+                    }}
                     onBlur={handleBlur}
-                    value={values.password}
+                    value={values.phone_no}
                   />
-                  {errors.password && touched.password && errors.password}
+                  {errors.phone_no && touched.phone_no && errors.phone_no}
                 </div>
+                {requestedOTP === true ? (
+                  <div className="matrimony_register_label_input">
+                    <label htmlFor="otp">OTP</label>
+                    <input
+                      className="register_field"
+                      type="text"
+                      name="otp"
+                      id="otp"
+                      onBlur={handleBlur}
+                      value={values.otp}
+                    />
+                    {errors.otp && touched.otp && errors.otp}
+                  </div>
+                ) : (
+                  <div></div>
+                )}
 
-                <button className="matrimony_register_button" type="submit">
-                  Get OTP
+                <button
+                  className="matrimony_register_button"
+                  onClick={() => {
+                    setRequestedOTP(true);
+                    sendOTPApiResponse({ phone: values.phone_no });
+                  }}
+                >
+                  {requestedOTP === true ? "retry" : "Get OTP"}
                 </button>
+                {requestedOTP === true ? (
+                  <button
+                    className="matrimony_register_button"
+                    onClick={() => {
+                      var response = verifyOTPApiResponse({
+                        phone: values.phone_no,
+                        otp: values.otp,
+                      });
+                      if (response.status === 200) {
+                        setVerifiedOTP(true);
+                      }
+                    }}
+                  >
+                    Verify OTP
+                  </button>
+                ) : (
+                  <div></div>
+                )}
               </div>
             </div>
 

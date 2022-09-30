@@ -1,11 +1,12 @@
 // const baseurl = "http://127.0.0.1:5000/user";
-const baseurl = "http://3.111.40.230:5000/user";
+import { randomAlphanumericGenerator } from "./helper/utils";
+const baseurl = "http://3.111.40.230:5000";
 
 // login API CALL
 export const getLoginApiResponse = async (values) => {
   try {
     console.log("inside document api", values);
-    let url = `${baseurl}/login`;
+    let url = `${baseurl}/user/login`;
     const requestOptions = {
       method: "POST",
       headers: {
@@ -31,7 +32,7 @@ export const getLoginApiResponse = async (values) => {
 export const getAllUsersApiResponse = async (values) => {
   try {
     console.log("inside document api", values);
-    let url = `${baseurl}/listusers`;
+    let url = `${baseurl}/user/listusers`;
     const requestOptions = {
       method: "POST",
       headers: {
@@ -102,7 +103,7 @@ export const getAllUsersApiResponse = async (values) => {
 export const getRegisterApiResponse = async (values) => {
   try {
     console.log("inside document api", values);
-    let url = `${baseurl}/create`;
+    let url = `${baseurl}/user/create`;
     const requestOptions = {
       method: "POST",
       headers: {
@@ -170,15 +171,89 @@ export const getRegisterApiResponse = async (values) => {
 export const getUserDetailsApiResponse = async (user_id) => {
   try {
     console.log("inside document api", user_id);
-    let url = `${baseurl}/details`;
+    let url = `${baseurl}/user/details`;
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: JSON.stringify({
+        userId: user_id,
+      }),
+    };
+    let response = await fetch(url, requestOptions);
+    console.log("url=>", url);
+    let responseJson = await response.json();
+    console.log("from network =>", responseJson);
+    return responseJson;
+  } catch (error) {
+    alert(error);
+  }
+};
+
+// Initiate Payment Api
+export const initiatePaymentApiResponse = async (value) => {
+  try {
+    let url = `${baseurl}/pay/initiatePayment`;
     const requestOptions = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        //   Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        userId: user_id,
+        userId: sessionStorage.getItem("user_id"),
+        amount: value.amount * 100,
+        mateUserId: value.mateUserId,
+        name: value.name,
+        phone: value.phone,
+        currency: "INR",
+        // email: value.email,
+      }),
+    };
+    let response = await fetch(url, requestOptions);
+    console.log("url=>", url);
+    let responseJson = await response.json();
+    console.log("from network =>", responseJson);
+    return responseJson;
+  } catch (error) {
+    alert(error);
+  }
+};
+
+//send otp
+export const sendOTPApiResponse = async (value) => {
+  try {
+    let url = `${baseurl}/otp/sendOTP`;
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        number: value.phone,
+      }),
+    };
+    let response = await fetch(url, requestOptions);
+    console.log("url=>", url);
+    let responseJson = await response.json();
+    console.log("from network =>", responseJson);
+    return responseJson;
+  } catch (error) {
+    alert(error);
+  }
+};
+//verify otp
+export const verifyOTPApiResponse = async (value) => {
+  try {
+    let url = `${baseurl}/otp/verifyOTP`;
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        number: value.phone,
+        otp: value.otp,
       }),
     };
     let response = await fetch(url, requestOptions);
@@ -197,4 +272,3 @@ export const getUserDetailsApiResponse = async (user_id) => {
 //   getRegisterApiResponse,
 //   getUserDetailsApiResponse
 // };
-
