@@ -8,3 +8,17 @@ export function randomAlphanumericGenerator(length) {
   }
   return result;
 }
+
+export function loadScript(src, tagname) {
+  return new Promise((resolve) => {
+    const script = document.createElement(tagname);
+    script.src = src;
+    script.onload = () => {
+      resolve(true);
+    };
+    script.onerror = () => {
+      resolve(false);
+    };
+    document.body.appendChild(script);
+  });
+}

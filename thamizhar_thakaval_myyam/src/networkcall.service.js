@@ -1,6 +1,7 @@
 // const baseurl = "http://127.0.0.1:5000/user";
 import { randomAlphanumericGenerator } from "./helper/utils";
-const baseurl = "http://3.111.40.230:5000";
+// const baseurl = "http://3.111.40.230:5000";
+const baseurl = "http://localhost:5000";
 
 // login API CALL
 export const getLoginApiResponse = async (values) => {
@@ -201,7 +202,7 @@ export const initiatePaymentApiResponse = async (value) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        userId: sessionStorage.getItem("user_id"),
+        userId: "123",
         amount: value.amount * 100,
         mateUserId: value.mateUserId,
         name: value.name,
@@ -209,6 +210,26 @@ export const initiatePaymentApiResponse = async (value) => {
         currency: "INR",
         // email: value.email,
       }),
+    };
+    let response = await fetch(url, requestOptions);
+    console.log("url=>", url);
+    let responseJson = await response.json();
+    console.log("from network =>", responseJson);
+    return responseJson;
+  } catch (error) {
+    alert(error);
+  }
+};
+
+export const verifyPaymentApiResponse = async (value) => {
+  try {
+    let url = `${baseurl}/pay/validatePayment`;
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(value),
     };
     let response = await fetch(url, requestOptions);
     console.log("url=>", url);
