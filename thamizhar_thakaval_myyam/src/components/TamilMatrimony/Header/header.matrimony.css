@@ -28,6 +28,12 @@
   cursor: pointer;
 }
 
+.profile_image_matrimony {
+  width: 2vw;
+  margin: 15px;
+  cursor: pointer;
+}
+
 .dropbtn {
   /* background-color: #04AA6D; */
   color: white;

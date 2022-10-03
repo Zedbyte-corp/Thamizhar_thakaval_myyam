@@ -218,11 +218,12 @@
 }
 
 .terms_matrimony_main_container{
-  height: 100vh;
+  height: auto;
   width: 100vw;
   display: flex;
-  /* align-items: center; */
-  justify-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
 }
 
 .terms_matrimony_title{
@@ -235,6 +236,19 @@
   text-decoration: none;
   color: inherit;
   padding-top: 15px;
+}
+
+.terms_matrimony_content{
+  color: black;
+  font-family: "Poppins";
+  font-style: normal;
+  font-size: 18px;
+  text-decoration: none;
+  color: inherit;
+  padding-top: 15px;
+  text-align: justify;
+  width: 80%;
+
 }
 
 @media only screen and (max-device-width: 768px) {
