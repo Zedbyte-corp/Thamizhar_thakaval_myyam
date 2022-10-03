@@ -177,13 +177,6 @@
   justify-content: center;
 }
 
-.matrimony_register_label_input_upload_button {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
 .matrimony_register_button {
   height: 6%;
   width: fit-content;
@@ -199,29 +192,8 @@
   cursor: pointer;
   border: 0;
 }
-.matrimony_register_align_form_upload_buttons {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  width: 80%;
-}
-.matrimony_register_button_upload {
-  visibility: hidden;
-}
 
-.preview {
-  height: 10vh;
-  width: 10vw;
-}
-
-.matrimony_register_upload_button_container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.matrimony_register_page_terms {
+.matrimony_register_page_pay {
   font-size: 12px;
   text-align: center;
 }
@@ -243,6 +215,26 @@
   line-height: 27px;
   text-decoration: none;
   color: inherit;
+}
+
+.pay_matrimony_main_container{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+}
+
+.pay_matrimony_title{
+  color: black;
+  font-family: "Poppins";
+  font-style: normal;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 27px;
+  text-decoration: none;
+  color: inherit;
+  padding-top: 15px;
 }
 
 @media only screen and (max-device-width: 768px) {
@@ -268,11 +260,8 @@
   .matrimony_register_personal_details {
     width: 90%;
   }
-  .matrimony_register_page_terms {
+  .matrimony_register_page_pay {
     font-size: 12px;
     text-align: center;
-  }
-  .preview {
-    width: 30vw;
   }
 }
