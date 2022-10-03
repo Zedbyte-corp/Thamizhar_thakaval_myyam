@@ -9,8 +9,34 @@ import {
 } from "../../../networkcall.service";
 import * as Yup from "yup";
 import { HashLink } from "react-router-hash-link";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { verifyOTPApiResponse } from "./../../../networkcall.service";
+import { firebase, auth } from "../../Authentication/firebase";
+
+const STATUS = {
+  STARTED: "Started",
+  STOPPED: "Stopped",
+};
+
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
 
 function Register() {
   // let [othersFlag, setOthersFlag] = useState(false);
@@ -21,6 +47,25 @@ function Register() {
   let [photos, setPhotos] = useState();
   let [requestedOTP, setRequestedOTP] = useState(false);
   let [verifiedOTP, setVerifiedOTP] = useState(false);
+  const [final, setfinal] = useState("");
+
+  //Timer
+  const [secondsRemaining, setSecondsRemaining] = useState(0);
+  const [status, setStatus] = useState(STATUS.STOPPED);
+  const secondsToDisplay = secondsRemaining % 60;
+  const minutesRemaining = (secondsRemaining - secondsToDisplay) / 60;
+  const minutesToDisplay = minutesRemaining % 60;
+
+  useInterval(
+    () => {
+      if (secondsRemaining > 0) {
+        setSecondsRemaining(secondsRemaining - 1);
+      } else {
+        setStatus(STATUS.STOPPED);
+      }
+    },
+    status === STATUS.STARTED ? 1000 : null
+  );
 
   let minSibCount = 0;
   let maxSibCount = 3;
@@ -36,17 +81,21 @@ function Register() {
   };
 
   async function checkvalue(values) {
-    if (values.password === values.confirm_password) {
-      values.number_of_sibiling = num.toString();
-      console.log("checkValue", values);
-      let response = await getRegisterApiResponse(values);
-      if (response.status === "success") {
-        navigate("/Matrimony/home");
+    if (verifiedOTP === true) {
+      if (values.password === values.confirm_password) {
+        values.number_of_sibiling = num.toString();
+        console.log("checkValue", values);
+        let response = await getRegisterApiResponse(values);
+        if (response.status === "success") {
+          navigate("/Matrimony/home");
+        } else {
+          alert("Please Fill all the required fields");
+        }
       } else {
-        alert("Please Fill all the required fields");
+        alert("password and confirm password are not same");
       }
     } else {
-      alert("password and confirm password are not same");
+      alert("Please verify the phone number first");
     }
   }
 
@@ -1679,11 +1728,41 @@ function Register() {
                   <div></div>
                 )}
 
+                {requestedOTP === true ? (
+                  <div style={{ padding: 20 }}>
+                    {String(minutesToDisplay).padStart(2, "0")}:
+                    {String(secondsToDisplay).padStart(2, "0")}
+                  </div>
+                ) : (
+                  <div></div>
+                )}
+
                 <button
                   className="matrimony_register_button"
-                  onClick={() => {
-                    setRequestedOTP(true);
-                    sendOTPApiResponse({ phone: values.phone_no });
+                  onClick={async () => {
+                    setStatus(STATUS.STARTED);
+                    setSecondsRemaining(60);
+                    // sendOTPApiResponse({ phone: values.phone_no });
+                    window.recaptchaVerifier = new RecaptchaVerifier(
+                      "recaptcha-container",
+                      {},
+                      auth
+                    );
+                    const appVerifier = window.recaptchaVerifier;
+                    return await signInWithPhoneNumber(
+                      auth,
+                      values.phone_no,
+                      appVerifier
+                    )
+                      .then((result) => {
+                        setfinal(result);
+                        alert("code sent");
+                        setRequestedOTP(true);
+                      })
+                      .catch((err) => {
+                        alert(err);
+                        // window.location.reload();
+                      });
                   }}
                 >
                   {requestedOTP === true ? "retry" : "Get OTP"}
@@ -1692,13 +1771,24 @@ function Register() {
                   <button
                     className="matrimony_register_button"
                     onClick={() => {
-                      var response = verifyOTPApiResponse({
-                        phone: values.phone_no,
-                        otp: values.otp,
-                      });
-                      if (response.status === 200) {
-                        setVerifiedOTP(true);
-                      }
+                      if (values.otp === null || final === null) return;
+                      final
+                        .confirm(values.otp)
+                        .then((result) => {
+                          setVerifiedOTP(true);
+                          setStatus(STATUS.STOPPED);
+                          setSecondsRemaining(0);
+                        })
+                        .catch((err) => {
+                          alert("Wrong code");
+                        });
+                      // var response = verifyOTPApiResponse({
+                      //   phone: values.phone_no,
+                      //   otp: values.otp,
+                      // });
+                      // if (response.status === 200) {
+                      //   setVerifiedOTP(true);
+                      // }
                     }}
                   >
                     Verify OTP
