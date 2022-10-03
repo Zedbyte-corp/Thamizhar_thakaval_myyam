@@ -101,8 +101,8 @@ function Home() {
       // userId: sessionStorage.getItem("user_id"),
       min_age: "18",
       max_age: "100",
-      min_height: "",
-      max_height: "",
+      min_height: "0",
+      max_height: "10",
       min_weight: "",
       max_weight: "",
       height: "",
@@ -177,8 +177,8 @@ function Home() {
               className="matrimony_home_filter_from_container"
             >
               <div className="matrimony_register_label_input">
-                {/* <label htmlFor="Age">AGE</label>
-                <MultiRangeSlider
+                {/* <label htmlFor="Age">AGE</label> */}
+                {/* <MultiRangeSlider
                   min={18}
                   max={100}
                   onChange={({ min, max }) => {
@@ -186,7 +186,7 @@ function Home() {
                     values.max_age = max;
                   }}
                 /> */}
-                <Box sx={{ width: 250 }}>
+                {/* <Box sx={{ width: 250 }}>
                   AGE
                 <Slider
                   getAriaLabel={() => "Age Range"}
@@ -196,10 +196,10 @@ function Home() {
                   disableSwap
                   // getAriaValueText={valuetext}
                   />
-                  </Box>
+                  </Box> */}
               </div>
               <div className="matrimony_register_label_input">
-              <Box sx={{ width: 250 }}>
+              {/* <Box sx={{ width: 250 }}>
                   HEIGHT
                 <Slider
                   getAriaLabel={() => "Height Range"}
@@ -209,8 +209,8 @@ function Home() {
                   disableSwap
                   // getAriaValueText={valuetext}
                   />
-                  </Box>
-                {/* <label htmlFor="Height">Height</label>
+                  </Box> */}
+                <label htmlFor="Height">Height</label>
 
                 <select
                   className="register_field"
@@ -220,11 +220,10 @@ function Home() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 >
-                  <option value="" label="please select">
-                    please select{" "}
+                  <option value="0-10" label="no preference">
+                    no preference
                   </option>
                   <option value="0-4" label="less than 4 ft">
-                    {" "}
                     less than 4 Ft
                   </option>
                   <option value="4-5" label="4 ft - 5 ft">
@@ -239,7 +238,7 @@ function Home() {
                   <option value="7-10" label="greater than 7 ft">
                     greater than 7 ft
                   </option>
-                </select> */}
+                </select>
               </div>
 
               <div className="matrimony_register_label_input">
@@ -312,7 +311,7 @@ function Home() {
                 </select>
               </div>
 
-              <div className="matrimony_register_label_input">
+              {/* <div className="matrimony_register_label_input">
                 <label htmlFor="Caste">Caste</label>
                 <input
                   className="register_field"
@@ -323,7 +322,7 @@ function Home() {
                   onBlur={handleBlur}
                   value={values.caste}
                 />
-              </div>
+              </div> */}
 
               <div className="matrimony_register_label_input">
                 <label htmlFor="MaritialStatus">Martial Status</label>
@@ -335,11 +334,7 @@ function Home() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 >
-                  <option value="" label="please select">
-                    please select{" "}
-                  </option>
                   <option value="1" label="Not Married">
-                    {" "}
                     Not Married
                   </option>
                   <option value="2" label="Divorced">

@@ -15,6 +15,7 @@ function Register() {
   let [profile, setProfile] = useState();
   let [heroscope, setHeroscope] = useState();
   let [photos, setPhotos] = useState();
+  const [verifyField, setVerifyField] = useState(false);
   let minSibCount = 0;
   let maxSibCount = 3;
   let incNum = () => {
@@ -27,6 +28,18 @@ function Register() {
       setNum(num - 1);
     }
   };
+
+
+  const getOTP = () => {
+    if (values.phone_no.length <= 9) {
+      alert("check the phone number")
+    }
+    if (values.phone_no.length === 10) {
+      alert("please wait")
+      setVerifyField(true)
+
+    }
+  }
 
   async function checkvalue(values) {
     if (values.password === values.confirm_password) {
@@ -42,6 +55,8 @@ function Register() {
       alert("password and confirm password are not same");
     }
   }
+
+
 
   const SignupSchema = Yup.object().shape({
     name: Yup.string()
@@ -303,6 +318,7 @@ function Register() {
 
   console.log(values);
 
+
   // design started here
   return (
     <section className="register_main">
@@ -542,7 +558,7 @@ function Register() {
                     value={values.looking_for}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    // style={{ display: "block" }}
+                  // style={{ display: "block" }}
                   >
                     {/* <option value="" label="please select">
                       please select{" "}
@@ -722,7 +738,7 @@ function Register() {
                         id="first_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -788,7 +804,7 @@ function Register() {
                         id="first_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -851,7 +867,7 @@ function Register() {
                         id="second_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -917,7 +933,7 @@ function Register() {
                         id="first_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -980,7 +996,7 @@ function Register() {
                         id="second_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -1043,7 +1059,7 @@ function Register() {
                         id="third_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -1129,80 +1145,7 @@ function Register() {
               </div>
             </div>
 
-            <div className="matrimony_register_personal_details">
-              <div
-                className="matrimony_register_form_title"
-                id="contact-details"
-              >
-                Contact Details
-              </div>
-              <div className="matrimony_register_align_form">
-                <div className="matrimony_register_label_input">
-                  <label htmlFor="phone_no">Phone No</label>
-                  <input
-                    className="register_field"
-                    type="text"
-                    name="phone_no"
-                    id="phone_no"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.phone_no}
-                  />
-                  {errors.phone_no && touched.phone_no && errors.phone_no}
-                </div>
-                <div className="matrimony_register_label_input">
-                  <label htmlFor="pin_code">Pin Code</label>
-                  <input
-                    className="register_field"
-                    type="text"
-                    name="pin_code"
-                    id="pin_code"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.pin_code}
-                  />
-                  {errors.pin_code && touched.pin_code && errors.pin_code}
-                </div>
-                <div className="matrimony_register_label_input">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    className="register_field"
-                    type="text"
-                    name="email"
-                    id="email"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.email}
-                  />
-                  {errors.password && touched.password && errors.password}
-                </div>
-                <div className="matrimony_register_label_input">
-                  <label htmlFor="city">City</label>
-                  <input
-                    className="register_field"
-                    type="text"
-                    name="city"
-                    id="city"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.city}
-                  />
-                  {errors.city && touched.city && errors.city}
-                </div>
-                <div className="matrimony_register_label_input">
-                  <label htmlFor="address">Address</label>
-                  <textarea
-                    className="register_field_area"
-                    name="address"
-                    id="address"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.address}
-                  />
-                  {errors.address && touched.address && errors.address}
-                </div>
-              </div>
-            </div>
+
 
             <div className="matrimony_register_personal_details">
               <div
@@ -1432,7 +1375,7 @@ function Register() {
                       placeholder="please enter the disorder"
                       // onChange={handleChange}
                       onBlur={handleBlur}
-                      // value={values.physical_status}
+                    // value={values.physical_status}
                     />
                   ) : (
                     <div></div>
@@ -1511,7 +1454,7 @@ function Register() {
                       // onChange={handleChange}
                       onBlur={handleBlur}
                       placeholder="please enter your diet type"
-                      // value={values.diet}
+                    // value={values.diet}
                     />
                   ) : (
                     <div></div>
@@ -1590,7 +1533,7 @@ function Register() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.complexion}
-                    // style={{ display: "block" }}
+                  // style={{ display: "block" }}
                   >
                     <option value="" label="please select">
                       please select{" "}
@@ -1625,26 +1568,127 @@ function Register() {
                 className="matrimony_register_form_title"
                 id="contact-details"
               >
+                Contact Details
+              </div>
+              <div className="matrimony_register_align_form">
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="phone_no">Phone No</label>
+                  <input
+                    className="register_field"
+                    type="text"
+                    name="phone_no"
+                    id="phone_no"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.phone_no}
+                  />
+                  {errors.phone_no && touched.phone_no && errors.phone_no}
+                </div>
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="pin_code">Pin Code</label>
+                  <input
+                    className="register_field"
+                    type="text"
+                    name="pin_code"
+                    id="pin_code"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.pin_code}
+                  />
+                  {errors.pin_code && touched.pin_code && errors.pin_code}
+                </div>
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    className="register_field"
+                    type="text"
+                    name="email"
+                    id="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                  />
+                  {errors.password && touched.password && errors.password}
+                </div>
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="city">City</label>
+                  <input
+                    className="register_field"
+                    type="text"
+                    name="city"
+                    id="city"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.city}
+                  />
+                  {errors.city && touched.city && errors.city}
+                </div>
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="address">Address</label>
+                  <textarea
+                    className="register_field_area"
+                    name="address"
+                    id="address"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.address}
+                  />
+                  {errors.address && touched.address && errors.address}
+                </div>
+              </div>
+            </div>
+
+            <div className="matrimony_register_personal_details">
+              <div
+                className="matrimony_register_form_title"
+                id="contact-details"
+              >
                 Verify Phone Number
               </div>
               <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
-                  <label htmlFor="phonenumber">phone number</label>
+                  <label htmlFor="phone_no">Phone No</label>
                   <input
                     className="register_field"
                     type="text"
-                    name="phonenumber"
-                    id="phonenumber"
+                    name="phone_no"
+                    id="phone_no"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    value={values.password}
+                    value={values.phone_no}
                   />
-                  {errors.password && touched.password && errors.password}
+                  {errors.phone_no && touched.phone_no && errors.phone_no}
                 </div>
 
-                <button className="matrimony_register_button" type="submit">
+                <div className="matrimony_register_button" onClick={() => getOTP()}>
                   Get OTP
-                </button>
+                </div>
+
+                {
+                  verifyField ?
+                    <>
+                      <div className="matrimony_register_label_input">
+                        <label htmlFor="OTP">OTP</label>
+                        <input
+                          className="register_field"
+                          type="text"
+                          name="OTP"
+                          id="OTP"
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          value={values.OTP}
+                        />
+                        {errors.OTP && touched.OTP && errors.OTP}
+                      </div>
+
+                      <div className="matrimony_register_button" onClick={() => getOTP()}>
+                        Verify
+                      </div>
+                    </>
+                    :
+                    <div></div>
+                }
+
               </div>
             </div>
 
@@ -1720,7 +1764,7 @@ function Register() {
                         );
                       }}
                       onBlur={handleBlur}
-                      // value={values.profile}
+                    // value={values.profile}
                     />
                     {errors.profile && touched.profile && errors.profile}
                   </div>
@@ -1784,7 +1828,7 @@ function Register() {
                           );
                         }}
                         onBlur={handleBlur}
-                        // value={values.profile}
+                      // value={values.profile}
                       />
                       {errors.horoscope &&
                         touched.horoscope &&

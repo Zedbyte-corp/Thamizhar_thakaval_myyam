@@ -1,5 +1,5 @@
-// const baseurl = "http://127.0.0.1:5000/user";
-const baseurl = "http://3.111.40.230:5000/user";
+const baseurl = "http://127.0.0.1:5000/user";
+// const baseurl = "https://api.thamizharinfo.com/user";
 
 // login API CALL
 export const getLoginApiResponse = async (values) => {

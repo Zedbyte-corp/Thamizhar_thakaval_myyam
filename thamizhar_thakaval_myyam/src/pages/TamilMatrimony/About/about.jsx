@@ -1,6 +1,6 @@
 import "./about.css";
 import HeaderMatrimony from "../../../components/TamilMatrimony/Header/header.matrimony";
-// import wedding_bg from "../../../Assets/TamilMatrimony/register/wedding_bg.png";
+import wedding_bg from "../../../Assets/TamilMatrimony/register/wedding_bg.png";
 import { useNavigate } from "react-router-dom";
 
 function About() {
@@ -24,6 +24,9 @@ function About() {
       </div> */}
 
       <div className="about_matrimony_main_container">
+        <div className="about_matrimony_image_container">
+          <img src="" alt="" />
+        </div>
         <div className="about_matrimony_title">ABOUT US</div>
         <div className="about_matrimony_content">
         <br />

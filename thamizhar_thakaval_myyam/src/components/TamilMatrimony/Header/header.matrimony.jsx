@@ -1,6 +1,6 @@
 import "./header.matrimony.css";
 import logo from "../../../Assets/Login/Logo2.png";
-import profile from "../../../Assets/TamilMatrimony/home/profile_icon.png";
+import profile from "../../../Assets/TamilMatrimony/home/profile_white.png";
 import { useNavigate } from "react-router-dom";
 
 
@@ -53,7 +53,7 @@ function HeaderMatrimony() {
       <div class="dropdown">
         <img
           onClick={onClickprofile}
-          className="logo_image_matrimony dropbtn"
+          className="profile_image_matrimony dropbtn"
           src={profile}
           alt=""
         />
