@@ -10,8 +10,9 @@ import {
 import * as Yup from "yup";
 import { HashLink } from "react-router-hash-link";
 import { useState, useEffect, useRef } from "react";
-// import { verifyOTPApiResponse } from "./../../../networkcall.service";
-import {  auth } from "../../Authentication/firebase";
+import { verifyOTPApiResponse } from "./../../../networkcall.service";
+import { firebase, auth } from "../../Authentication/firebase";
+import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 
 const STATUS = {
   STARTED: "Started",
@@ -81,16 +82,48 @@ function Register() {
     }
   };
 
+  // let appVerifier;
+  function getOTP() {
+    // if (window.recaptchaVerifier !== undefined) {
+    //   window.recaptchaVerifier.recaptcha.reset();
+    //   window.recaptchaVerifier.clear();
+    // }
 
-  // const getOTP = () => {
-  //   if (values.phone_no.length <= 9) {
-  //     alert("check the phone number")
-  //   }
-  //   if (values.phone_no.length === 10) {
-  //     alert("please wait")
-  //     setVerifyField(true)
-  //   }
-  // }
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {
+          console.log(response);
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+          // ...
+        },
+        "expired-callback": () => {
+          // Response expired. Ask user to solve reCAPTCHA again.
+          // ...
+        },
+        "error-callback": function () {
+          //...
+        },
+      },
+      auth
+    );
+    let appVerifier = window.recaptchaVerifier;
+    console.log("appVerifier", appVerifier);
+
+    signInWithPhoneNumber(auth, values.phone_no, appVerifier)
+      .then((result) => {
+        setStatus(STATUS.STARTED);
+        setSecondsRemaining(60);
+        setfinal(result);
+        alert("code sent");
+        setRequestedOTP(true);
+      })
+      .catch((err) => {
+        alert(err);
+        // window.location.reload();
+      });
+  }
 
   async function checkvalue(values) {
     if (verifiedOTP === true) {
@@ -110,8 +143,6 @@ function Register() {
       alert("Please verify the phone number first");
     }
   }
-
-
 
   const SignupSchema = Yup.object().shape({
     name: Yup.string()
@@ -375,8 +406,7 @@ function Register() {
     onSubmit: (values) => checkvalue(values),
   });
 
-  console.log(values);
-
+  // console.log(values);
 
   // design started here
   return (
@@ -602,7 +632,7 @@ function Register() {
                     value={values.looking_for}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                  // style={{ display: "block" }}
+                    // style={{ display: "block" }}
                   >
                     {/* <option value="" label="please select">
                       please select{" "}
@@ -781,7 +811,7 @@ function Register() {
                         id="first_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                      // style={{ display: "block" }}
+                        // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -847,7 +877,7 @@ function Register() {
                         id="first_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                      // style={{ display: "block" }}
+                        // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -910,7 +940,7 @@ function Register() {
                         id="second_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                      // style={{ display: "block" }}
+                        // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -976,7 +1006,7 @@ function Register() {
                         id="first_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                      // style={{ display: "block" }}
+                        // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -1039,7 +1069,7 @@ function Register() {
                         id="second_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                      // style={{ display: "block" }}
+                        // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -1102,7 +1132,7 @@ function Register() {
                         id="third_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                      // style={{ display: "block" }}
+                        // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -1187,8 +1217,6 @@ function Register() {
                 </div>
               </div>
             </div>
-
-
 
             <div className="matrimony_register_personal_details">
               <div
@@ -1409,7 +1437,7 @@ function Register() {
                       placeholder="please enter the disorder"
                       // onChange={handleChange}
                       onBlur={handleBlur}
-                    // value={values.physical_status}
+                      // value={values.physical_status}
                     />
                   ) : (
                     <div></div>
@@ -1479,7 +1507,7 @@ function Register() {
                       // onChange={handleChange}
                       onBlur={handleBlur}
                       placeholder="please enter your diet type"
-                    // value={values.diet}
+                      // value={values.diet}
                     />
                   ) : (
                     <div></div>
@@ -1558,7 +1586,7 @@ function Register() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.complexion}
-                  // style={{ display: "block" }}
+                    // style={{ display: "block" }}
                   >
                     <option value="" label="please select">
                       please select{" "}
@@ -1700,6 +1728,7 @@ function Register() {
                       type="text"
                       name="otp"
                       id="otp"
+                      onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.otp}
                     />
@@ -1718,7 +1747,8 @@ function Register() {
                   <div></div>
                 )}
 
-                <button
+                <div
+                  id="recaptcha-container"
                   className="matrimony_register_button"
                   onClick={async () => {
                     setStatus(STATUS.STARTED);
@@ -1747,7 +1777,7 @@ function Register() {
                   }}
                 >
                   {requestedOTP === true ? "retry" : "Get OTP"}
-                </button>
+                </div>
                 {requestedOTP === true ? (
                   <button
                     className="matrimony_register_button"
@@ -1759,6 +1789,7 @@ function Register() {
                           setVerifiedOTP(true);
                           setStatus(STATUS.STOPPED);
                           setSecondsRemaining(0);
+                          alert("OTP Verified");
                         })
                         .catch((err) => {
                           alert("Wrong code");
@@ -1852,7 +1883,7 @@ function Register() {
                         );
                       }}
                       onBlur={handleBlur}
-                    // value={values.profile}
+                      // value={values.profile}
                     />
                     {errors.profile && touched.profile && errors.profile}
                   </div>
@@ -1917,7 +1948,7 @@ function Register() {
                           );
                         }}
                         onBlur={handleBlur}
-                      // value={values.profile}
+                        // value={values.profile}
                       />
                       {errors.horoscope &&
                         touched.horoscope &&
