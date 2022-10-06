@@ -1,5 +1,7 @@
+// import { setUserDetails } from "./store/actions";
+// import { Store } from "./store/store";
 // const baseurl = "http://127.0.0.1:5000/user";
-import { randomAlphanumericGenerator } from "./helper/utils";
+// import { randomAlphanumericGenerator } from "./helper/utils";
 // const baseurl = "http://3.111.40.230:5000";
 const baseurl = "http://localhost:5000";
 
@@ -171,22 +173,30 @@ export const getRegisterApiResponse = async (values) => {
 // user details API
 export const getUserDetailsApiResponse = async (user_id) => {
   try {
-    console.log("inside document api", user_id);
+    console.log("inside document api", sessionStorage.getItem("user_id"));
+    console.log("type", typeof sessionStorage.getItem("user_id"));
     let url = `${baseurl}/user/details`;
+    var raw = JSON.stringify({
+      userId : user_id
+    });
     const requestOptions = {
       method: "POST",
+      body: raw,
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        userId: user_id,
-      }),
+      redirect: "follow"
     };
-    let response = await fetch(url, requestOptions);
-    console.log("url=>", url);
-    let responseJson = await response.json();
-    console.log("from network =>", responseJson);
-    return responseJson;
+    return new Promise((resolve, reject) => {
+      fetch(url, requestOptions)
+        .then((res) => res.text())
+        .then((data) => {
+          console.log("from network", JSON.parse(data));
+          const json_data = JSON.parse(data);
+          // Store.dispatch(setUserDetails(json_data.result));
+          resolve(json_data);
+        });
+    });
   } catch (error) {
     alert(error);
   }

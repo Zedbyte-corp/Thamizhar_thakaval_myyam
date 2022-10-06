@@ -1,0 +1,10 @@
+.carousel-image-controller{
+    height: 100%;
+    width: 100%;
+}
+
+.carosel-image{
+    height: 90vh;
+    width: 100%;
+    object-fit:cover;
+}

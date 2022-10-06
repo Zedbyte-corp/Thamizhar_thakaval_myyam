@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import {
   getRegisterApiResponse,
-  sendOTPApiResponse,
+  // sendOTPApiResponse,
 } from "../../../networkcall.service";
 import * as Yup from "yup";
 import { HashLink } from "react-router-hash-link";
 import { useState, useEffect, useRef } from "react";
-import { verifyOTPApiResponse } from "./../../../networkcall.service";
-import { firebase, auth } from "../../Authentication/firebase";
+// import { verifyOTPApiResponse } from "./../../../networkcall.service";
+import {  auth } from "../../Authentication/firebase";
 
 const STATUS = {
   STARTED: "Started",
@@ -45,6 +45,7 @@ function Register() {
   let [profile, setProfile] = useState();
   let [heroscope, setHeroscope] = useState();
   let [photos, setPhotos] = useState();
+  let [length , setLength] = useState();
   let [requestedOTP, setRequestedOTP] = useState(false);
   let [verifiedOTP, setVerifiedOTP] = useState(false);
   const [final, setfinal] = useState("");
@@ -81,16 +82,15 @@ function Register() {
   };
 
 
-  const getOTP = () => {
-    if (values.phone_no.length <= 9) {
-      alert("check the phone number")
-    }
-    if (values.phone_no.length === 10) {
-      alert("please wait")
-      setVerifyField(true)
-
-    }
-  }
+  // const getOTP = () => {
+  //   if (values.phone_no.length <= 9) {
+  //     alert("check the phone number")
+  //   }
+  //   if (values.phone_no.length === 10) {
+  //     alert("please wait")
+  //     setVerifyField(true)
+  //   }
+  // }
 
   async function checkvalue(values) {
     if (verifiedOTP === true) {
@@ -197,8 +197,8 @@ function Register() {
     otp: Yup.number()
       .positive()
       .integer()
-      .test("len", "Must be exactly 6 characters", (val) => val.length === 6)
-      .required("Required"),
+      .test("len", "Must be exactly 6 characters", (val) => val.length === 6),
+      // .required("Required"),
     pin_code: Yup.number()
       .positive()
       .integer()
@@ -326,12 +326,10 @@ function Register() {
       email: "",
       height: "",
       caste: "",
-      religion: "",
-      food_habit: "",
-      smoke: "",
-      drink: "",
+      religion: "Hinduism",
+      food_habit: "Vegetarian",
       hobbies: "",
-      looking_for: "",
+      looking_for: "Bride",
       fathers_name: "",
       fathers_occupation: "",
       mothers_name: "",
@@ -457,7 +455,7 @@ function Register() {
                   <label htmlFor="dob">DOB</label>
                   <input
                     className="register_field"
-                    type="text"
+                    type="date"
                     name="dob"
                     id="dob"
                     onChange={handleChange}
@@ -520,75 +518,60 @@ function Register() {
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="religion">Religion</label>
-                  <input
-                    className="register_field"
-                    type="text"
-                    name="religion"
-                    id="religion"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.religion}
-                  />
+                  <select
+                  className="register_field"
+                  name="religion"
+                  id="Religion"
+                  value={values.religion}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                >
+                  <option value="Hinduism" label="Hinduism">
+                    Hinduism
+                  </option>
+                  <option value="Islam" label="Islam">
+                    Islam
+                  </option>
+                  <option value="Sikhism" label="Sikhism">
+                    Sikhism
+                  </option>
+                  <option value="Christianity" label="Christianity">
+                    Christianity
+                  </option>
+                  <option value="Buddhism" label="Buddhism">
+                    Buddhism
+                  </option>
+                  <option value="Jainism" label="Jainism">
+                    Jainism
+                  </option>
+                  <option value="Zoroastrianism" label="Zoroastrianism">
+                    Zoroastrianism
+                  </option>
+                </select>
                   {errors.religion && touched.religion && errors.religion}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="food_habit">Food Habit</label>
-                  <input
-                    className="register_field"
-                    type="text"
-                    name="food_habit"
-                    id="food_habit"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.food_habit}
-                  />
+                  <select
+                  className="register_field"
+                  name="food_habit"
+                  value={values.food_habit}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                >
+                  <option value="Vegetarian" label="Vegetarian">
+                    Vegetarian
+                  </option>
+                  <option value="Non-Vegetarian" label="Non-Vegetarian">
+                    Non-Vegetarian
+                  </option>
+                  <option value="Vegan" label="Vegan">
+                    Vegan
+                  </option>
+                </select>
                   {errors.food_habit && touched.food_habit && errors.food_habit}
                 </div>
-                {/* <div className="matrimony_register_label_input">
-                  <label htmlFor="smoke">Smoke</label>
-                  <select
-                    className="register_field"
-                    name="smoke"
-                    value={values.smoke}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  >
-                    <option value="" label="please select">
-                      please select{" "}
-                    </option>
-                    <option value="No" label="No">
-                      {" "}
-                      No
-                    </option>
-                    <option value="Yes" label="Yes">
-                      Yes
-                    </option>
-                  </select>
-                  {errors.smoke && touched.smoke && errors.smoke}
-                </div> */}
-                {/* <div className="matrimony_register_label_input">
-                  <label htmlFor="drink">Drink</label>
-                  <select
-                    className="register_field"
-                    name="drink"
-                    value={values.drink}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // style={{ display: "block" }}
-                  >
-                    <option value="" label="please select">
-                      please select{" "}
-                    </option>
-                    <option value="1" label="No">
-                      {" "}
-                      No
-                    </option>
-                    <option value="2" label="Yes">
-                      Yes
-                    </option>
-                  </select>
-                  {errors.drink && touched.drink && errors.drink}
-                </div> */}
+                
                 <div className="matrimony_register_label_input">
                   <label htmlFor="hobbies">Hobbies</label>
                   <input
@@ -625,7 +608,6 @@ function Register() {
                       please select{" "}
                     </option> */}
                     <option value="Bride" label="Bride">
-                      {" "}
                       Bride
                     </option>
                     <option value="Groom" label="Groom">
@@ -1353,15 +1335,6 @@ function Register() {
               <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
                   <label htmlFor="physical_status">Physical Status</label>
-                  {/* <input
-                    className="register_field"
-                    type="text"
-                    name="physical_status"
-                    id="physical_status"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.physical_status}
-                  /> */}
                   <select
                     className="register_field"
                     // type="text"
@@ -1447,15 +1420,6 @@ function Register() {
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="diet">Diet</label>
-                  {/* <input
-                    className="register_field"
-                    type="text"
-                    name="diet"
-                    id="diet"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.diet}
-                  /> */}
                   <select
                     className="register_field"
                     // type="text"
@@ -1760,13 +1724,13 @@ function Register() {
                     setStatus(STATUS.STARTED);
                     setSecondsRemaining(60);
                     // sendOTPApiResponse({ phone: values.phone_no });
-                    window.recaptchaVerifier = new RecaptchaVerifier(
+                    window.recaptchaVerifier = new auth.RecaptchaVerifier(
                       "recaptcha-container",
                       {},
                       auth
                     );
                     const appVerifier = window.recaptchaVerifier;
-                    return await signInWithPhoneNumber(
+                    return await auth.signInWithPhoneNumber(
                       auth,
                       values.phone_no,
                       appVerifier
@@ -1897,8 +1861,8 @@ function Register() {
                 </button> */}
                   <div className="matrimony_register_align_form">
                     <div className="matrimony_register_label_input_upload_button">
-                      {photos !== undefined ? (
-                        <div>{photos} photos selected</div>
+                      {length !== undefined ? (
+                        <div>{length} photos selected</div>
                       ) : (
                         <div></div>
                       )}
@@ -1914,8 +1878,9 @@ function Register() {
                         name="photos"
                         id="photos"
                         onChange={(event) => {
-                          setFieldValue("profile", event.currentTarget.files);
-                          setPhotos(event.currentTarget.files.length);
+                          setFieldValue("photos", event.currentTarget.files);
+                          setLength(event.currentTarget.files.length);
+                          setPhotos(event.currentTarget.files);
                         }}
                         onBlur={handleBlur}
                         // value={values.profile}

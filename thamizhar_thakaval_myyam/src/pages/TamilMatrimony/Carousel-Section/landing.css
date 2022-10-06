@@ -1,0 +1,60 @@
+.landing-main-container-warp{
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    /* margin-top: 15px; */
+    gap: 10px;
+}
+
+.landing-main-heading{
+    height: 15%;
+    width: 100%;
+    display: contents;
+    align-items: center;
+    justify-content: center;
+    background: rgb(222, 21, 21);
+}
+
+.landing-heading-warp{
+    height: fit-content;
+    width: 60%;
+    font: var(--primary-font);
+    font-weight: 100;
+    color: var(--primary-font-color);
+    text-align: center;
+    font-size: var(--font-size-1);
+    /* background: rgb(222, 21, 21); */
+}
+
+.landing-carousel-container{
+    /* change the height to fit-content once the carousel is developed */
+    height: 90vh;
+    width: 100%;
+
+    background: rgb(141, 141, 141);
+}
+
+.landing-main-description{
+    height: 15%;
+    width: 100%;
+    display: contents;
+    align-items: center;
+    justify-content: center;
+    background: rgb(255, 245, 245);
+}
+
+.landing-description-warp{
+    height: fit-content;
+    width: 60%;
+    font: var(--primary-font);
+    font-weight: 200;
+    color: var(--primary-font-color);
+    text-align: center;
+    font-size: var(--font-size-2);
+    /* background: rgb(222, 21, 21); */
+
+}
+

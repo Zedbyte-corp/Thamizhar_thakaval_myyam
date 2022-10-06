@@ -1,46 +1,37 @@
-import "./mission.css";
+import "./about.css"
+// import Header from "../../../Components/Client/header/header"
+import AboutSection1 from "./About-section-1/about-section-1"
+import AboutSection2 from "./About-section-2/about-section-2"
+import AboutSection3 from "./About-section-3/about-section-3"
+// import Footer from "../../../Components/Client/footer/footer";
 import HeaderMatrimony from "../../../components/TamilMatrimony/Header/header.matrimony";
-// import wedding_bg from "../../../Assets/TamilMatrimony/register/wedding_bg.png";
-import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux"
+import { useEffect } from 'react';
+import wedding_bg from "../../../Assets/TamilMatrimony/register/wedding_bg.png";
+import logo from "../../../Assets/Login/ttmlogo.png"
 
-function Mission() {
-  const navigate = useNavigate();
-
-  // design started here
+const About = () => {
+  const image = "https://thumbs.dreamstime.com/b/indian-wedding-closeup-shot-ceremony-74168941.jpg"
+  const about = useSelector((state) => state.about)
+  useEffect(() => {
+    // 👇️ scroll to top on page load
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, []);
   return (
-    <section className="register_main_mission">
+    <div className="about-main-container">
       <HeaderMatrimony />
-      {/* <div className="matrimony_register_image">
-        <div className="matrimony_register_gradient">
-          <div className="matrimony_register_quote">
-            Finding a perfect match isn't a problem anymore
-          </div>
-        </div>
-        <img
-          src={wedding_bg}
-          alt=""
-          className="matrimony_register_wedding_bg"
-        />
-      </div> */}
-
-      <div className="mission_matrimony_main_container">
-        <div className="mission_matrimony_title">Vision And Mission</div>
-        <div className="mission_matrimony_content">
-          <br />
-          <br />
-          "யாதும் ஊரே யாவரும் கேளிர்" என்னும் நம் பழந்தமிழ் புலவரின் கூற்றின்படி
-          உலகெங்கும் பரவி வாழும் நம் தமிழ்ச்சொந்தங்களை திருமணம், வேலை,
-          வியாபாரம், தொழில் மற்றும் நட்பு தொடர்பு போன்ற தகவல்களை ஒரே தளத்தில்
-          பகிர்ந்து ஒன்றிணைப்பதே எங்கள் நோக்கம்
-          <br />
-          <br />
-          We will strive to reach our goal by sharing genuine and precise
-          information after due scrutiny & verification regarding Matrimony,
-          employment, business, trade etc..
-        </div>
-      </div>
-    </section>
-  );
+      {
+        about === null ? <div> LOADING </div> :
+          <>
+            <AboutSection1 image={image} title="Vision And Mission" description="Need some content" />
+            <AboutSection2 image={logo} title=""/>
+            {/* <AboutSection3 image="fsd" title="about us" description="sdasdasdasd"/> */}
+          </>
+      }
+      {/* <Footer/> */}
+    </div>
+  )
 }
 
-export default Mission;
+
+export default About

@@ -14,27 +14,37 @@ function Details() {
   // const { user_id } = useSelector((state) => state.userReducer);
 
   const [list, setList] = useState([]);
-  const [sameUser, setsameUser] = useState(false);
+  // const [sameUser, setsameUser] = useState(false);
 
   useEffect(() => {
     console.log("document use effect");
-    let mounted = true;
-    if (id === sessionStorage.getItem("user_id")) {
-      setsameUser(true);
-    } 
-
-    getUserDetailsApiResponse(id).then((documentInfo) => {
-      if (mounted) {
-        setList(documentInfo.result[0]);
-        console.log("document api =>", documentInfo.result[0].profile_pic);
-      }
-    });
-    return () => (mounted = false);
-  }, []);
+    if (id === sessionStorage.getItem("user_id")) {   
+      (async()=>{
+        console.log("user_id", sessionStorage.getItem("user_id"));
+        const response = await getUserDetailsApiResponse(sessionStorage.getItem("user_id"))
+        console.log("response", response);
+        setList(response.result[0])
+        sessionStorage.setItem("photos",JSON.stringify(response.result[0].photos))
+      })()
+    } else {
+      (async()=>{
+        console.log("user_id", sessionStorage.getItem("user_id"));
+        const response = await getUserDetailsApiResponse(id)
+        console.log("response", response);
+        setList(response.result[0])
+        sessionStorage.setItem("photos",JSON.stringify(response.result[0].photos))
+      })()
+    }
+    
+  }, [id]);
 
   const onclickView = () => {
     navigate("/Matrimony/edit_details");
   };
+
+  const onClickPhotos = () => {
+    navigate("/Matrimony/photos")
+  }
 
   // design started here
   return (
@@ -64,7 +74,7 @@ function Details() {
               </ul>
             </div>
             <div className="matrimony_detail_left_box_lower">
-              {sameUser ? (
+              {true ? (
                 <button
                 className="matrimony_detail_card_button2"
                 onClick={onclickView}
@@ -76,6 +86,12 @@ function Details() {
                   Verify Profile
                 </button>
               )}
+               <button
+                className="matrimony_detail_card_button2"
+                onClick={onClickPhotos}
+              >
+                See Photos
+              </button>
             </div>
           </div>
         </div>
@@ -254,12 +270,13 @@ function Details() {
                   </div>
                 </div>
 
-                <div className="matrimony_details_warp">
+                {/* <div className="matrimony_details_warp">
                   <div className="matrimony_detail_field_title">Address</div>
                   <div className="matrimony_detail_field_value">
                     {list.address}
                   </div>
-                </div>
+                </div> */}
+                
               </div>
             </div>
 

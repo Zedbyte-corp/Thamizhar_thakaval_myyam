@@ -1,5 +1,6 @@
 export const SET_USER_TOKEN = "SET_USER_TOKEN";
 export const SET_USER_ID = "SET_USER_ID";
+export const SET_USER_DETAILS = "SET_USER_DETAILS";
 export const SET_VIEW_POPUP = "SET_VIEW_POPUP";
 
 
@@ -14,6 +15,13 @@ export const setUserId = (setUserId) => (dispatch) => {
   dispatch({
     type: SET_USER_ID,
     payload: setUserId,
+  });
+};
+
+export const setUserDetails = (setUserDetails) => (dispatch) => {
+  dispatch({
+    type: SET_USER_DETAILS,
+    payload: setUserDetails,
   });
 };
 

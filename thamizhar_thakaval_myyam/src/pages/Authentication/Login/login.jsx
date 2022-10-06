@@ -139,7 +139,7 @@ function Login() {
                   <input type="checkbox" />
                   Are you an agent
                 </span>
-                <span className="login_span">Forgot Password</span>
+                {/* <span className="login_span">Forgot Password</span> */}
               </div>
               <button className="login_button" type="submit">
                 Login
