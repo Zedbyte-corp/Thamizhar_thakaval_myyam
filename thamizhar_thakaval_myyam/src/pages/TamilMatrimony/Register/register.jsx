@@ -46,7 +46,7 @@ function Register() {
   let [profile, setProfile] = useState();
   let [heroscope, setHeroscope] = useState();
   let [photos, setPhotos] = useState();
-  let [length , setLength] = useState();
+  let [length, setLength] = useState();
   let [requestedOTP, setRequestedOTP] = useState(false);
   let [verifiedOTP, setVerifiedOTP] = useState(false);
   const [final, setfinal] = useState("");
@@ -131,7 +131,7 @@ function Register() {
       if (values.password === values.confirm_password) {
         values.number_of_sibiling = num.toString();
         console.log("checkValue", values);
-        let response = await getRegisterApiResponse(values, photos);
+        let response = await getRegisterApiResponse(values);
         if (response.status === "success") {
           navigate("/Matrimony/home");
         } else {
@@ -543,59 +543,59 @@ function Register() {
                 <div className="matrimony_register_label_input">
                   <label htmlFor="religion">Religion</label>
                   <select
-                  className="register_field"
-                  name="religion"
-                  id="Religion"
-                  value={values.religion}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                >
-                  <option value="Hinduism" label="Hinduism">
-                    Hinduism
-                  </option>
-                  <option value="Islam" label="Islam">
-                    Islam
-                  </option>
-                  <option value="Sikhism" label="Sikhism">
-                    Sikhism
-                  </option>
-                  <option value="Christianity" label="Christianity">
-                    Christianity
-                  </option>
-                  <option value="Buddhism" label="Buddhism">
-                    Buddhism
-                  </option>
-                  <option value="Jainism" label="Jainism">
-                    Jainism
-                  </option>
-                  <option value="Zoroastrianism" label="Zoroastrianism">
-                    Zoroastrianism
-                  </option>
-                </select>
+                    className="register_field"
+                    name="religion"
+                    id="Religion"
+                    value={values.religion}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    <option value="Hinduism" label="Hinduism">
+                      Hinduism
+                    </option>
+                    <option value="Islam" label="Islam">
+                      Islam
+                    </option>
+                    <option value="Sikhism" label="Sikhism">
+                      Sikhism
+                    </option>
+                    <option value="Christianity" label="Christianity">
+                      Christianity
+                    </option>
+                    <option value="Buddhism" label="Buddhism">
+                      Buddhism
+                    </option>
+                    <option value="Jainism" label="Jainism">
+                      Jainism
+                    </option>
+                    <option value="Zoroastrianism" label="Zoroastrianism">
+                      Zoroastrianism
+                    </option>
+                  </select>
                   {errors.religion && touched.religion && errors.religion}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="food_habit">Food Habit</label>
                   <select
-                  className="register_field"
-                  name="food_habit"
-                  value={values.food_habit}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                >
-                  <option value="Vegetarian" label="Vegetarian">
-                    Vegetarian
-                  </option>
-                  <option value="Non-Vegetarian" label="Non-Vegetarian">
-                    Non-Vegetarian
-                  </option>
-                  <option value="Vegan" label="Vegan">
-                    Vegan
-                  </option>
-                </select>
+                    className="register_field"
+                    name="food_habit"
+                    value={values.food_habit}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    <option value="Vegetarian" label="Vegetarian">
+                      Vegetarian
+                    </option>
+                    <option value="Non-Vegetarian" label="Non-Vegetarian">
+                      Non-Vegetarian
+                    </option>
+                    <option value="Vegan" label="Vegan">
+                      Vegan
+                    </option>
+                  </select>
                   {errors.food_habit && touched.food_habit && errors.food_habit}
                 </div>
-                
+
                 <div className="matrimony_register_label_input">
                   <label htmlFor="hobbies">Hobbies</label>
                   <input
@@ -626,7 +626,7 @@ function Register() {
                     value={values.looking_for}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    // style={{ display: "block" }}
+                  // style={{ display: "block" }}
                   >
                     {/* <option value="" label="please select">
                       please select{" "}
@@ -805,7 +805,7 @@ function Register() {
                         id="first_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -871,7 +871,7 @@ function Register() {
                         id="first_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -934,7 +934,7 @@ function Register() {
                         id="second_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -1000,7 +1000,7 @@ function Register() {
                         id="first_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -1063,7 +1063,7 @@ function Register() {
                         id="second_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -1126,7 +1126,7 @@ function Register() {
                         id="third_sibiling_maritial_status"
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        // style={{ display: "block" }}
+                      // style={{ display: "block" }}
                       >
                         <option value="" label="please select">
                           please select{" "}
@@ -1431,7 +1431,7 @@ function Register() {
                       placeholder="please enter the disorder"
                       // onChange={handleChange}
                       onBlur={handleBlur}
-                      // value={values.physical_status}
+                    // value={values.physical_status}
                     />
                   ) : (
                     <div></div>
@@ -1501,7 +1501,7 @@ function Register() {
                       // onChange={handleChange}
                       onBlur={handleBlur}
                       placeholder="please enter your diet type"
-                      // value={values.diet}
+                    // value={values.diet}
                     />
                   ) : (
                     <div></div>
@@ -1580,7 +1580,7 @@ function Register() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.complexion}
-                    // style={{ display: "block" }}
+                  // style={{ display: "block" }}
                   >
                     <option value="" label="please select">
                       please select{" "}
@@ -1855,7 +1855,7 @@ function Register() {
                         );
                       }}
                       onBlur={handleBlur}
-                      // value={values.profile}
+                    // value={values.profile}
                     />
                     {errors.profile && touched.profile && errors.profile}
                   </div>
@@ -1920,7 +1920,7 @@ function Register() {
                           );
                         }}
                         onBlur={handleBlur}
-                        // value={values.profile}
+                      // value={values.profile}
                       />
                       {errors.horoscope &&
                         touched.horoscope &&

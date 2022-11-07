@@ -105,7 +105,7 @@ export const getAllUsersApiResponse = async (values) => {
 };
 
 // register api call
-export const getRegisterApiResponse = async (values, photos) => {
+export const getRegisterApiResponse = async (values) => {
   try {
     console.log("inside document api", values);
     let url = `${baseurl}/user/create`;
@@ -142,7 +142,10 @@ export const getRegisterApiResponse = async (values, photos) => {
     formdata.append("city", values.city);
     formdata.append("address", values.address);
     formdata.append("academic_qualification", values.academic_qualification);
-    formdata.append("last_studied_institution", values.last_studied_institution);
+    formdata.append(
+      "last_studied_institution",
+      values.last_studied_institution
+    );
     formdata.append("company_name", values.company_name);
     formdata.append("location", values.location);
     formdata.append("profession", values.profession);
@@ -154,24 +157,29 @@ export const getRegisterApiResponse = async (values, photos) => {
     formdata.append("diet", values.diet);
     formdata.append("body_type", values.body_type);
     formdata.append("complexion", values.complexion);
-    formdata.append("profile_pic", values.profile_pic);
-    formdata.append("heroscope", values.heroscope);
-    formdata.append("photos", photos);
+    formdata.append("profilePic", values.profile);
+    formdata.append("heroscope", values.horoscope);
+    for (let i = 0; i < values.photos.length; i++) {
+      formdata.append("photos", values.photos[i]);
+    }
 
+    for (var pair of formdata.entries()) {
+      console.log(pair[0] + ", " + pair[1]);
+    }
 
     const requestOptions = {
       method: "POST",
-      body: formdata
+      body: formdata,
     };
     fetch(url, requestOptions)
-        .then((res) => res.text())
-        .then((data) => {
-          console.log("from network", JSON.parse(data));
-          const json_data = JSON.parse(data);
-          alert(json_data)
-          // Store.dispatch(setUserDetails(json_data.result));
-          // resolve(json_data);
-        });
+      .then((res) => res.text())
+      .then((data) => {
+        console.log("from network", JSON.parse(data));
+        const json_data = JSON.parse(data);
+        alert(json_data);
+        // Store.dispatch(setUserDetails(json_data.result));
+        // resolve(json_data);
+      });
   } catch (error) {
     alert(error);
   }
@@ -184,7 +192,7 @@ export const getUserDetailsApiResponse = async (user_id) => {
     console.log("type", typeof sessionStorage.getItem("user_id"));
     let url = `${baseurl}/user/details`;
     var raw = JSON.stringify({
-      userId : user_id
+      userId: user_id,
     });
     const requestOptions = {
       method: "POST",
@@ -192,7 +200,7 @@ export const getUserDetailsApiResponse = async (user_id) => {
       headers: {
         "Content-Type": "application/json",
       },
-      redirect: "follow"
+      redirect: "follow",
     };
     return new Promise((resolve, reject) => {
       fetch(url, requestOptions)
