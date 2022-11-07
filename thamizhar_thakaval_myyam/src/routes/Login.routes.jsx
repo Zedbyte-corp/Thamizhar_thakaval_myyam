@@ -10,6 +10,7 @@ import About from "../pages/TamilMatrimony/About/about";
 import Mission from "../pages/TamilMatrimony/MissionVision/mission";
 import Terms from "../pages/TamilMatrimony/Terms/terms";
 import Pay from "../pages/TamilMatrimony/Pay/pay";
+import Pricing from "../pages/TamilMatrimony/Pricing/pricing"
 
 function LoginRoutes() {
   return (
@@ -34,6 +35,7 @@ function LoginRoutes() {
         <Route path="/Matrimony/terms" exact element={<Terms />} />
         <Route path="/Matrimony/pay" exact element={<Pay />} />
         <Route path="/Matrimony/photos" exact element={<Landing />} />
+        <Route path="/Matrimony/pricing" exact element={<Pricing />} />
       </Routes>
     </BrowserRouter>
   );

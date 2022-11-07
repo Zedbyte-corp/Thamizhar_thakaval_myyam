@@ -1,9 +1,11 @@
 import './detailCard.matrimony.css';
 // import bride from '../../../Assets/TamilMatrimony/home/bride.jpeg'
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { Store } from "../../../store/store";
 // import { useDispatch } from "react-redux";
 import { setViewPopup } from "../../../store/actions";
+import pay from "../../../pages/TamilMatrimony/Pay/pay"
+
 
 function DetailCardMatrimony({user_id, name, age, height, religion, caste, profile_pic, gender}) {
 
@@ -13,7 +15,9 @@ function DetailCardMatrimony({user_id, name, age, height, religion, caste, profi
 
   const onclickView = () => {
     // Store.dispatch(setViewPopup(true))
-    navigate('/Matrimony/details', { state: { id: user_id } });
+    // pay()
+    navigate('/Matrimony/pay',  { state: { id: "view" } })
+    // navigate('/Matrimony/details', { state: { id: user_id } });
   }
   
   const onclickverify = () => {

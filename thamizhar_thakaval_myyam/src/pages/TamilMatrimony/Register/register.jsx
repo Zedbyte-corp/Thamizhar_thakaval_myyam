@@ -84,10 +84,10 @@ function Register() {
 
   // let appVerifier;
   function getOTP() {
-    // if (window.recaptchaVerifier !== undefined) {
-    //   window.recaptchaVerifier.recaptcha.reset();
-    //   window.recaptchaVerifier.clear();
-    // }
+    if (window.recaptchaVerifier !== undefined) {
+      window.recaptchaVerifier.recaptcha.reset();
+      window.recaptchaVerifier.clear();
+    }
 
     window.recaptchaVerifier = new RecaptchaVerifier(
       "recaptcha-container",
@@ -126,11 +126,12 @@ function Register() {
   }
 
   async function checkvalue(values) {
+    console.log(values);
     if (verifiedOTP === true) {
       if (values.password === values.confirm_password) {
         values.number_of_sibiling = num.toString();
         console.log("checkValue", values);
-        let response = await getRegisterApiResponse(values);
+        let response = await getRegisterApiResponse(values, photos);
         if (response.status === "success") {
           navigate("/Matrimony/home");
         } else {
@@ -151,8 +152,6 @@ function Register() {
       .required("Required"),
     dob: Yup.date()
       .default(() => new Date())
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
       .required("Required"),
     age: Yup.number().positive().integer().required("Required"),
     weight: Yup.number().positive().required("Required"),
@@ -176,7 +175,6 @@ function Register() {
       .notOneOf(["Yes", "Yo"], "please select")
       .required("Required"),
     looking_for: Yup.string()
-      .notOneOf(["Bride", "Groom"], "please select")
       .required("Required"),
     fathers_name: Yup.string()
       .min(2, "Too Short!")
@@ -202,7 +200,6 @@ function Register() {
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
-    // number_of_sibiling: Yup.string().max(4, "Too Long!").required("Required"),
     family_property: Yup.string()
       .min(2, "Too Short!")
       .max(100, "Too Long!")
@@ -227,13 +224,10 @@ function Register() {
       .required("Required"),
     otp: Yup.number()
       .positive()
-      .integer()
-      .test("len", "Must be exactly 6 characters", (val) => val.length === 6),
-      // .required("Required"),
+      .integer(),
     pin_code: Yup.number()
       .positive()
       .integer()
-      .test("len", "Must be exactly 6 characters", (val) => val.length === 6)
       .required("Required"),
     password: Yup.string()
       .required("Please Enter your password")
@@ -402,7 +396,7 @@ function Register() {
       profile: "",
       horoscope: "",
     },
-    validationSchema: SignupSchema,
+    // validationSchema: SignupSchema,
     onSubmit: (values) => checkvalue(values),
   });
 
@@ -761,9 +755,9 @@ function Register() {
                   <label htmlFor="number_of_sibiling">
                     Number of Sibilings
                   </label>
-                  <button type="button" onClick={decNum}>
+                  <div type="button" onClick={decNum}>
                     -
-                  </button>
+                  </div>
                   <div className="register_field">{num}</div>
                   {/* <input
                     className="register_field"
@@ -774,9 +768,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.number_of_sibiling}
                   /> */}
-                  <button type="button" onClick={incNum}>
+                  <div type="button" onClick={incNum}>
                     +
-                  </button>
+                  </div>
                   {errors.number_of_sibiling &&
                     touched.number_of_sibiling &&
                     errors.number_of_sibiling}
@@ -1661,7 +1655,7 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.email}
                   />
-                  {errors.password && touched.password && errors.password}
+                  {errors.email && touched.email && errors.email}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="city">City</label>
@@ -1751,35 +1745,13 @@ function Register() {
                   id="recaptcha-container"
                   className="matrimony_register_button"
                   onClick={async () => {
-                    setStatus(STATUS.STARTED);
-                    setSecondsRemaining(60);
-                    // sendOTPApiResponse({ phone: values.phone_no });
-                    window.recaptchaVerifier = new auth.RecaptchaVerifier(
-                      "recaptcha-container",
-                      {},
-                      auth
-                    );
-                    const appVerifier = window.recaptchaVerifier;
-                    return await auth.signInWithPhoneNumber(
-                      auth,
-                      values.phone_no,
-                      appVerifier
-                    )
-                      .then((result) => {
-                        setfinal(result);
-                        alert("code sent");
-                        setRequestedOTP(true);
-                      })
-                      .catch((err) => {
-                        alert(err);
-                        // window.location.reload();
-                      });
+                    getOTP()
                   }}
                 >
                   {requestedOTP === true ? "retry" : "Get OTP"}
                 </div>
                 {requestedOTP === true ? (
-                  <button
+                  <div
                     className="matrimony_register_button"
                     onClick={() => {
                       if (values.otp === null || final === null) return;
@@ -1804,7 +1776,7 @@ function Register() {
                     }}
                   >
                     Verify OTP
-                  </button>
+                  </div>
                 ) : (
                   <div></div>
                 )}
@@ -1911,7 +1883,7 @@ function Register() {
                         onChange={(event) => {
                           setFieldValue("photos", event.currentTarget.files);
                           setLength(event.currentTarget.files.length);
-                          setPhotos(event.currentTarget.files);
+                          setPhotos(JSON.stringify(event.currentTarget.files));
                         }}
                         onBlur={handleBlur}
                         // value={values.profile}

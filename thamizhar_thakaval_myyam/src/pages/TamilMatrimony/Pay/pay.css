@@ -221,8 +221,10 @@
   height: 100vh;
   width: 100vw;
   display: flex;
-  /* align-items: center; */
+  align-items: center;
   justify-content: center;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .pay_matrimony_title{

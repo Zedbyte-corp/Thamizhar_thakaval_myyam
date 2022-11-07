@@ -1,9 +1,11 @@
 // import { setUserDetails } from "./store/actions";
 // import { Store } from "./store/store";
 // const baseurl = "http://127.0.0.1:5000/user";
+import uuid from "react-uuid";
 // import { randomAlphanumericGenerator } from "./helper/utils";
-// const baseurl = "http://3.111.40.230:5000";
+// const baseurl = "https://3.111.40.230:5000";
 const baseurl = "http://localhost:5000";
+// const baseurl = "https://api.thamizharinfo.com";
 
 // login API CALL
 export const getLoginApiResponse = async (values) => {
@@ -103,68 +105,73 @@ export const getAllUsersApiResponse = async (values) => {
 };
 
 // register api call
-export const getRegisterApiResponse = async (values) => {
+export const getRegisterApiResponse = async (values, photos) => {
   try {
     console.log("inside document api", values);
     let url = `${baseurl}/user/create`;
+    let formdata = new FormData();
+    formdata.append("userId", uuid());
+    formdata.append("name", values.name);
+    formdata.append("dob", values.dob);
+    formdata.append("age", values.age);
+    formdata.append("gender", values.gender);
+    formdata.append("pet", values.pet);
+    formdata.append("weight", values.weight);
+    formdata.append("height", values.height);
+    formdata.append("caste", values.caste);
+    formdata.append("religion", values.religion);
+    formdata.append("food_habit", values.food_habit);
+    formdata.append("smoke", values.smoke);
+    formdata.append("drink", values.drink);
+    formdata.append("hobbies", values.hobbies);
+    formdata.append("looking_for", values.looking_for);
+    formdata.append("fathers_name", values.fathers_name);
+    formdata.append("fathers_occupation", values.fathers_occupation);
+    formdata.append("mothers_name", values.mothers_name);
+    formdata.append("mothers_occupation", values.mothers_occupation);
+    formdata.append("fathers_native_place", values.fathers_native_place);
+    formdata.append("mothers_native_place", values.mothers_native_place);
+    formdata.append("number_of_sibiling", values.number_of_sibiling);
+    formdata.append("family_property", values.family_property);
+
+    formdata.append("other_info", values.other_info);
+    formdata.append("expectation", values.expectation);
+    formdata.append("phone_no", values.phone_no);
+    formdata.append("pin_code", values.pin_code);
+    formdata.append("password", values.password);
+    formdata.append("city", values.city);
+    formdata.append("address", values.address);
+    formdata.append("academic_qualification", values.academic_qualification);
+    formdata.append("last_studied_institution", values.last_studied_institution);
+    formdata.append("company_name", values.company_name);
+    formdata.append("location", values.location);
+    formdata.append("profession", values.profession);
+    formdata.append("monthly_net_income", values.monthly_net_income);
+
+    formdata.append("liabilities", values.liabilities);
+    formdata.append("annual_gross_income", values.annual_gross_income);
+    formdata.append("physical_status", values.physical_status);
+    formdata.append("diet", values.diet);
+    formdata.append("body_type", values.body_type);
+    formdata.append("complexion", values.complexion);
+    formdata.append("profile_pic", values.profile_pic);
+    formdata.append("heroscope", values.heroscope);
+    formdata.append("photos", photos);
+
+
     const requestOptions = {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        //   Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        userId: sessionStorage.getItem("user_id"),
-        name: values.name,
-        dob: values.dob,
-        age: values.age,
-        gender: values.gender,
-        pet: values.pet,
-        weight: values.weight,
-        height: values.height,
-        caste: values.caste,
-        religion: values.religion,
-        food_habit: values.food_habit,
-        smoke: values.smoke,
-        drink: values.drink,
-        hobbies: values.hobbies,
-        looking_for: values.looking_for,
-        fathers_name: values.fathers_name,
-        fathers_occupation: values.fathers_occupation,
-        mothers_name: values.mothers_name,
-        mothers_occupation: values.mothers_occupation,
-        fathers_native_place: values.fathers_native_place,
-        mothers_native_place: values.mothers_native_place,
-        number_of_sibiling: values.number_of_sibiling,
-        family_property: values.family_property,
-        other_info: values.other_info,
-        expectation: values.expectation,
-        phone_no: values.phone_no,
-        pin_code: values.pin_code,
-        password: values.password,
-        city: values.city,
-        address: values.address,
-        academic_qualification: values.academic_qualification,
-        last_studied_institution: values.last_studied_institution,
-        company_name: values.company_name,
-        location: values.location,
-        profession: values.profession,
-        monthly_net_income: values.monthly_net_income,
-        liabilities: values.liabilities,
-        annual_gross_income: values.annual_gross_income,
-        physical_status: values.physical_status,
-        diet: values.diet,
-        body_type: values.body_type,
-        complexion: values.complexion,
-        profile_pic: values.profile_pic,
-        heroscope: values.heroscope,
-      }),
+      body: formdata
     };
-    let response = await fetch(url, requestOptions);
-    console.log("url=>", url);
-    let responseJson = await response.json();
-    console.log("from network =>", responseJson);
-    return responseJson;
+    fetch(url, requestOptions)
+        .then((res) => res.text())
+        .then((data) => {
+          console.log("from network", JSON.parse(data));
+          const json_data = JSON.parse(data);
+          alert(json_data)
+          // Store.dispatch(setUserDetails(json_data.result));
+          // resolve(json_data);
+        });
   } catch (error) {
     alert(error);
   }

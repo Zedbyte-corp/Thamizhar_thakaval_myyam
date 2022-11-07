@@ -1,0 +1,98 @@
+.pricesection3-main-container{
+    height: auto;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row-reverse;
+    margin-bottom: 20px;
+    /* background: rgb(118, 4, 4); */
+
+    /* background: #000; */
+}
+
+.pricesection3-right-container{
+    width: 90%;
+    height: 100%;
+    /* background: #f4f1f1; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 10px;
+    border: 1px solid #000;
+    /* gap: 20px; */
+}
+
+.pricesection3-right-content-warp{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pricesection3-right-content{
+    font: var(--primary-font);
+    font-weight: 400;
+    cursor: pointer;
+    color: var(--primary-font-color);
+    font-size: var(--font-size-4);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    
+}
+
+.pricesection3-right-title{
+    /* width: 100%; */
+    /* height: fit-content;
+    width: fit-content; */
+    font: var(--primary-font);
+    font-weight: 900;
+    cursor: pointer;
+    /* color: white; */
+    color: var(--primary-font-color);
+    font-size: var(--font-size-1);
+    /* background: var(--template-color); */
+    /* border-radius: 5px; */
+    /* padding: 5px 20px 5px 20px; */
+    text-align: center;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 90%;
+  }
+  
+  td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+@media only screen and (max-device-width: 760px) {
+    .aboutsection3-main-container{
+        height: fit-content;
+        flex-direction: column-reverse;
+        gap: 3vh;
+        margin-top: 2vh;
+    }
+    .aboutsection3-left-container, .aboutsection3-right-container{
+        width: fit-content;
+    }
+}
