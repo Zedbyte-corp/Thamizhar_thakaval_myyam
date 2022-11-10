@@ -14,12 +14,13 @@ function Details() {
   // const { user_id } = useSelector((state) => state.userReducer);
 
   const [list, setList] = useState([]);
-  // const [sameUser, setsameUser] = useState(false);
+  const [sameUser, setsameUser] = useState(false);
 
   useEffect(() => {
     console.log("document use effect");
-    if (id === sessionStorage.getItem("user_id")) {   
+    if (id === sessionStorage.getItem("user_id")) { 
       (async()=>{
+        setsameUser(true)  
         console.log("user_id", sessionStorage.getItem("user_id"));
         const response = await getUserDetailsApiResponse(sessionStorage.getItem("user_id"))
         console.log("response", response);
@@ -38,9 +39,9 @@ function Details() {
     
   }, [id]);
 
-  const onclickView = () => {
-    navigate("/Matrimony/edit_details");
-  };
+  // const onclickView = () => {
+  //   navigate("/Matrimony/edit_details");
+  // };
 
   const onClickPhotos = () => {
     navigate("/Matrimony/photos")
@@ -74,13 +75,14 @@ function Details() {
               </ul>
             </div>
             <div className="matrimony_detail_left_box_lower">
-              {true ? (
-                <button
-                className="matrimony_detail_card_button2"
-                onClick={onclickView}
-              >
-                Edit
-              </button>
+              {sameUser ? (
+              //   <button
+              //   className="matrimony_detail_card_button2"
+              //   onClick={onclickView}
+              // >
+              //   Edit
+              // </button>
+              null
               ) : (
                 <button className="matrimony_detail_card_button1">
                   Verify Profile
@@ -149,20 +151,6 @@ function Details() {
                   <div className="matrimony_detail_field_title">Food Habit</div>
                   <div className="matrimony_detail_field_value">
                     {list.food_habit}
-                  </div>
-                </div>
-
-                <div className="matrimony_details_warp">
-                  <div className="matrimony_detail_field_title">Smoke</div>
-                  <div className="matrimony_detail_field_value">
-                    {list.smoke}
-                  </div>
-                </div>
-
-                <div className="matrimony_details_warp">
-                  <div className="matrimony_detail_field_title">Drink</div>
-                  <div className="matrimony_detail_field_value">
-                    {list.drink}
                   </div>
                 </div>
 
@@ -336,14 +324,14 @@ function Details() {
                   </div>
                 </div>
 
-                <div className="matrimony_details_warp">
+                {/* <div className="matrimony_details_warp">
                   <div className="matrimony_detail_field_title">
                     Liabilities (optional)
                   </div>
                   <div className="matrimony_detail_field_value">
                     {list.liabilities}
                   </div>
-                </div>
+                </div> */}
 
                 <div className="matrimony_details_warp">
                   <div className="matrimony_detail_field_title">
@@ -392,6 +380,22 @@ function Details() {
                 </div>
               </div>
             </div>
+
+            <div className="matrimony_detail_right_secondary_container">
+              <div className="matrimony_detail_title">
+                Horoscope
+              </div>
+              <div className="matrimony_details_container_warp">
+                <div className="matrimony_details_warp">
+                  <div className="matrimony_detail_field_value">
+                    <img className="heroscope" src={list.heroscope} alt="" />
+                  </div>
+                </div>
+
+                </div>
+            </div>
+
+
           </div>
         </div>
       </div>

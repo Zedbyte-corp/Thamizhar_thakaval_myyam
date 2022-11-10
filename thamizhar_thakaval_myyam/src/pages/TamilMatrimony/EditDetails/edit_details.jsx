@@ -65,12 +65,10 @@ function EditDetails() {
       .required("Required"),
     dob: Yup.date()
       .default(() => new Date())
-      .min(2, "Too Short!")
-      .max(50, "Too Long!")
-      .required("Required"),
-    age: Yup.number().positive().integer().required("Required"),
-    weight: Yup.number().positive().required("Required"),
-    height: Yup.number().positive().required("Required"),
+      .optional("Optional"),
+    age: Yup.number().typeError('you must specify a number').positive().integer().required("Required"),
+    weight: Yup.number().typeError('you must specify a number').positive().required("Required"),
+    height: Yup.number().typeError('you must specify a number').positive().required("Required"),
     caste: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
@@ -83,14 +81,7 @@ function EditDetails() {
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
-    smoke: Yup.string()
-      .notOneOf(["Yes", "No"], "please select")
-      .required("Required"),
-    drink: Yup.string()
-      .notOneOf(["Yes", "Yo"], "please select")
-      .required("Required"),
     looking_for: Yup.string()
-      .notOneOf(["Bride", "Groom"], "please select")
       .required("Required"),
     fathers_name: Yup.string()
       .min(2, "Too Short!")
@@ -116,17 +107,16 @@ function EditDetails() {
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
-    // number_of_sibiling: Yup.string().max(4, "Too Long!").required("Required"),
     family_property: Yup.string()
       .min(2, "Too Short!")
       .max(100, "Too Long!")
       .nullable()
       .optional("Optional"),
-    other_info: Yup.string()
-      .min(2, "Too Short!")
-      .max(100, "Too Long!")
-      .nullable()
-      .optional("Optional"),
+    // other_info: Yup.string()
+    //   .min(2, "Too Short!")
+    //   .max(100, "Too Long!")
+    //   .nullable()
+    //   .optional("Optional"),
     expectation: Yup.string()
       .min(2, "Too Short!")
       .max(100, "Too Long!")
@@ -139,10 +129,8 @@ function EditDetails() {
         "Phone number is not valid"
       )
       .required("Required"),
-    pin_code: Yup.number()
-      .positive()
-      .integer()
-      .test("len", "Must be exactly 6 characters", (val) => val.length === 6)
+    otp: Yup.number().typeError('you must specify a number').required("Required"),
+    pin_code: Yup.number().typeError('you must specify a number')
       .required("Required"),
     password: Yup.string()
       .required("Please Enter your password")
@@ -150,6 +138,7 @@ function EditDetails() {
         "",
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
       ),
+    email: Yup.string().email().typeError('invalid email format').required("Required"),
     city: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
@@ -178,13 +167,9 @@ function EditDetails() {
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
-    monthly_net_income: Yup.number().positive().integer().required("Required"),
-    liabilities: Yup.number()
-      .positive()
-      .integer()
-      .nullable()
-      .optional("Optional"),
-    annual_gross_income: Yup.number().positive().integer().required("Required"),
+    monthly_net_income: Yup.number().typeError('you must specify a number').required("Required"),
+    // liabilities: Yup.number().typeError('you must specify a number').optional("Optional"),
+    annual_gross_income: Yup.number().typeError('you must specify a number').required("Required"),
     physical_status: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
@@ -205,40 +190,39 @@ function EditDetails() {
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
-
     first_sibiling_name: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     first_sibiling_occupation: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     first_sibiling_maritial_status: Yup.string()
       .notOneOf(["Married", "Single", "Divorced"], "please select")
-      .required("Required"),
+      .optional("Optional"),
     second_sibiling_name: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     second_sibiling_occupation: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     second_sibiling_maritial_status: Yup.string()
       .notOneOf(["Married", "Single", "Divorced"], "please select")
-      .required("Required"),
+      .optional("Optional"),
     third_sibiling_name: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     third_sibiling_occupation: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     third_sibiling_maritial_status: Yup.string()
       .notOneOf(["Married", "Single", "Divorced"], "please select")
-      .required("Required"),
+      .optional("Optional"),
   });
 
   // initializing formik form
@@ -261,8 +245,6 @@ function EditDetails() {
       caste: list.caste,
       religion: list.religion,
       food_habit: list.food_habit,
-      smoke: list.smoke,
-      drink: list.drink,
       hobbies: list.hobbies,
       looking_for: list.looking_for,
       fathers_name: list.fathers_name,
@@ -282,7 +264,6 @@ function EditDetails() {
       third_sibiling_occupation: list.third_sibiling_occupation,
       third_sibiling_maritial_status: list.third_sibiling_maritial_status,
       family_property: list.family_property,
-      other_info: list.other_info,
       expectation: list.expectation,
       phone_no: list.phone_no,
       pin_code: list.pin_code,
@@ -295,7 +276,6 @@ function EditDetails() {
       location: list.location,
       profession: list.profession,
       monthly_net_income: list.monthly_net_income,
-      liabilities: list.liabilities,
       annual_gross_income: list.annual_gross_income,
       physical_status: list.physical_status,
       diet: list.diet,
@@ -367,7 +347,7 @@ function EditDetails() {
               >
                 Personal Details
               </div>
-              <div className="matrimony_register_align_form">
+              <section className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
                   <label htmlFor="name">Name</label>
                   <input
@@ -379,7 +359,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.name}
                   />
-                  {touched.name && errors.name}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="dob">DOB</label>
@@ -392,7 +374,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.dob}
                   />
-                  {errors.dob && touched.dob && errors.dob}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="age">Age</label>
@@ -405,7 +389,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.age}
                   />
-                  {errors.age && touched.age && errors.age}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="weight">Weight in kgs</label>
@@ -418,7 +404,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.weight}
                   />
-                  {errors.weight && touched.weight && errors.weight}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="height">Height in fts</label>
@@ -431,7 +419,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.height}
                   />
-                  {errors.height && touched.height && errors.height}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="caste">Caste</label>
@@ -444,7 +434,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.caste}
                   />
-                  {errors.caste && touched.caste && errors.caste}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="religion">Religion</label>
@@ -457,7 +449,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.religion}
                   />
-                  {errors.religion && touched.religion && errors.religion}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="food_habit">Food Habit</label>
@@ -470,72 +464,12 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.food_habit}
                   />
-                  {errors.food_habit && touched.food_habit && errors.food_habit}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
-                <div className="matrimony_register_label_input">
-                  <label htmlFor="smoke">Smoke</label>
-                  {/* <input
-                    className="register_field"
-                    type="text"
-                    name="smoke"
-                    id="smoke"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.smoke}
-                  /> */}
-                  <select
-                    className="register_field"
-                    name="smoke"
-                    value={list.color}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // style={{ display: "block" }}
-                  >
-                    <option value="" label="please select">
-                      please select{" "}
-                    </option>
-                    <option value="1" label="No">
-                      {" "}
-                      No
-                    </option>
-                    <option value="2" label="Yes">
-                      Yes
-                    </option>
-                  </select>
-                  {errors.smoke && touched.smoke && errors.smoke}
-                </div>
-                <div className="matrimony_register_label_input">
-                  <label htmlFor="drink">Drink</label>
-                  {/* <input
-                    className="register_field"
-                    type="text"
-                    name="drink"
-                    id="drink"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.drink}
-                  /> */}
-                  <select
-                    className="register_field"
-                    name="drink"
-                    value={list.drink}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    // style={{ display: "block" }}
-                  >
-                    <option value="" label="please select">
-                      please select{" "}
-                    </option>
-                    <option value="1" label="No">
-                      {" "}
-                      No
-                    </option>
-                    <option value="2" label="Yes">
-                      Yes
-                    </option>
-                  </select>
-                  {errors.drink && touched.drink && errors.drink}
-                </div>
+                
+                
                 <div className="matrimony_register_label_input">
                   <label htmlFor="hobbies">Hobbies</label>
                   <input
@@ -547,7 +481,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.hobbies}
                   />
-                  {errors.hobbies && touched.hobbies && errors.hobbies}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="looking_for">Looking For</label>
@@ -579,11 +515,11 @@ function EditDetails() {
                       Groom
                     </option>
                   </select>
-                  {errors.looking_for &&
-                    touched.looking_for &&
-                    errors.looking_for}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
-              </div>
+              </section>
             </div>
 
             <div className="matrimony_register_personal_details">
@@ -605,9 +541,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.fathers_name}
                   />
-                  {errors.fathers_name &&
-                    touched.fathers_name &&
-                    errors.fathers_name}
+                {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="fathers_occupation">
@@ -622,9 +558,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.fathers_occupation}
                   />
-                  {errors.fathers_occupation &&
-                    touched.fathers_occupation &&
-                    errors.fathers_occupation}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="mothers_name">Mother’s Name</label>
@@ -637,9 +573,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.mothers_name}
                   />
-                  {errors.mothers_name &&
-                    touched.mothers_name &&
-                    errors.mothers_name}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="mothers_occupation">
@@ -654,9 +590,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.mothers_occupation}
                   />
-                  {errors.mothers_occupation &&
-                    touched.mothers_occupation &&
-                    errors.mothers_occupation}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="fathers_native_place">
@@ -671,9 +607,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.fathers_native_place}
                   />
-                  {errors.fathers_native_place &&
-                    touched.fathers_native_place &&
-                    errors.fathers_native_place}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="mothers_native_place">
@@ -688,9 +624,9 @@ function EditDetails() {
                     onBlur={handleBlur}
                     value={list.mothers_native_place}
                   />
-                  {errors.mothers_native_place &&
-                    touched.mothers_native_place &&
-                    errors.mothers_native_place}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="number_of_sibiling">
@@ -712,9 +648,9 @@ function EditDetails() {
                   <button type="button" onClick={incNum}>
                     +
                   </button>
-                  {errors.number_of_sibiling &&
-                    touched.number_of_sibiling &&
-                    errors.number_of_sibiling}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 {num === 0 ? (
                   <div></div>
@@ -731,9 +667,9 @@ function EditDetails() {
                         onBlur={handleBlur}
                         value={list.first_sibiling_name}
                       />
-                      {errors.first_sibiling_name &&
-                        touched.first_sibiling_name &&
-                        errors.first_sibiling_name}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_maritial_status">
@@ -762,9 +698,9 @@ function EditDetails() {
                           Divorced
                         </option>
                       </select>
-                      {errors.first_sibiling_maritial_status &&
-                        touched.first_sibiling_maritial_status &&
-                        errors.first_sibiling_maritial_status}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_occupation">
@@ -779,9 +715,9 @@ function EditDetails() {
                         onBlur={handleBlur}
                         value={list.first_sibiling_occupation}
                       />
-                      {errors.first_sibiling_occupation &&
-                        touched.first_sibiling_occupation &&
-                        errors.first_sibiling_occupation}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                   </div>
                 ) : num === 2 ? (
@@ -797,9 +733,9 @@ function EditDetails() {
                         onBlur={handleBlur}
                         value={list.first_sibiling_name}
                       />
-                      {errors.first_sibiling_name &&
-                        touched.first_sibiling_name &&
-                        errors.first_sibiling_name}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_maritial_status">
@@ -828,9 +764,9 @@ function EditDetails() {
                           Divorced
                         </option>
                       </select>
-                      {errors.first_sibiling_maritial_status &&
-                        touched.first_sibiling_maritial_status &&
-                        errors.first_sibiling_maritial_status}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_occupation">
@@ -845,9 +781,9 @@ function EditDetails() {
                         onBlur={handleBlur}
                         value={list.first_sibiling_occupation}
                       />
-                      {errors.first_sibiling_occupation &&
-                        touched.first_sibiling_occupation &&
-                        errors.first_sibiling_occupation}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="second_sibiling_name">Name</label>
@@ -860,9 +796,9 @@ function EditDetails() {
                         onBlur={handleBlur}
                         value={list.second_sibiling_name}
                       />
-                      {errors.second_sibiling_name &&
-                        touched.second_sibiling_name &&
-                        errors.second_sibiling_name}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="second_sibiling_maritial_status">
@@ -891,9 +827,9 @@ function EditDetails() {
                           Divorced
                         </option>
                       </select>
-                      {errors.second_sibiling_maritial_status &&
-                        touched.second_sibiling_maritial_status &&
-                        errors.second_sibiling_maritial_status}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="second_sibiling_occupation">
@@ -908,9 +844,9 @@ function EditDetails() {
                         onBlur={handleBlur}
                         value={list.second_sibiling_occupation}
                       />
-                      {errors.second_sibiling_occupation &&
-                        touched.second_sibiling_occupation &&
-                        errors.second_sibiling_occupation}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                   </div>
                 ) : (
@@ -926,9 +862,9 @@ function EditDetails() {
                         onBlur={handleBlur}
                         value={list.first_sibiling_name}
                       />
-                      {errors.first_sibiling_name &&
-                        touched.first_sibiling_name &&
-                        errors.first_sibiling_name}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_maritial_status">
@@ -957,9 +893,9 @@ function EditDetails() {
                           Divorced
                         </option>
                       </select>
-                      {errors.first_sibiling_maritial_status &&
-                        touched.first_sibiling_maritial_status &&
-                        errors.first_sibiling_maritial_status}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_occupation">
@@ -974,9 +910,9 @@ function EditDetails() {
                         onBlur={handleBlur}
                         value={list.first_sibiling_occupation}
                       />
-                      {errors.first_sibiling_occupation &&
-                        touched.first_sibiling_occupation &&
-                        errors.first_sibiling_occupation}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="second_sibiling_name">Name</label>
@@ -989,9 +925,9 @@ function EditDetails() {
                         onBlur={handleBlur}
                         value={list.second_sibiling_name}
                       />
-                      {errors.second_sibiling_name &&
-                        touched.second_sibiling_name &&
-                        errors.second_sibiling_name}
+                      {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="second_sibiling_maritial_status">

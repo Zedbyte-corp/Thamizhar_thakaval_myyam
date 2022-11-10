@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import {
   getRegisterApiResponse,
+  getPhoneVerificationResponse
   // sendOTPApiResponse,
 } from "../../../networkcall.service";
 import * as Yup from "yup";
@@ -49,6 +50,7 @@ function Register() {
   let [length, setLength] = useState();
   let [requestedOTP, setRequestedOTP] = useState(false);
   let [verifiedOTP, setVerifiedOTP] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [final, setfinal] = useState("");
 
   //Timer
@@ -82,10 +84,18 @@ function Register() {
     }
   };
 
+  function editphonenumber(){
+    if(window.confirm("are you sure you want to edit the phonenumber ?") === true){
+      setVerifiedOTP(false)
+    }
+  }
+
   // let appVerifier;
-  function getOTP() {
-    if (window.recaptchaVerifier !== undefined) {
-      window.recaptchaVerifier.recaptcha.reset();
+  async function getOTP() {
+    let response = await getPhoneVerificationResponse(values.phone_no);
+    if(response.status !== "success"){
+      if (window.recaptchaVerifier !== undefined) {
+        window.recaptchaVerifier.recaptcha.reset();
       window.recaptchaVerifier.clear();
     }
 
@@ -123,19 +133,19 @@ function Register() {
         alert(err);
         // window.location.reload();
       });
+    }else{
+      alert(response.message)
+    }
   }
 
-  async function checkvalue(values) {
-    console.log(values);
+  async function checkvalue(values){
     if (verifiedOTP === true) {
       if (values.password === values.confirm_password) {
         values.number_of_sibiling = num.toString();
-        console.log("checkValue", values);
-        let response = await getRegisterApiResponse(values);
-        if (response.status === "success") {
-          navigate("/Matrimony/home");
-        } else {
-          alert("Please Fill all the required fields");
+        if(window.confirm("once you register, you cannot change the information, do you want to continue ?") === true){
+          setLoading(true)
+          await getRegisterApiResponse(values, navigate);
+          setLoading(false)
         }
       } else {
         alert("password and confirm password are not same");
@@ -152,10 +162,10 @@ function Register() {
       .required("Required"),
     dob: Yup.date()
       .default(() => new Date())
-      .required("Required"),
-    age: Yup.number().positive().integer().required("Required"),
-    weight: Yup.number().positive().required("Required"),
-    height: Yup.number().positive().required("Required"),
+      .optional("Optional"),
+    age: Yup.number().typeError('you must specify a number').positive().integer().required("Required"),
+    weight: Yup.number().typeError('you must specify a number').positive().required("Required"),
+    height: Yup.number().typeError('you must specify a number').positive().required("Required"),
     caste: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
@@ -167,12 +177,6 @@ function Register() {
     food_habit: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
-    smoke: Yup.string()
-      .notOneOf(["Yes", "No"], "please select")
-      .required("Required"),
-    drink: Yup.string()
-      .notOneOf(["Yes", "Yo"], "please select")
       .required("Required"),
     looking_for: Yup.string()
       .required("Required"),
@@ -205,11 +209,11 @@ function Register() {
       .max(100, "Too Long!")
       .nullable()
       .optional("Optional"),
-    other_info: Yup.string()
-      .min(2, "Too Short!")
-      .max(100, "Too Long!")
-      .nullable()
-      .optional("Optional"),
+    // other_info: Yup.string()
+    //   .min(2, "Too Short!")
+    //   .max(100, "Too Long!")
+    //   .nullable()
+    //   .optional("Optional"),
     expectation: Yup.string()
       .min(2, "Too Short!")
       .max(100, "Too Long!")
@@ -222,12 +226,8 @@ function Register() {
         "Phone number is not valid"
       )
       .required("Required"),
-    otp: Yup.number()
-      .positive()
-      .integer(),
-    pin_code: Yup.number()
-      .positive()
-      .integer()
+    otp: Yup.number().typeError('you must specify a number').optional("Optional"),
+    pin_code: Yup.number().typeError('you must specify a number')
       .required("Required"),
     password: Yup.string()
       .required("Please Enter your password")
@@ -235,6 +235,7 @@ function Register() {
         "",
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and one special case Character"
       ),
+    email: Yup.string().email().typeError('invalid email format').required("Required"),
     city: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
@@ -263,13 +264,9 @@ function Register() {
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
-    monthly_net_income: Yup.number().positive().integer().required("Required"),
-    liabilities: Yup.number()
-      .positive()
-      .integer()
-      .nullable()
-      .optional("Optional"),
-    annual_gross_income: Yup.number().positive().integer().required("Required"),
+    monthly_net_income: Yup.number().typeError('you must specify a number').required("Required"),
+    // liabilities: Yup.number().typeError('you must specify a number').optional("Optional"),
+    annual_gross_income: Yup.number().typeError('you must specify a number').required("Required"),
     physical_status: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
@@ -290,40 +287,57 @@ function Register() {
       .min(2, "Too Short!")
       .max(50, "Too Long!")
       .required("Required"),
-
     first_sibiling_name: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     first_sibiling_occupation: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     first_sibiling_maritial_status: Yup.string()
       .notOneOf(["Married", "Single", "Divorced"], "please select")
-      .required("Required"),
+      .optional("Optional"),
     second_sibiling_name: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     second_sibiling_occupation: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     second_sibiling_maritial_status: Yup.string()
       .notOneOf(["Married", "Single", "Divorced"], "please select")
-      .required("Required"),
+      .optional("Optional"),
     third_sibiling_name: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     third_sibiling_occupation: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
-      .required("Required"),
+      .optional("Optional"),
     third_sibiling_maritial_status: Yup.string()
       .notOneOf(["Married", "Single", "Divorced"], "please select")
-      .required("Required"),
+      .optional("Optional"),
+    photos: Yup.mixed()
+    .test('required', "Please upload a Photos", (value) => {
+      return value != null
+    }),
+    profile: Yup.mixed()
+    .test('required', "Please upload a Profile Photo", (value) => {
+      return value != null
+    })
+    .test("type", "We only support jpeg,jpg and png format", function (value) {
+      return value && (value.type === "image/jpg" || value.type === "image/jpeg" || value.type === "image/png");
+    }),
+    horoscope: Yup.mixed()
+    .test('required', "Please upload a horoscope Photo", (value) => {
+      return value != null
+    })
+    .test("type", "We only support jpeg,jpg and png format", function (value) {
+      return value && (value.type === "image/jpg" || value.type === "image/jpeg" || value.type === "image/png");
+    }),  
   });
 
   // function getDietValue() {
@@ -396,7 +410,7 @@ function Register() {
       profile: "",
       horoscope: "",
     },
-    // validationSchema: SignupSchema,
+    validationSchema: SignupSchema,
     onSubmit: (values) => checkvalue(values),
   });
 
@@ -473,7 +487,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.name}
                   />
-                  {touched.name && errors.name}
+                  {touched.name && errors.name ? (
+                    <div className="error">{errors.name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="dob">DOB</label>
@@ -486,7 +502,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.dob}
                   />
-                  {errors.dob && touched.dob && errors.dob}
+                  {touched.dob && errors.dob ? (
+                    <div className="error">{errors.dob}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="age">Age</label>
@@ -499,7 +517,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.age}
                   />
-                  {errors.age && touched.age && errors.age}
+                  {touched.age && errors.age ? (
+                    <div className="error">{errors.age}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="weight">Weight in kgs</label>
@@ -508,11 +528,14 @@ function Register() {
                     type="text"
                     name="weight"
                     id="weight"
+                    placeholder="eg: 70"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.weight}
                   />
-                  {errors.weight && touched.weight && errors.weight}
+                  {touched.weight && errors.weight ? (
+                    <div className="error">{errors.weight}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="height">Height in fts</label>
@@ -521,11 +544,14 @@ function Register() {
                     type="text"
                     name="height"
                     id="height"
+                    placeholder="eg: 6"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.height}
                   />
-                  {errors.height && touched.height && errors.height}
+                  {touched.height && errors.height ? (
+                    <div className="error">{errors.height}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="caste">Caste</label>
@@ -538,7 +564,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.caste}
                   />
-                  {errors.caste && touched.caste && errors.caste}
+                  {touched.caste && errors.caste ? (
+                    <div className="error">{errors.caste}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="religion">Religion</label>
@@ -572,7 +600,9 @@ function Register() {
                       Zoroastrianism
                     </option>
                   </select>
-                  {errors.religion && touched.religion && errors.religion}
+                  {touched.religion && errors.religion ? (
+                    <div className="error">{errors.religion}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="food_habit">Food Habit</label>
@@ -593,7 +623,9 @@ function Register() {
                       Vegan
                     </option>
                   </select>
-                  {errors.food_habit && touched.food_habit && errors.food_habit}
+                  {touched.food_habit && errors.food_habit ? (
+                    <div className="error">{errors.food_habit}</div>
+                  ) : null}
                 </div>
 
                 <div className="matrimony_register_label_input">
@@ -603,11 +635,14 @@ function Register() {
                     type="text"
                     name="hobbies"
                     id="hobbies"
+                    placeholder="eg: books, cricket, football"
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.hobbies}
                   />
-                  {errors.hobbies && touched.hobbies && errors.hobbies}
+                  {touched.hobbies && errors.hobbies ? (
+                    <div className="error">{errors.hobbies}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="looking_for">Looking For</label>
@@ -638,9 +673,9 @@ function Register() {
                       Groom
                     </option>
                   </select>
-                  {errors.looking_for &&
-                    touched.looking_for &&
-                    errors.looking_for}
+                  {touched.looking_for && errors.looking_for ? (
+                    <div className="error">{errors.looking_for}</div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -664,9 +699,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.fathers_name}
                   />
-                  {errors.fathers_name &&
-                    touched.fathers_name &&
-                    errors.fathers_name}
+                  {touched.fathers_name && errors.fathers_name ? (
+                    <div className="error">{errors.fathers_name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="fathers_occupation">
@@ -681,9 +716,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.fathers_occupation}
                   />
-                  {errors.fathers_occupation &&
-                    touched.fathers_occupation &&
-                    errors.fathers_occupation}
+                  {touched.fathers_occupation && errors.fathers_occupation ? (
+                    <div className="error">{errors.fathers_occupation}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="mothers_name">Mother’s Name</label>
@@ -696,9 +731,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.mothers_name}
                   />
-                  {errors.mothers_name &&
-                    touched.mothers_name &&
-                    errors.mothers_name}
+                  {touched.mothers_name && errors.mothers_name ? (
+                    <div className="error">{errors.mothers_name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="mothers_occupation">
@@ -713,9 +748,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.mothers_occupation}
                   />
-                  {errors.mothers_occupation &&
-                    touched.mothers_occupation &&
-                    errors.mothers_occupation}
+                  {touched.mothers_occupation && errors.mothers_occupation ? (
+                    <div className="error">{errors.mothers_occupation}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="fathers_native_place">
@@ -730,9 +765,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.fathers_native_place}
                   />
-                  {errors.fathers_native_place &&
-                    touched.fathers_native_place &&
-                    errors.fathers_native_place}
+                  {touched.mothers_occupation && errors.mothers_occupation ? (
+                    <div className="error">{errors.mothers_occupation}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="mothers_native_place">
@@ -747,15 +782,15 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.mothers_native_place}
                   />
-                  {errors.mothers_native_place &&
-                    touched.mothers_native_place &&
-                    errors.mothers_native_place}
+                  {touched.mothers_native_place && errors.mothers_native_place ? (
+                    <div className="error">{errors.mothers_native_place}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="number_of_sibiling">
                     Number of Sibilings
                   </label>
-                  <div type="button" onClick={decNum}>
+                  <div className="sibiling_button" type="button" onClick={decNum}>
                     -
                   </div>
                   <div className="register_field">{num}</div>
@@ -768,12 +803,12 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.number_of_sibiling}
                   /> */}
-                  <div type="button" onClick={incNum}>
+                  <div className="sibiling_button" type="button" onClick={incNum}>
                     +
                   </div>
-                  {errors.number_of_sibiling &&
-                    touched.number_of_sibiling &&
-                    errors.number_of_sibiling}
+                  {/* {touched.mothers_native_place && errors.mothers_native_place ? (
+                    <div className="error">{errors.mothers_native_place}</div>
+                  ) : null} */}
                 </div>
                 {num === 0 ? (
                   <div></div>
@@ -790,9 +825,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.first_sibiling_name}
                       />
-                      {errors.first_sibiling_name &&
-                        touched.first_sibiling_name &&
-                        errors.first_sibiling_name}
+                      {touched.first_sibiling_name && errors.first_sibiling_name ? (
+                        <div className="error">{errors.first_sibiling_name}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_maritial_status">
@@ -821,9 +856,9 @@ function Register() {
                           Divorced
                         </option>
                       </select>
-                      {errors.first_sibiling_maritial_status &&
-                        touched.first_sibiling_maritial_status &&
-                        errors.first_sibiling_maritial_status}
+                      {touched.first_sibiling_maritial_status && errors.first_sibiling_maritial_status ? (
+                        <div className="error">{errors.first_sibiling_maritial_status}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_occupation">
@@ -838,9 +873,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.first_sibiling_occupation}
                       />
-                      {errors.first_sibiling_occupation &&
-                        touched.first_sibiling_occupation &&
-                        errors.first_sibiling_occupation}
+                      {touched.first_sibiling_occupation && errors.first_sibiling_occupation ? (
+                        <div className="error">{errors.first_sibiling_occupation}</div>
+                      ) : null}
                     </div>
                   </div>
                 ) : num === 2 ? (
@@ -856,9 +891,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.first_sibiling_name}
                       />
-                      {errors.first_sibiling_name &&
-                        touched.first_sibiling_name &&
-                        errors.first_sibiling_name}
+                      {touched.first_sibiling_name && errors.first_sibiling_name ? (
+                        <div className="error">{errors.first_sibiling_name}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_maritial_status">
@@ -887,9 +922,9 @@ function Register() {
                           Divorced
                         </option>
                       </select>
-                      {errors.first_sibiling_maritial_status &&
-                        touched.first_sibiling_maritial_status &&
-                        errors.first_sibiling_maritial_status}
+                      {touched.first_sibiling_maritial_status && errors.first_sibiling_maritial_status ? (
+                        <div className="error">{errors.first_sibiling_maritial_status}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_occupation">
@@ -904,9 +939,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.first_sibiling_occupation}
                       />
-                      {errors.first_sibiling_occupation &&
-                        touched.first_sibiling_occupation &&
-                        errors.first_sibiling_occupation}
+                      {touched.first_sibiling_occupation && errors.first_sibiling_occupation ? (
+                        <div className="error">{errors.first_sibiling_occupation}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="second_sibiling_name">Name</label>
@@ -919,9 +954,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.second_sibiling_name}
                       />
-                      {errors.second_sibiling_name &&
-                        touched.second_sibiling_name &&
-                        errors.second_sibiling_name}
+                      {touched.second_sibiling_name && errors.second_sibiling_name ? (
+                        <div className="error">{errors.second_sibiling_name}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="second_sibiling_maritial_status">
@@ -950,9 +985,9 @@ function Register() {
                           Divorced
                         </option>
                       </select>
-                      {errors.second_sibiling_maritial_status &&
-                        touched.second_sibiling_maritial_status &&
-                        errors.second_sibiling_maritial_status}
+                      {touched.second_sibiling_maritial_status && errors.second_sibiling_maritial_status ? (
+                        <div className="error">{errors.second_sibiling_maritial_status}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="second_sibiling_occupation">
@@ -967,9 +1002,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.second_sibiling_occupation}
                       />
-                      {errors.second_sibiling_occupation &&
-                        touched.second_sibiling_occupation &&
-                        errors.second_sibiling_occupation}
+                      {touched.second_sibiling_occupation && errors.second_sibiling_occupation ? (
+                        <div className="error">{errors.second_sibiling_occupation}</div>
+                      ) : null}
                     </div>
                   </div>
                 ) : (
@@ -985,9 +1020,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.first_sibiling_name}
                       />
-                      {errors.first_sibiling_name &&
-                        touched.first_sibiling_name &&
-                        errors.first_sibiling_name}
+                      {touched.first_sibiling_name && errors.first_sibiling_name ? (
+                        <div className="error">{errors.first_sibiling_name}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_maritial_status">
@@ -1016,9 +1051,9 @@ function Register() {
                           Divorced
                         </option>
                       </select>
-                      {errors.first_sibiling_maritial_status &&
-                        touched.first_sibiling_maritial_status &&
-                        errors.first_sibiling_maritial_status}
+                      {touched.first_sibiling_maritial_status && errors.first_sibiling_maritial_status ? (
+                        <div className="error">{errors.first_sibiling_maritial_status}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="first_sibiling_occupation">
@@ -1033,9 +1068,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.first_sibiling_occupation}
                       />
-                      {errors.first_sibiling_occupation &&
-                        touched.first_sibiling_occupation &&
-                        errors.first_sibiling_occupation}
+                      {touched.first_sibiling_occupation && errors.first_sibiling_occupation ? (
+                        <div className="error">{errors.first_sibiling_occupation}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="second_sibiling_name">Name</label>
@@ -1048,9 +1083,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.second_sibiling_name}
                       />
-                      {errors.second_sibiling_name &&
-                        touched.second_sibiling_name &&
-                        errors.second_sibiling_name}
+                      {touched.second_sibiling_name && errors.second_sibiling_name ? (
+                        <div className="error">{errors.second_sibiling_name}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="second_sibiling_maritial_status">
@@ -1079,9 +1114,9 @@ function Register() {
                           Divorced
                         </option>
                       </select>
-                      {errors.second_sibiling_maritial_status &&
-                        touched.second_sibiling_maritial_status &&
-                        errors.second_sibiling_maritial_status}
+                      {touched.second_sibiling_maritial_status && errors.second_sibiling_maritial_status ? (
+                        <div className="error">{errors.second_sibiling_maritial_status}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="second_sibiling_occupation">
@@ -1096,9 +1131,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.second_sibiling_occupation}
                       />
-                      {errors.second_sibiling_occupation &&
-                        touched.second_sibiling_occupation &&
-                        errors.second_sibiling_occupation}
+                      {touched.second_sibiling_occupation && errors.second_sibiling_occupation ? (
+                        <div className="error">{errors.second_sibiling_occupation}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="third_sibiling_name">Name</label>
@@ -1111,9 +1146,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.third_sibiling_name}
                       />
-                      {errors.third_sibiling_name &&
-                        touched.third_sibiling_name &&
-                        errors.third_sibiling_name}
+                      {touched.third_sibiling_name && errors.third_sibiling_name ? (
+                        <div className="error">{errors.third_sibiling_name}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="third_sibiling_maritial_status">
@@ -1142,9 +1177,9 @@ function Register() {
                           Divorced
                         </option>
                       </select>
-                      {errors.third_sibiling_maritial_status &&
-                        touched.third_sibiling_maritial_status &&
-                        errors.third_sibiling_maritial_status}
+                      {touched.third_sibiling_maritial_status && errors.third_sibiling_maritial_status ? (
+                        <div className="error">{errors.third_sibiling_maritial_status}</div>
+                      ) : null}
                     </div>
                     <div className="matrimony_register_label_input">
                       <label htmlFor="third_sibiling_occupation">
@@ -1159,9 +1194,9 @@ function Register() {
                         onBlur={handleBlur}
                         value={values.third_sibiling_occupation}
                       />
-                      {errors.third_sibiling_occupation &&
-                        touched.third_sibiling_occupation &&
-                        errors.third_sibiling_occupation}
+                      {touched.third_sibiling_occupation && errors.third_sibiling_occupation ? (
+                        <div className="error">{errors.third_sibiling_occupation}</div>
+                      ) : null}
                     </div>
                   </div>
                 )}
@@ -1173,26 +1208,30 @@ function Register() {
                     className="register_field_area"
                     name="family_property"
                     id="family_property"
+                    placeholder="eg: Yes, we have two ground properties in our hometown of Tirunelveli."
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.family_property}
                   />
-                  {errors.family_property &&
-                    touched.family_property &&
-                    errors.family_property}
+                  {touched.family_property && errors.family_property ? (
+                        <div className="error">{errors.family_property}</div>
+                      ) : null}
                 </div>
-                <div className="matrimony_register_label_input">
+                {/* <div className="matrimony_register_label_input">
                   <label htmlFor="other_info">Other Information (if any)</label>
                   <textarea
                     className="register_field_area"
                     name="other_info"
                     id="other_info"
+                    placeholder="eg: Yes, we have two ground properties in our hometown of Tirunelveli."
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.other_info}
                   />
-                  {errors.other_info && touched.other_info && errors.other_info}
-                </div>
+                  {touched.other_info && errors.other_info ? (
+                        <div className="error">{errors.other_info}</div>
+                      ) : null}
+                </div> */}
                 <div className="matrimony_register_label_input">
                   <label htmlFor="expectation">
                     What is you expectation from other side?
@@ -1201,13 +1240,14 @@ function Register() {
                     className="register_field_area"
                     name="expectation"
                     id="expectation"
+                    placeholder="eg: You are not required to give us any dowry."
                     onChange={handleChange}
                     onBlur={handleBlur}
                     value={values.expectation}
                   />
-                  {errors.expectation &&
-                    touched.expectation &&
-                    errors.expectation}
+                  {touched.expectation && errors.expectation ? (
+                        <div className="error">{errors.expectation}</div>
+                      ) : null}
                 </div>
               </div>
             </div>
@@ -1233,9 +1273,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.academic_qualification}
                   />
-                  {errors.academic_qualification &&
-                    touched.academic_qualification &&
-                    errors.academic_qualification}
+                  {touched.academic_qualification && errors.academic_qualification ? (
+                        <div className="error">{errors.academic_qualification}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="last_studied_institution">
@@ -1250,9 +1290,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.last_studied_institution}
                   />
-                  {errors.last_studied_institution &&
-                    touched.last_studied_institution &&
-                    errors.last_studied_institution}
+                  {touched.last_studied_institution && errors.last_studied_institution ? (
+                        <div className="error">{errors.last_studied_institution}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="company_name">Company Name</label>
@@ -1265,9 +1305,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.company_name}
                   />
-                  {errors.company_name &&
-                    touched.company_name &&
-                    errors.company_name}
+                  {touched.company_name && errors.company_name ? (
+                        <div className="error">{errors.company_name}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="location">Location</label>
@@ -1280,9 +1320,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.location}
                   />
-                  {errors.location && touched.location ? (
-                    <div>{errors.location}</div>
-                  ) : null}
+                  {touched.location && errors.location ? (
+                        <div className="error">{errors.location}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="profession">Designation</label>
@@ -1295,7 +1335,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.profession}
                   />
-                  {errors.profession && touched.profession && errors.profession}
+                  {touched.profession && errors.profession ? (
+                        <div className="error">{errors.profession}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="monthly_net_income">Monthly Net Income</label>
@@ -1308,11 +1350,11 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.monthly_net_income}
                   />
-                  {errors.monthly_net_income &&
-                    touched.monthly_net_income &&
-                    errors.monthly_net_income}
+                  {touched.monthly_net_income && errors.monthly_net_income ? (
+                        <div className="error">{errors.monthly_net_income}</div>
+                      ) : null}
                 </div>
-                <div className="matrimony_register_label_input">
+                {/* <div className="matrimony_register_label_input">
                   <label htmlFor="liabilities">Liabilities (optional)</label>
                   <input
                     className="register_field"
@@ -1323,10 +1365,10 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.liabilities}
                   />
-                  {errors.liabilities &&
-                    touched.liabilities &&
-                    errors.liabilities}
-                </div>
+                  {touched.liabilities && errors.liabilities ? (
+                        <div className="error">{errors.liabilities}</div>
+                      ) : null}
+                </div> */}
                 <div className="matrimony_register_label_input">
                   <label htmlFor="annual_gross_income">
                     Annual Gross Income
@@ -1340,9 +1382,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.annual_gross_income}
                   />
-                  {errors.annual_gross_income &&
-                    touched.annual_gross_income &&
-                    errors.annual_gross_income}
+                  {touched.annual_gross_income && errors.annual_gross_income ? (
+                        <div className="error">{errors.annual_gross_income}</div>
+                      ) : null}
                 </div>
               </div>
             </div>
@@ -1436,9 +1478,9 @@ function Register() {
                   ) : (
                     <div></div>
                   )}
-                  {errors.physical_status &&
-                    touched.physical_status &&
-                    errors.physical_status}
+                  {touched.physical_status && errors.physical_status ? (
+                        <div className="error">{errors.physical_status}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="diet">Diet</label>
@@ -1506,7 +1548,9 @@ function Register() {
                   ) : (
                     <div></div>
                   )}
-                  {errors.diet && touched.diet && errors.diet}
+                  {touched.diet && errors.diet ? (
+                        <div className="error">{errors.diet}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="body_type">Body Type</label>
@@ -1568,7 +1612,9 @@ function Register() {
                       </option>
                     </select>
                   )}
-                  {errors.body_type && touched.body_type && errors.body_type}
+                  {touched.body_type && errors.body_type ? (
+                        <div className="error">{errors.body_type}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="complexion">Complexion</label>
@@ -1605,7 +1651,9 @@ function Register() {
                       Black
                     </option>
                   </select>
-                  {errors.complexion && touched.complexion && errors.complexion}
+                  {touched.body_type && errors.body_type ? (
+                        <div className="error">{errors.body_type}</div>
+                      ) : null}
                 </div>
               </div>
             </div>
@@ -1620,16 +1668,23 @@ function Register() {
               <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
                   <label htmlFor="phone_no">Phone No</label>
-                  <input
-                    className="register_field"
-                    type="text"
-                    name="phone_no"
-                    id="phone_no"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.phone_no}
-                  />
-                  {errors.phone_no && touched.phone_no && errors.phone_no}
+                  {
+                    !verifiedOTP ?
+                    <input
+                      className="register_field"
+                      type="text"
+                      name="phone_no"
+                      id="phone_no"
+                      placeholder="eg: +919876543210"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.phone_no}
+                    />
+                    : <div className="register_field">{values.phone_no}</div>
+                  }
+                  {touched.phone_no && errors.phone_no ? (
+                        <div className="error">{errors.phone_no}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="pin_code">Pin Code</label>
@@ -1642,7 +1697,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.pin_code}
                   />
-                  {errors.pin_code && touched.pin_code && errors.pin_code}
+                  {touched.pin_code && errors.pin_code ? (
+                        <div className="error">{errors.pin_code}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="email">Email</label>
@@ -1655,7 +1712,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.email}
                   />
-                  {errors.email && touched.email && errors.email}
+                  {touched.email && errors.email ? (
+                        <div className="error">{errors.email}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="city">City</label>
@@ -1668,7 +1727,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.city}
                   />
-                  {errors.city && touched.city && errors.city}
+                  {touched.city && errors.city ? (
+                        <div className="error">{errors.city}</div>
+                      ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="address">Address</label>
@@ -1680,7 +1741,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.address}
                   />
-                  {errors.address && touched.address && errors.address}
+                  {touched.address && errors.address ? (
+                        <div className="error">{errors.address}</div>
+                      ) : null}
                 </div>
               </div>
             </div>
@@ -1692,13 +1755,14 @@ function Register() {
               >
                 Verify Phone Number
               </div>
-              <div className="matrimony_register_align_form">
+              { !verifiedOTP ? <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
                   <label htmlFor="phone_no">Phone No</label>
                   <input
                     className="register_field"
                     type="text"
                     name="phone_no"
+                    placeholder="eg: +919876543210"
                     id="phone_no"
                     onChange={handleChange}
                     onInput={() => {
@@ -1712,7 +1776,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.phone_no}
                   />
-                  {errors.phone_no && touched.phone_no && errors.phone_no}
+                  {touched.phone_no && errors.phone_no ? (
+                        <div className="error">{errors.phone_no}</div>
+                      ) : null}
                 </div>
                 {requestedOTP === true ? (
                   <div className="matrimony_register_label_input">
@@ -1726,7 +1792,9 @@ function Register() {
                       onBlur={handleBlur}
                       value={values.otp}
                     />
-                    {errors.otp && touched.otp && errors.otp}
+                    {touched.otp && errors.otp ? (
+                        <div className="error">{errors.otp}</div>
+                      ) : null}
                   </div>
                 ) : (
                   <div></div>
@@ -1780,7 +1848,10 @@ function Register() {
                 ) : (
                   <div></div>
                 )}
-              </div>
+              </div> : <div className="phone_verify">
+                {values.phone_no} is successfully verified
+                <button className="matrimony_register_button" onClick={()=>{editphonenumber()}}>Edit PhoneNumber</button>
+                </div>}
             </div>
 
             <div className="matrimony_register_personal_details">
@@ -1802,7 +1873,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.password}
                   />
-                  {errors.password && touched.password && errors.password}
+                  {touched.password && errors.password ? (
+                        <div className="error">{errors.password}</div>
+                      ) : null}
                 </div>
 
                 <div className="matrimony_register_label_input">
@@ -1816,7 +1889,9 @@ function Register() {
                     onBlur={handleBlur}
                     value={values.confirm_password}
                   />
-                  {errors.password && touched.password && errors.password}
+                  {touched.confirm_password && errors.confirm_password ? (
+                        <div className="error">{errors.confirm_password}</div>
+                      ) : null}
                 </div>
               </div>
             </div>
@@ -1841,7 +1916,7 @@ function Register() {
                       className="matrimony_register_button"
                       htmlFor="profile"
                     >
-                      Upload Profile
+                      Upload Profile Image
                     </label>
                     <input
                       className="matrimony_register_button_upload"
@@ -1857,7 +1932,10 @@ function Register() {
                       onBlur={handleBlur}
                     // value={values.profile}
                     />
-                    {errors.profile && touched.profile && errors.profile}
+                    {/* <div className="error">choose a profile picture, <br/> Recommended format jpeg,png</div> */}
+                    {errors.profile ? (
+                        <div className="error">{errors.profile}</div>
+                      ) : null}
                   </div>
                   {/* <button className="matrimony_register_button" type="submit">
                   Upload Profile
@@ -1889,7 +1967,10 @@ function Register() {
                         // value={values.profile}
                         multiple
                       />
-                      {errors.profile && touched.profile && errors.profile}
+                      {/* <div className="error">choose maximum 5 photos, <br/> Recommended format jpeg,png</div> */}
+                      {errors.photos ? (
+                        <div className="error">{errors.photos}</div>
+                      ) : null}
                     </div>
                   </div>
                   <div className="matrimony_register_align_form">
@@ -1922,9 +2003,10 @@ function Register() {
                         onBlur={handleBlur}
                       // value={values.profile}
                       />
-                      {errors.horoscope &&
-                        touched.horoscope &&
-                        errors.horoscope}
+                      {/* <div className="error">choose a horoscope image, <br/> Recommended format jpeg,png</div> */}
+                      {errors.horoscope ? (
+                        <div className="error">{errors.horoscope}</div>
+                      ) : null}
                     </div>
                   </div>
                 </div>
@@ -1951,6 +2033,13 @@ function Register() {
           </form>
         </div>
       </div>
+
+
+      {/* loading */}
+      {loading ? <div className="loading">
+        <div className="loader"></div>
+        Registration is in process..please wait
+        </div> : null}
     </section>
   );
 }

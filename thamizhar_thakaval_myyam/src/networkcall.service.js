@@ -7,6 +7,7 @@ import uuid from "react-uuid";
 const baseurl = "http://localhost:5000";
 // const baseurl = "https://api.thamizharinfo.com";
 
+// import { useNavigate } from "react-router-dom";
 // login API CALL
 export const getLoginApiResponse = async (values) => {
   try {
@@ -19,7 +20,7 @@ export const getLoginApiResponse = async (values) => {
         //   Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
-        phone: values.phone,
+        phone: `+91${values.phone}`,
         password: values.password,
       }),
     };
@@ -52,48 +53,14 @@ export const getAllUsersApiResponse = async (values) => {
         max_height: values.max_height,
         min_weight: values.min_weight,
         max_weight: values.max_weight,
-        religion: convertReligion(values.religion),
+        religion: values.religion,
         caste: values.caste,
         martial_status: values.martial_status,
         language: values.language,
       }),
     };
 
-    console.log("yupp", {
-      max_age: values.max_age,
-      min_age: values.min_age,
-      min_height: values.min_height,
-      max_height: values.max_height ?? "",
-      min_weight: values.min_weight,
-      max_weight: values.max_weight ?? "",
-      religion: convertReligion(values.religion),
-      caste: values.caste,
-      martial_status: values.martial_status,
-      language: values.language,
-    });
-
-    function convertReligion(religion) {
-      switch (religion) {
-        case "":
-          return "";
-        case "1":
-          return "hindu";
-        case "2":
-          return "Muslim";
-        case "3":
-          return "Sikhism";
-        case "4":
-          return "Christianity";
-        case "5":
-          return "Buddhism";
-        case "6":
-          return "Jainism";
-        case "7":
-          return "Zoroastrianism";
-        default:
-          break;
-      }
-    }
+  
     let response = await fetch(url, requestOptions);
     console.log("url=>", url);
     let responseJson = await response.json();
@@ -105,7 +72,7 @@ export const getAllUsersApiResponse = async (values) => {
 };
 
 // register api call
-export const getRegisterApiResponse = async (values) => {
+export const getRegisterApiResponse = async (values, navigate) => {
   try {
     console.log("inside document api", values);
     let url = `${baseurl}/user/create`;
@@ -114,7 +81,12 @@ export const getRegisterApiResponse = async (values) => {
     formdata.append("name", values.name);
     formdata.append("dob", values.dob);
     formdata.append("age", values.age);
-    formdata.append("gender", values.gender);
+    if(values.looking_for === "Bride"){
+      formdata.append("gender", "Groom")
+    }
+    if(values.looking_for === "Groom"){
+      formdata.append("gender", "Bride");
+    }
     formdata.append("pet", values.pet);
     formdata.append("weight", values.weight);
     formdata.append("height", values.height);
@@ -171,15 +143,20 @@ export const getRegisterApiResponse = async (values) => {
       method: "POST",
       body: formdata,
     };
-    fetch(url, requestOptions)
-      .then((res) => res.text())
-      .then((data) => {
-        console.log("from network", JSON.parse(data));
-        const json_data = JSON.parse(data);
-        alert(json_data);
-        // Store.dispatch(setUserDetails(json_data.result));
-        // resolve(json_data);
-      });
+    return new Promise((resolve, reject) => {
+      fetch(url, requestOptions)
+        .then((res) => res.text())
+        .then((data) => {
+          // console.log("from network", JSON.parse(data));
+          const json_data = JSON.parse(data);
+          if (json_data.status === "success") {
+            alert("your profile has been successfully registered");
+            navigate("/");
+          }
+          resolve(true)
+          // Store.dispatch(setUserDetails(json_data.result));
+    });
+  });
   } catch (error) {
     alert(error);
   }
@@ -208,6 +185,37 @@ export const getUserDetailsApiResponse = async (user_id) => {
         .then((data) => {
           console.log("from network", JSON.parse(data));
           const json_data = JSON.parse(data);
+          // Store.dispatch(setUserDetails(json_data.result));
+          resolve(json_data);
+        });
+    });
+  } catch (error) {
+    alert(error);
+  }
+};
+
+// user phone number verification API
+export const getPhoneVerificationResponse = async (phone_no) => {
+  try {
+    let url = `${baseurl}/user/verify`;
+    var raw = JSON.stringify({
+      phone_no: phone_no,
+    });
+    const requestOptions = {
+      method: "POST",
+      body: raw,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+    };
+    return new Promise((resolve, reject) => {
+      fetch(url, requestOptions)
+        .then((res) => res.text())
+        .then((data) => {
+          console.log("from network", JSON.parse(data));
+          const json_data = JSON.parse(data);
+          // alert(json_data.message)
           // Store.dispatch(setUserDetails(json_data.result));
           resolve(json_data);
         });

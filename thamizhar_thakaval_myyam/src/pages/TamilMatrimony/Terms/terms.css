@@ -129,7 +129,8 @@
   justify-content: center;
   flex-wrap: wrap;
   flex-direction: column;
-  margin: 15px 0 25px 0;
+  margin: 15px 0 50px 0;
+  padding-bottom: 25px;
 }
 
 .matrimony_register_align_form {
@@ -156,7 +157,7 @@
   width: 20vw;
   background: #eaeaea;
   border-radius: 5px;
-  margin: 10px 15px 15px 0;
+  margin: 10px 15px 5px 0;
   border: 0;
 }
 
@@ -165,7 +166,7 @@
   width: 40vw;
   background: #eaeaea;
   border-radius: 5px;
-  margin: 10px 15px 15px 0;
+  margin: 10px 15px 5px 0;
   border: 0;
   resize: none;
 }

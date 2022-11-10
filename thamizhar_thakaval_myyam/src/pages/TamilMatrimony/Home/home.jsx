@@ -103,8 +103,8 @@ function Home() {
       max_age: "100",
       min_height: "0",
       max_height: "10",
-      min_weight: "",
-      max_weight: "",
+      min_weight: "0",
+      max_weight: "500",
       height: "",
       weight: "",
       religion: "",
@@ -141,20 +141,10 @@ function Home() {
       religion={usersInfo.religion}
       caste={usersInfo.caste}
       profile_pic={usersInfo.profile_pic}
-      gender={convert_gender(usersInfo.gender)}
+      gender={usersInfo.gender}
     ></DetailCardMatrimony>
   ));
 
-  function convert_gender(num) {
-    switch (num) {
-      case "1":
-        return "Groom";
-      case "2":
-        return "Bride";
-      default:
-        return "day not found";
-    }
-  }
 
   // design started here
   return (
@@ -220,7 +210,7 @@ function Home() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 >
-                  <option value="0-10" label="no preference">
+                  <option value="" label="no preference">
                     no preference
                   </option>
                   <option value="0-4" label="less than 4 ft">
@@ -286,26 +276,26 @@ function Home() {
                   <option value="" label="please select">
                     please select{" "}
                   </option>
-                  <option value="1" label="Hinduism">
+                  <option value="Hinduism" label="Hinduism">
                     {" "}
                     Hinduism
                   </option>
-                  <option value="2" label="Islam">
+                  <option value="Islam" label="Islam">
                     Islam
                   </option>
-                  <option value="3" label="Sikhism">
+                  <option value="Sikhism" label="Sikhism">
                     Sikhism
                   </option>
-                  <option value="4" label="Christianity">
+                  <option value="Christianity" label="Christianity">
                     Christianity
                   </option>
-                  <option value="5" label="Buddhism">
+                  <option value="Buddhism" label="Buddhism">
                     Buddhism
                   </option>
-                  <option value="6" label="Jainism">
+                  <option value="Jainism" label="Jainism">
                     Jainism
                   </option>
-                  <option value="7" label="Zoroastrianism">
+                  <option value="Zoroastrianism" label="Zoroastrianism">
                     Zoroastrianism
                   </option>
                 </select>

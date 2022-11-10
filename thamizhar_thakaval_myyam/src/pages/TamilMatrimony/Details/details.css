@@ -185,6 +185,12 @@
   color: #242424;
 }
 
+.heroscope{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
 @media only screen and (max-device-width: 768px){
   .matrimony_detail_secondary_container{
     flex-direction: column;
