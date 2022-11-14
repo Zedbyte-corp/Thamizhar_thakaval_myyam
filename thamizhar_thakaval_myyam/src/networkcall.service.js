@@ -5,7 +5,7 @@ import uuid from "react-uuid";
 // import { randomAlphanumericGenerator } from "./helper/utils";
 // const baseurl = "https://3.111.40.230:5000";
 const baseurl = "http://localhost:5000";
-// const baseurl = "https://api.thamizharinfo.com";
+// const baseurl = "https://thamizharinfo.com:5000";
 
 // import { useNavigate } from "react-router-dom";
 // login API CALL
@@ -80,7 +80,7 @@ export const getRegisterApiResponse = async (values, navigate) => {
     formdata.append("userId", uuid());
     formdata.append("name", values.name);
     formdata.append("dob", values.dob);
-    formdata.append("age", values.age);
+    formdata.append("age", parseInt(values.age));
     if(values.looking_for === "Bride"){
       formdata.append("gender", "Groom")
     }
@@ -88,8 +88,8 @@ export const getRegisterApiResponse = async (values, navigate) => {
       formdata.append("gender", "Bride");
     }
     formdata.append("pet", values.pet);
-    formdata.append("weight", values.weight);
-    formdata.append("height", values.height);
+    formdata.append("weight", parseInt(values.weight));
+    formdata.append("height", parseInt(values.height));
     formdata.append("caste", values.caste);
     formdata.append("religion", values.religion);
     formdata.append("food_habit", values.food_habit);
@@ -97,6 +97,7 @@ export const getRegisterApiResponse = async (values, navigate) => {
     formdata.append("drink", values.drink);
     formdata.append("hobbies", values.hobbies);
     formdata.append("looking_for", values.looking_for);
+    formdata.append("martial_status", values.martial_status);
     formdata.append("fathers_name", values.fathers_name);
     formdata.append("fathers_occupation", values.fathers_occupation);
     formdata.append("mothers_name", values.mothers_name);

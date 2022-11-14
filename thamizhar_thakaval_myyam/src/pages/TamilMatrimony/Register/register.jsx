@@ -131,6 +131,7 @@ function Register() {
   function editphonenumber() {
     if (window.confirm("are you sure you want to edit the phonenumber ?") === true) {
       setVerifiedOTP(false)
+      setRequestedOTP(false)
     }
   }
 
@@ -224,6 +225,7 @@ function Register() {
       .required("Required"),
     looking_for: Yup.string()
       .required("Required"),
+      martial_status: Yup.string().required("Required"),
     fathers_name: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
@@ -404,15 +406,16 @@ function Register() {
     initialValues: {
       name: "",
       dob: "",
-      age: "",
-      weight: "",
+      age: null,
+      weight: null,
       email: "",
-      height: "",
+      height: null,
       caste: "",
       religion: "Hinduism",
       food_habit: "Vegetarian",
       hobbies: "",
       looking_for: "Bride",
+      martial_status:"Single",
       fathers_name: "",
       fathers_occupation: "",
       mothers_name: "",
@@ -721,6 +724,38 @@ function Register() {
                     <div className="error">{errors.looking_for}</div>
                   ) : null}
                 </div>
+
+                <div className="matrimony_register_label_input">
+                  <label htmlFor="marital_status">Marital Status</label>
+            
+                  <select
+                    className="register_field"
+                    name="marital_status"
+                    value={values.martial_status}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  // style={{ display: "block" }}
+                  >
+
+                    {/* <option value="" label="please select">
+                      please select{" "}
+                    </option> */}
+                    
+                    <option value="Single" label="Single">
+                      Single
+                    </option>
+                    <option value="Divorced" label="Divorced">
+                      Divorced
+                    </option>
+                    <option value="widowed" label="widowed">
+                      widowed
+                    </option>
+                  </select>
+                  {touched.martial_status && errors.martial_status ? (
+                    <div className="error">{errors.martial_status}</div>
+                  ) : null}
+                </div>
+
               </div>
             </div>
 

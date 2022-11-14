@@ -324,16 +324,19 @@ function Home() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 >
-                  <option value="1" label="Not Married">
-                    Not Married
-                  </option>
-                  <option value="2" label="Divorced">
-                    Divorced
-                  </option>
+                  <option value="Single" label="Single">
+                      Single
+                    </option>
+                    <option value="Divorced" label="Divorced">
+                      Divorced
+                    </option>
+                    <option value="widowed" label="widowed">
+                      widowed
+                    </option>
                 </select>
               </div>
 
-              <div className="matrimony_register_label_input">
+              {/* <div className="matrimony_register_label_input">
                 <label htmlFor="Language">Language</label>
                 <input
                   className="register_field"
@@ -344,7 +347,7 @@ function Home() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-              </div>
+              </div> */}
               <button className="matrimony_search_button" type="submit">
                 Search
               </button>
