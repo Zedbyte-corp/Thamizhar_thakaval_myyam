@@ -14,6 +14,7 @@ import { useState, useEffect, useRef } from "react";
 import { verifyOTPApiResponse } from "./../../../networkcall.service";
 import { firebase, auth } from "../../Authentication/firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
+import { render } from '@testing-library/react';
 
 const STATUS = {
   STARTED: "Started",
@@ -41,6 +42,49 @@ function useInterval(callback, delay) {
 }
 
 function Register() {
+
+
+  const renderRecaptcha = () => {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "recaptcha-container",
+      {
+        size: "invisible",
+        callback: (response) => {
+          console.log(response);
+        }
+        ,
+        'expired-callback': response => {
+          console.log(response);
+        }
+
+      },
+      auth
+    );
+
+    let recaptchaVerifier = window.recaptchaVerifier;
+    recaptchaVerifier.render().then((widgetId) => {
+      window.recaptchaWidgetId = widgetId;
+    });
+  }
+
+
+  const signInOTP = async () => {
+    try {
+      const result = signInWithPhoneNumber(auth, values.phone_no, window.recaptchaVerifier)
+      setfinal(result);
+      setStatus(STATUS.STARTED);
+      setSecondsRemaining(60);
+      setRequestedOTP(true);
+      alert("code sent");
+    } catch (err) {
+      alert(err);
+      console.log(err);
+      window.grecaptcha.reset(window.recaptchaWidgetId);
+      window.recaptchaWidgetId = undefined;
+      window.recaptchaVerifier.clear();
+    }
+  }
+
   // let [othersFlag, setOthersFlag] = useState(false);
   const navigate = useNavigate();
   let [num, setNum] = useState(0);
@@ -84,65 +128,65 @@ function Register() {
     }
   };
 
-  function editphonenumber(){
-    if(window.confirm("are you sure you want to edit the phonenumber ?") === true){
+  function editphonenumber() {
+    if (window.confirm("are you sure you want to edit the phonenumber ?") === true) {
       setVerifiedOTP(false)
     }
   }
 
-  // let appVerifier;
-  async function getOTP() {
-    let response = await getPhoneVerificationResponse(values.phone_no);
-    if(response.status !== "success"){
-      if (window.recaptchaVerifier !== undefined) {
-        window.recaptchaVerifier.recaptcha.reset();
-      window.recaptchaVerifier.clear();
-    }
+  // // let appVerifier;
+  // async function getOTP() {
+  //   let response = await getPhoneVerificationResponse(values.phone_no);
+  //   if (response.status !== "success") {
+  //     if (window.recaptchaVerifier !== undefined) {
+  //       window.recaptchaVerifier.recaptcha.reset();
+  //       window.recaptchaVerifier.clear();
+  //     }
 
-    window.recaptchaVerifier = new RecaptchaVerifier(
-      "recaptcha-container",
-      {
-        size: "invisible",
-        callback: (response) => {
-          console.log(response);
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-          // ...
-        },
-        "expired-callback": () => {
-          // Response expired. Ask user to solve reCAPTCHA again.
-          // ...
-        },
-        "error-callback": function () {
-          //...
-        },
-      },
-      auth
-    );
-    let appVerifier = window.recaptchaVerifier;
-    console.log("appVerifier", appVerifier);
+  //     window.recaptchaVerifier = new RecaptchaVerifier(
+  //       "recaptcha-container",
+  //       {
+  //         size: "invisible",
+  //         callback: (response) => {
+  //           console.log(response);
+  //           // reCAPTCHA solved, allow signInWithPhoneNumber.
+  //           // ...
+  //         },
+  //         "expired-callback": () => {
+  //           // Response expired. Ask user to solve reCAPTCHA again.
+  //           // ...
+  //         },
+  //         "error-callback": function () {
+  //           //...
+  //         },
+  //       },
+  //       auth
+  //     );
+  //     let appVerifier = window.recaptchaVerifier;
+  //     console.log("appVerifier", appVerifier);
 
-    signInWithPhoneNumber(auth, values.phone_no, appVerifier)
-      .then((result) => {
-        setStatus(STATUS.STARTED);
-        setSecondsRemaining(60);
-        setfinal(result);
-        alert("code sent");
-        setRequestedOTP(true);
-      })
-      .catch((err) => {
-        alert(err);
-        // window.location.reload();
-      });
-    }else{
-      alert(response.message)
-    }
-  }
+  //     signInWithPhoneNumber(auth, values.phone_no, appVerifier)
+  //       .then((result) => {
+  //         setStatus(STATUS.STARTED);
+  //         setSecondsRemaining(60);
+  //         setfinal(result);
+  //         alert("code sent");
+  //         setRequestedOTP(true);
+  //       })
+  //       .catch((err) => {
+  //         alert(err);
+  //         // window.location.reload();
+  //       });
+  //   } else {
+  //     alert(response.message)
+  //   }
+  // }
 
-  async function checkvalue(values){
+  async function checkvalue(values) {
     if (verifiedOTP === true) {
       if (values.password === values.confirm_password) {
         values.number_of_sibiling = num.toString();
-        if(window.confirm("once you register, you cannot change the information, do you want to continue ?") === true){
+        if (window.confirm("once you register, you cannot change the information, do you want to continue ?") === true) {
           setLoading(true)
           await getRegisterApiResponse(values, navigate);
           setLoading(false)
@@ -321,23 +365,23 @@ function Register() {
       .notOneOf(["Married", "Single", "Divorced"], "please select")
       .optional("Optional"),
     photos: Yup.mixed()
-    .test('required', "Please upload a Photos", (value) => {
-      return value != null
-    }),
+      .test('required', "Please upload a Photos", (value) => {
+        return value != null
+      }),
     profile: Yup.mixed()
-    .test('required', "Please upload a Profile Photo", (value) => {
-      return value != null
-    })
-    .test("type", "We only support jpeg,jpg and png format", function (value) {
-      return value && (value.type === "image/jpg" || value.type === "image/jpeg" || value.type === "image/png");
-    }),
+      .test('required', "Please upload a Profile Photo", (value) => {
+        return value != null
+      })
+      .test("type", "We only support jpeg,jpg and png format", function (value) {
+        return value && (value.type === "image/jpg" || value.type === "image/jpeg" || value.type === "image/png");
+      }),
     horoscope: Yup.mixed()
-    .test('required', "Please upload a horoscope Photo", (value) => {
-      return value != null
-    })
-    .test("type", "We only support jpeg,jpg and png format", function (value) {
-      return value && (value.type === "image/jpg" || value.type === "image/jpeg" || value.type === "image/png");
-    }),  
+      .test('required', "Please upload a horoscope Photo", (value) => {
+        return value != null
+      })
+      .test("type", "We only support jpeg,jpg and png format", function (value) {
+        return value && (value.type === "image/jpg" || value.type === "image/jpeg" || value.type === "image/png");
+      }),
   });
 
   // function getDietValue() {
@@ -1214,8 +1258,8 @@ function Register() {
                     value={values.family_property}
                   />
                   {touched.family_property && errors.family_property ? (
-                        <div className="error">{errors.family_property}</div>
-                      ) : null}
+                    <div className="error">{errors.family_property}</div>
+                  ) : null}
                 </div>
                 {/* <div className="matrimony_register_label_input">
                   <label htmlFor="other_info">Other Information (if any)</label>
@@ -1246,8 +1290,8 @@ function Register() {
                     value={values.expectation}
                   />
                   {touched.expectation && errors.expectation ? (
-                        <div className="error">{errors.expectation}</div>
-                      ) : null}
+                    <div className="error">{errors.expectation}</div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -1274,8 +1318,8 @@ function Register() {
                     value={values.academic_qualification}
                   />
                   {touched.academic_qualification && errors.academic_qualification ? (
-                        <div className="error">{errors.academic_qualification}</div>
-                      ) : null}
+                    <div className="error">{errors.academic_qualification}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="last_studied_institution">
@@ -1291,8 +1335,8 @@ function Register() {
                     value={values.last_studied_institution}
                   />
                   {touched.last_studied_institution && errors.last_studied_institution ? (
-                        <div className="error">{errors.last_studied_institution}</div>
-                      ) : null}
+                    <div className="error">{errors.last_studied_institution}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="company_name">Company Name</label>
@@ -1306,8 +1350,8 @@ function Register() {
                     value={values.company_name}
                   />
                   {touched.company_name && errors.company_name ? (
-                        <div className="error">{errors.company_name}</div>
-                      ) : null}
+                    <div className="error">{errors.company_name}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="location">Location</label>
@@ -1321,8 +1365,8 @@ function Register() {
                     value={values.location}
                   />
                   {touched.location && errors.location ? (
-                        <div className="error">{errors.location}</div>
-                      ) : null}
+                    <div className="error">{errors.location}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="profession">Designation</label>
@@ -1336,8 +1380,8 @@ function Register() {
                     value={values.profession}
                   />
                   {touched.profession && errors.profession ? (
-                        <div className="error">{errors.profession}</div>
-                      ) : null}
+                    <div className="error">{errors.profession}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="monthly_net_income">Monthly Net Income</label>
@@ -1351,8 +1395,8 @@ function Register() {
                     value={values.monthly_net_income}
                   />
                   {touched.monthly_net_income && errors.monthly_net_income ? (
-                        <div className="error">{errors.monthly_net_income}</div>
-                      ) : null}
+                    <div className="error">{errors.monthly_net_income}</div>
+                  ) : null}
                 </div>
                 {/* <div className="matrimony_register_label_input">
                   <label htmlFor="liabilities">Liabilities (optional)</label>
@@ -1383,8 +1427,8 @@ function Register() {
                     value={values.annual_gross_income}
                   />
                   {touched.annual_gross_income && errors.annual_gross_income ? (
-                        <div className="error">{errors.annual_gross_income}</div>
-                      ) : null}
+                    <div className="error">{errors.annual_gross_income}</div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -1479,8 +1523,8 @@ function Register() {
                     <div></div>
                   )}
                   {touched.physical_status && errors.physical_status ? (
-                        <div className="error">{errors.physical_status}</div>
-                      ) : null}
+                    <div className="error">{errors.physical_status}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="diet">Diet</label>
@@ -1549,8 +1593,8 @@ function Register() {
                     <div></div>
                   )}
                   {touched.diet && errors.diet ? (
-                        <div className="error">{errors.diet}</div>
-                      ) : null}
+                    <div className="error">{errors.diet}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="body_type">Body Type</label>
@@ -1613,8 +1657,8 @@ function Register() {
                     </select>
                   )}
                   {touched.body_type && errors.body_type ? (
-                        <div className="error">{errors.body_type}</div>
-                      ) : null}
+                    <div className="error">{errors.body_type}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="complexion">Complexion</label>
@@ -1652,8 +1696,8 @@ function Register() {
                     </option>
                   </select>
                   {touched.body_type && errors.body_type ? (
-                        <div className="error">{errors.body_type}</div>
-                      ) : null}
+                    <div className="error">{errors.body_type}</div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -1670,21 +1714,21 @@ function Register() {
                   <label htmlFor="phone_no">Phone No</label>
                   {
                     !verifiedOTP ?
-                    <input
-                      className="register_field"
-                      type="text"
-                      name="phone_no"
-                      id="phone_no"
-                      placeholder="eg: +919876543210"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.phone_no}
-                    />
-                    : <div className="register_field">{values.phone_no}</div>
+                      <input
+                        className="register_field"
+                        type="text"
+                        name="phone_no"
+                        id="phone_no"
+                        placeholder="eg: +919876543210"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.phone_no}
+                      />
+                      : <div className="register_field">{values.phone_no}</div>
                   }
                   {touched.phone_no && errors.phone_no ? (
-                        <div className="error">{errors.phone_no}</div>
-                      ) : null}
+                    <div className="error">{errors.phone_no}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="pin_code">Pin Code</label>
@@ -1698,8 +1742,8 @@ function Register() {
                     value={values.pin_code}
                   />
                   {touched.pin_code && errors.pin_code ? (
-                        <div className="error">{errors.pin_code}</div>
-                      ) : null}
+                    <div className="error">{errors.pin_code}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="email">Email</label>
@@ -1713,8 +1757,8 @@ function Register() {
                     value={values.email}
                   />
                   {touched.email && errors.email ? (
-                        <div className="error">{errors.email}</div>
-                      ) : null}
+                    <div className="error">{errors.email}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="city">City</label>
@@ -1728,8 +1772,8 @@ function Register() {
                     value={values.city}
                   />
                   {touched.city && errors.city ? (
-                        <div className="error">{errors.city}</div>
-                      ) : null}
+                    <div className="error">{errors.city}</div>
+                  ) : null}
                 </div>
                 <div className="matrimony_register_label_input">
                   <label htmlFor="address">Address</label>
@@ -1742,8 +1786,8 @@ function Register() {
                     value={values.address}
                   />
                   {touched.address && errors.address ? (
-                        <div className="error">{errors.address}</div>
-                      ) : null}
+                    <div className="error">{errors.address}</div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -1755,7 +1799,7 @@ function Register() {
               >
                 Verify Phone Number
               </div>
-              { !verifiedOTP ? <div className="matrimony_register_align_form">
+              {!verifiedOTP ? <div className="matrimony_register_align_form">
                 <div className="matrimony_register_label_input">
                   <label htmlFor="phone_no">Phone No</label>
                   <input
@@ -1777,8 +1821,8 @@ function Register() {
                     value={values.phone_no}
                   />
                   {touched.phone_no && errors.phone_no ? (
-                        <div className="error">{errors.phone_no}</div>
-                      ) : null}
+                    <div className="error">{errors.phone_no}</div>
+                  ) : null}
                 </div>
                 {requestedOTP === true ? (
                   <div className="matrimony_register_label_input">
@@ -1793,30 +1837,33 @@ function Register() {
                       value={values.otp}
                     />
                     {touched.otp && errors.otp ? (
-                        <div className="error">{errors.otp}</div>
-                      ) : null}
+                      <div className="error">{errors.otp}</div>
+                    ) : null}
                   </div>
                 ) : (
                   <div></div>
                 )}
 
-                {requestedOTP === true ? (
-                  <div style={{ padding: 20 }}>
-                    {String(minutesToDisplay).padStart(2, "0")}:
-                    {String(secondsToDisplay).padStart(2, "0")}
-                  </div>
-                ) : (
-                  <div></div>
-                )}
+
 
                 <div
                   id="recaptcha-container"
                   className="matrimony_register_button"
                   onClick={async () => {
-                    getOTP()
+                    if (secondsRemaining === 0) {
+                      if (requestedOTP === true) {
+                        await signInOTP();
+                      } else {
+                        renderRecaptcha();
+                        await signInOTP();
+                      }
+                    } else {
+                      alert(`You can retry after ${secondsRemaining} seconds`);
+                    }
                   }}
                 >
-                  {requestedOTP === true ? "retry" : "Get OTP"}
+                  {requestedOTP === true ? (secondsRemaining === 0) ? "retry" : `${String(minutesToDisplay).padStart(2, "0")}:${String(secondsToDisplay).padStart(2, "0")}
+                    ` : "Get OTP"}
                 </div>
                 {requestedOTP === true ? (
                   <div
@@ -1850,8 +1897,8 @@ function Register() {
                 )}
               </div> : <div className="phone_verify">
                 {values.phone_no} is successfully verified
-                <button className="matrimony_register_button" onClick={()=>{editphonenumber()}}>Edit PhoneNumber</button>
-                </div>}
+                <button className="matrimony_register_button" onClick={() => { editphonenumber() }}>Edit PhoneNumber</button>
+              </div>}
             </div>
 
             <div className="matrimony_register_personal_details">
@@ -1874,8 +1921,8 @@ function Register() {
                     value={values.password}
                   />
                   {touched.password && errors.password ? (
-                        <div className="error">{errors.password}</div>
-                      ) : null}
+                    <div className="error">{errors.password}</div>
+                  ) : null}
                 </div>
 
                 <div className="matrimony_register_label_input">
@@ -1890,8 +1937,8 @@ function Register() {
                     value={values.confirm_password}
                   />
                   {touched.confirm_password && errors.confirm_password ? (
-                        <div className="error">{errors.confirm_password}</div>
-                      ) : null}
+                    <div className="error">{errors.confirm_password}</div>
+                  ) : null}
                 </div>
               </div>
             </div>
@@ -1934,8 +1981,8 @@ function Register() {
                     />
                     {/* <div className="error">choose a profile picture, <br/> Recommended format jpeg,png</div> */}
                     {errors.profile ? (
-                        <div className="error">{errors.profile}</div>
-                      ) : null}
+                      <div className="error">{errors.profile}</div>
+                    ) : null}
                   </div>
                   {/* <button className="matrimony_register_button" type="submit">
                   Upload Profile
@@ -2039,7 +2086,7 @@ function Register() {
       {loading ? <div className="loading">
         <div className="loader"></div>
         Registration is in process..please wait
-        </div> : null}
+      </div> : null}
     </section>
   );
 }
