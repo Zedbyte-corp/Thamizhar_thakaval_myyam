@@ -11,7 +11,7 @@ import {
 import * as Yup from "yup";
 import { HashLink } from "react-router-hash-link";
 import { useState, useEffect, useRef } from "react";
-import { verifyOTPApiResponse } from "./../../../networkcall.service";
+// import { verifyOTPApiResponse } from "./../../../networkcall.service";
 import { firebase, auth } from "../../Authentication/firebase";
 import { RecaptchaVerifier, signInWithPhoneNumber } from "firebase/auth";
 import { render } from '@testing-library/react';
@@ -69,8 +69,10 @@ function Register() {
 
 
   const signInOTP = async () => {
-    try {
-      const result = signInWithPhoneNumber(auth, values.phone_no, window.recaptchaVerifier)
+    let response = await getPhoneVerificationResponse(values.phone_no);
+    if (response.status !== "success") {
+      try {
+        const result = signInWithPhoneNumber(auth, values.phone_no, window.recaptchaVerifier)
       setfinal(result);
       setStatus(STATUS.STARTED);
       setSecondsRemaining(60);
@@ -83,7 +85,10 @@ function Register() {
       window.recaptchaWidgetId = undefined;
       window.recaptchaVerifier.clear();
     }
+  }else{
+    alert(response.message)
   }
+}
 
   // let [othersFlag, setOthersFlag] = useState(false);
   const navigate = useNavigate();
@@ -1888,6 +1893,7 @@ function Register() {
                     if (secondsRemaining === 0) {
                       if (requestedOTP === true) {
                         await signInOTP();
+                        
                       } else {
                         renderRecaptcha();
                         await signInOTP();
