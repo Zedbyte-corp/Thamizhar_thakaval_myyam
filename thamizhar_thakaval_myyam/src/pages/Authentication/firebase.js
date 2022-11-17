@@ -2,13 +2,13 @@ import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAPO4m8UGgm5Bna0CurJVLicpHnpr-rARQ",
-  authDomain: "test-e530e.firebaseapp.com",
-  projectId: "test-e530e",
-  storageBucket: "test-e530e.appspot.com",
-  messagingSenderId: "577328229954",
-  appId: "1:577328229954:web:4903b5b16f6da4b105c7db",
-  measurementId: "G-Y9R1Q8TNJ0",
+  apiKey: "AIzaSyCH5MVEk5a6lt-v-ryitowd4Jc_CqH0zK8",
+  authDomain: "thamizhar-thakkaval-mayyam.firebaseapp.com",
+  projectId: "thamizhar-thakkaval-mayyam",
+  storageBucket: "thamizhar-thakkaval-mayyam.appspot.com",
+  messagingSenderId: "481303146294",
+  appId: "1:481303146294:web:8a8592c17fc4f164b98d97",
+  measurementId: "G-9358YRDLDY"
 };
 
 const app = initializeApp(firebaseConfig);
