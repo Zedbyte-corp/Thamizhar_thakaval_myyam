@@ -59,7 +59,10 @@ function Register() {
 
       },
       auth
-    );
+    )
+    // .verify().then((widgetId) => {
+    //   window.recaptchaWidgetId = widgetId;
+    // });
 
     let recaptchaVerifier = window.recaptchaVerifier;
     recaptchaVerifier.render().then((widgetId) => {
@@ -72,23 +75,23 @@ function Register() {
     let response = await getPhoneVerificationResponse(values.phone_no);
     if (response.status !== "success") {
       try {
-        const result = signInWithPhoneNumber(auth, values.phone_no, window.recaptchaVerifier)
-      setfinal(result);
-      setStatus(STATUS.STARTED);
-      setSecondsRemaining(60);
-      setRequestedOTP(true);
-      alert("code sent");
-    } catch (err) {
-      alert(err);
-      console.log(err);
-      window.grecaptcha.reset(window.recaptchaWidgetId);
-      window.recaptchaWidgetId = undefined;
-      window.recaptchaVerifier.clear();
+        const result = await signInWithPhoneNumber(auth, values.phone_no, window.recaptchaVerifier)
+        setStatus(STATUS.STARTED);
+        setSecondsRemaining(60);
+        setRequestedOTP(true);
+        setfinal(result);
+        alert("code sent");
+      } catch (err) {
+        alert(err);
+        console.log(err);
+        window.grecaptcha.reset(window.recaptchaWidgetId);
+        window.recaptchaWidgetId = undefined;
+        window.recaptchaVerifier.clear();
+      }
+    } else {
+      alert(response.message)
     }
-  }else{
-    alert(response.message)
   }
-}
 
   // let [othersFlag, setOthersFlag] = useState(false);
   const navigate = useNavigate();
@@ -230,7 +233,7 @@ function Register() {
       .required("Required"),
     looking_for: Yup.string()
       .required("Required"),
-      martial_status: Yup.string().required("Required"),
+    martial_status: Yup.string().required("Required"),
     fathers_name: Yup.string()
       .min(2, "Too Short!")
       .max(50, "Too Long!")
@@ -420,7 +423,7 @@ function Register() {
       food_habit: "Vegetarian",
       hobbies: "",
       looking_for: "Bride",
-      martial_status:"Single",
+      martial_status: "Single",
       fathers_name: "",
       fathers_occupation: "",
       mothers_name: "",
@@ -732,7 +735,7 @@ function Register() {
 
                 <div className="matrimony_register_label_input">
                   <label htmlFor="marital_status">Marital Status</label>
-            
+
                   <select
                     className="register_field"
                     name="marital_status"
@@ -745,7 +748,7 @@ function Register() {
                     {/* <option value="" label="please select">
                       please select{" "}
                     </option> */}
-                    
+
                     <option value="Single" label="Single">
                       Single
                     </option>
@@ -1884,6 +1887,15 @@ function Register() {
                   <div></div>
                 )}
 
+                {requestedOTP === true ? (
+                  <div style={{ padding: 20 }}>
+                    {String(minutesToDisplay).padStart(2, "0")}:
+                    {String(secondsToDisplay).padStart(2, "0")}
+                  </div>
+                ) : (
+                  <div></div>
+                )}
+
 
 
                 <div
@@ -1893,7 +1905,7 @@ function Register() {
                     if (secondsRemaining === 0) {
                       if (requestedOTP === true) {
                         await signInOTP();
-                        
+
                       } else {
                         renderRecaptcha();
                         await signInOTP();
@@ -1903,8 +1915,9 @@ function Register() {
                     }
                   }}
                 >
-                  {requestedOTP === true ? (secondsRemaining === 0) ? "retry" : `${String(minutesToDisplay).padStart(2, "0")}:${String(secondsToDisplay).padStart(2, "0")}
-                    ` : "Get OTP"}
+                  {
+                    requestedOTP === true ? (secondsRemaining === 0) ? "retry" : "Waiting for verify" :
+                      "Get OTP"}
                 </div>
                 {requestedOTP === true ? (
                   <div
