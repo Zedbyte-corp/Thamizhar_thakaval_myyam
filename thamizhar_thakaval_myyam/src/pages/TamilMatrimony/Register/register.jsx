@@ -1887,14 +1887,14 @@ function Register() {
                   <div></div>
                 )}
 
-                {requestedOTP === true ? (
+                {/* {requestedOTP === true ? (
                   <div style={{ padding: 20 }}>
                     {String(minutesToDisplay).padStart(2, "0")}:
                     {String(secondsToDisplay).padStart(2, "0")}
                   </div>
                 ) : (
                   <div></div>
-                )}
+                )} */}
 
 
 
@@ -1916,7 +1916,8 @@ function Register() {
                   }}
                 >
                   {
-                    requestedOTP === true ? (secondsRemaining === 0) ? "retry" : "Waiting for verify" :
+                    requestedOTP === true ? (secondsRemaining === 0) ? "retry" : `${String(minutesToDisplay).padStart(2, "0")}:
+                    ${String(secondsToDisplay).padStart(2, "0")}` :
                       "Get OTP"}
                 </div>
                 {requestedOTP === true ? (
